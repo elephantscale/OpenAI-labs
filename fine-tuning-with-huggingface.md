@@ -2,15 +2,17 @@
 
 * In this lab we will practice fine-tuning an OpenAI model
 
+* A practical example of fine-tuning would be using the Hugging Face Transformers library to fine-tune the GPT-2 model on a custom dataset. In this example, we'll fine-tune GPT-2 on a dataset of movie reviews to generate movie review-like text.
+
 ### Lab Goals:
 
 ### STEP 0) Login to the server
 
-Each student is provided their individual server and credentials
+* Each student is provided their individual server and credentials
 
-(Instructor: use our ubuntu AMI, t2.large or t2.xlarge instances 
+* (Instructor: use our ubuntu AMI, t2.large or t2.xlarge instances 
 
-A practical example of fine-tuning would be using the Hugging Face Transformers library to fine-tune the GPT-2 model on a custom dataset. In this example, we'll fine-tune GPT-2 on a dataset of movie reviews to generate movie review-like text.
+
 
 ### STEP 1) Prepare your dataset: 
 
