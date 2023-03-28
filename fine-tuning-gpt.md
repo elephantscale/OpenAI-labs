@@ -67,3 +67,8 @@ print(generated_text)
 * In this example, we're using the `davinci-codex` engine, a prompt related to climate change, and setting various parameters to influence the output. You can experiment with different parameter values to achieve the desired results.
 
 * Please note that the availability of GPT-3, GPT-3.5, and GPT-4 and the process to fine-tune it keeps chaning. Consult the latest OpenAI documentation for any updates on GPT-3.5 and fine-tuning options: https://platform.openai.com/docs/.
+
+* STEP 7) Bonus 
+
+* For more details on prompt engineering with GPT-3, you can refer to the OpenAI Cookbook's guide on techniques to improve reliability: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_make_API_calls_more_reliable.ipynb
+
