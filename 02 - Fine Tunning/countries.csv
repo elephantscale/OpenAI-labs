@@ -1,0 +1,64 @@
+Country,Population,Language,PIB,IPC,Weather,Flag Colors,Religion,Poverty %,President
+United States,331000000,English,21433204,63.4,Temperate,"Red, White, Blue",Christianity,9.2,Joe Biden
+China,1386000000,Mandarin,14342903,8.3,Temperate,"Red, Yellow","Irreligion, Buddhism, Taoism, Confucianism",3.1,Xi Jinping
+Russia,144400000,Russian,1699861,11.2,Temperate,"White, Blue, Red",Russian Orthodoxy,12.3,Vladimir Putin
+Brazil,213000000,Portuguese,2143872,10.1,Tropical,"Green, Yellow, Blue",Roman Catholicism,21.2,Jair Bolsonaro
+India,1390000000,"Hindi, English",3054218,7.3,Tropical,"Saffron, White, Green","Hinduism, Islam",21.9,Ram Nath Kovind
+Canada,37742154,"English, French",1737177,10.9,Temperate,"Red, White",Christianity,9.5,Justin Trudeau
+Mexico,130222814,Spanish,1212241,8.3,Tropical,"Green, White, Red",Catholicism,41.9,Andres Manuel Lopez Obrador
+France,67413000,French,2844985,8.9,Temperate,"Blue, White, Red",Christianity,8.5,Emmanuel Macron
+Germany,83190556,German,4135497,9.6,Temperate,"Black, Red, Gold",Christianity,14.8,Frank-Walter Steinmeier
+Japan,126476461,Japanese,5172526,9.9,Temperate,"White, Red","Shintoism, Buddhism",16.1,Naruhito
+Australia,25687041,English,1532089,7.4,Temperate,"Blue, White, Red",Christianity,13.6,Scott Morrison
+South Korea,51709098,Korean,1782355,10.7,Temperate,"White, Black, Red","Christianity, Buddhism",13.5,Moon Jae-in
+Egypt,104258327,Arabic,303626,4.0,Desert,"Black, White, Red",Islam,32.5,Abdel Fattah el-Sisi
+Nigeria,211400708,English,448125,1.9,Tropical,"Green, White, Green",Christianity,40.1,Muhammadu Buhari
+South Africa,60041925,"Zulu, Xhosa, Afrikaans",296219,4.1,Temperate,"Black, White, Green",Christianity,25.2,Cyril Ramaphosa
+Spain,46754778,Spanish,1368196,8.6,Mediterranean,"Red, Yellow",Christianity,21.5,Pedro Sanchez
+Italy,60252824,Italian,2108546,8.5,Mediterranean,"Green, White, Red",Christianity,10.9,Sergio Mattarella
+Netherlands,17173000,Dutch,912924,10.4,Temperate,"Red, White, Blue",Christianity,8.6,Mark Rutte
+Argentina,45376763,Spanish,451338,9.9,Temperate,"Blue, White",Christianity,32.0,Alberto Fernandez
+Chile,19458310,Spanish,298796,7.1,Temperate,"Red, White, Blue",Christianity,8.6,Sebastian Pinera
+Thailand,69799978,Thai,543605,4.7,Tropical,"Red, White, Blue",Buddhism,7.8,Maha Vajiralongkorn
+Indonesia,271350000,Indonesian,1130441,4.1,Tropical,"Red, White",Islam,9.2,Joko Widodo
+Poland,38476957,Polish,614319,7.2,Temperate,"White, Red",Christianity,3.5,Andrzej Duda
+Sweden,10175214,Swedish,538957,10.2,Temperate,"Blue, Yellow",Christianity,8.3,Stefan Lofven
+Switzerland,8715625,"German, French, Italian, Romansh",705874,9.0,Temperate,"Red, White",Christianity,6.2,Guy Parmelin
+Norway,5367580,Norwegian,403212,11.0,Temperate,"Red, White, Blue",Christianity,4.6,Halldor sgromsson
+Finland,5540720,Finnish,236225,10.7,Temperate,"Blue, White",Christianity,5.5,Sauli Niinisto
+Denmark,5818553,Danish,306118,10.6,Temperate,"Red, White",Christianity,6.2,Mette Frederiksen
+Ireland,4982900,"English, Irish",393875,10.9,Temperate,"Green, White, Orange",Christianity,12.8,Michael D. Higgins
+Portugal,10276617,Portuguese,230427,9.5,Mediterranean,"Green, Red",Christianity,17.3,Marcelo Rebelo de Sousa
+Austria,8917205,German,482842,9.9,Temperate,"Red, White, Red",Christianity,3.3,Alexander Van der Bellen
+Belgium,11589623,"Dutch, French, German",528207,10.2,Temperate,"Black, Yellow, Red",Christianity,6.0,Philippe of Belgium
+Greece,10746740,Greek,209853,8.2,Mediterranean,"Blue, White",Christianity,34.0,Katerina Sakellaropoulou
+Czech Republic,10708981,Czech,248625,9.5,Temperate,"Red, White, Blue",Christianity,9.6,Miloo Zeman
+Hungary,9745900,Hungarian,173025,9.7,Temperate,"Red, White, Green",Christianity,11.6,Jonos oder
+Peru,32500000,Spanish,228.52,13250,Tropical,Red and white,Roman Catholic,20.7,Pedro Castillo
+Kenya,50000000,Swahili,99.22,1170,Tropical,"Black, red, and green",Protestantism,36.1,Uhuru Kenyatta
+Colombia,50000000,Spanish,324.54,6350,Tropical,"Yellow, blue, and red",Roman Catholic,27.8,Ivan Duque
+Malaysia,32000000,Malay,387.51,11090,Tropical,"Blue, yellow, red, and white",Islam,8.5,Abdullah Ahmad Badawi
+Ukraine,42000000,Ukrainian,159.37,4200,Temperate,Blue and yellow,Orthodox Christianity,4.3,Volodymyr Zelensky
+Morocco,37000000,Arabic,118.79,3460,Temperate,Red,Islam,15.5,Saad-Eddine El Othmani
+Saudi Arabia,34000000,Arabic,793.97,23570,Desert,Green,Islam,12.7,Salman bin Abdulaziz Al Saud
+Ghana,30000000,English,47.69,1900,Tropical,"Red, gold, and green",Christianity,23.4,Nana Akufo-Addo
+Algeria,43000000,Arabic,173410000000,4153,Mediterranean,"Green, White, Red",Islam,23.0,Abdelmadjid Tebboune
+Angola,31800000,Portuguese,103000000000,6231,Tropical,"Black, Red",Christianity,32.3,Joeo Manuel Gonealves Loureneo
+Benin,12300000,French,11443000000,982,Tropical,"Yellow, Green, Red",Christianity,40.1,Patrice Talon
+Botswana,2200000,English,18540000000,8748,Semi-arid,"Blue, Black, White, Green, Brown",Christianity,16.3,Mokgweetsi Masisi
+Burkina Faso,20100000,French,15837000000,1686,Tropical,"Red, Green, Yellow",Islam,40.1,Roch Marc Christian Kabore
+Cameroon,27000000,English,38376000000,3344,Tropical,"Green, Yellow, Red",Christianity,37.5,Paul Biya
+Democratic Republic of the Congo,101000000,French,51852000000,889,Tropical,"Blue, Red, Yellow",Christianity,70.0,Felix Tshisekedi
+Ethiopia,112000000,Amharic,96035000000,847,Tropical,"Green, Yellow, Red","Christianity, Islam",24.0,Sahle-Work Zewde
+Ghana,31000000,English,67445000000,2204,Tropical,"Red, Gold, Green, Black",Christianity,23.4,Nana Akufo-Addo
+Kenya,55000000,Swahili,98116000000,2044,Tropical,"Black, Red, Green",Christianity,36.1,Uhuru Kenyatta
+Nigeria,206139587,English,448.12 billion,5,Hot and Humid,"Green and White",Christianity and Islam,40.1,Buhari Muhammadu
+Ethiopia,115434444,Amharic,95.23 billion,1.9,Tropical,"Green",Christianity and Islam,23.5,Sahle-Work Zewde
+Egypt,102334404,Arabic,362.6 billion,3.5,Hot and Dry,"Red", Islam,32.5,Abdel Fattah el-Sisi
+Tanzania,59734218,Swahili,63.19 billion,0.6,Tropical,"Green",Christianity and Islam,26.4,Samia Suluhu Hassan
+Algeria,44616626,Arabic,171.72 billion,4.1,Hot and Dry,"Green", Islam,23.7,Abdelmadjid Tebboune
+Sudan,44909353,Arabic,40.91 billion,0.92,Hot and Dry,"Green", Islam,33.5,Abdalla Hamdok
+Morocco,36910560,Arabic,118.92 billion,3,Hot and Dry,"Red and Green", Islam,14.8,Aziz Akhannouch
+Uganda,45741000,Swahili,35.97 billion,0.8,Tropical,"Black",Christianity,21.4,Yoweri Museveni
+Kenya,53771296,Swahili,98.26 billion,1.8,Tropical,"Black",Christianity,36.1,Uhuru Kenyatta
+Ghana,31072940,English,66.99 billion,1.9,Tropical,"Red",Christianity and Islam,23.4,Nana Akufo-Addo
