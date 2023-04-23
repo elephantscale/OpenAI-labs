@@ -111,7 +111,7 @@ with open('countries.csv') as csv_file:
 
 # Generate prompt and completion pairs for each country
 pairs = []
-for row in data:~~~~~~~~~~~~
+for row in data:
     prompt = f"What are the key facts about {row['Country']}?"
     completion = f" {row['Country']} is a country with a population of {row['Population']} and the official language is {row['Language']}. The country has a GDP of {row['PIB']} and a per capita income of {row['IPC']}. The climate in {row['Country']} is {row['Weather']}. The flag of {row['Country']} has the colors {row['Flag Colors']}. The predominant religion in {row['Country']} is {row['Religion']} and the poverty rate is {row['Poverty %']}. The current president is {row['President']}. END"
     pairs.append({"prompt": prompt, "completion": completion})
