@@ -54,4 +54,75 @@ with open("sample_data.csv", "w", newline="") as csvfile:
 
 [Countries.csv](https://github.com/elephantscale/OpenAI-labs/blob/09f74455f331e6d51af65782f9556e084513002c/02%20-%20Fine%20Tunning/countries.csv)
 
-### STEP 2) Prepare your Dataset
+### STEP 2) Create JSONL file to train the model
+
+- We will use ChatGpt again to create a Python script that will create the JsonL file to train the model.
+
+- First we will give context to ChatGpt using the following prompt
+
+``` 
+I have a spreadsheet of countries data. 
+
+These are the column headings in csv format:
+Country,Population,Language,PIB,IPC,Weather,Flag Colors,Religion,Poverty %,President
+
+
+Here are example rows of data in csv format:
+United States,331000000,English,21433204,63.4,Temperate,"Red, White, Blue",Christianity,9.2,Joe Biden
+China,1386000000,Mandarin,14342903,8.3,Temperate,"Red, Yellow","Irreligion, Buddhism, Taoism, Confucianism",3.1,Xi Jinping
+Russia,144400000,Russian,1699861,11.2,Temperate,"White, Blue, Red",Russian Orthodoxy,12.3,Vladimir Putin
+Brazil,213000000,Portuguese,2143872,10.1,Tropical,"Green, Yellow, Blue",Roman Catholicism,21.2,Jair Bolsonaro
+India,1390000000,"Hindi, English",3054218,7.3,Tropical,"Saffron, White, Green","Hinduism, Islam",21.9,Ram Nath Kovind
+Canada,37742154,"English, French",1737177,10.9,Temperate,"Red, White",Christianity,9.5,Justin Trudeau
+Mexico,130222814,Spanish,1212241,8.3,Tropical,"Green, White, Red",Catholicism,41.9,Andres Manuel Lopez Obrador
+
+Do you understand?
+```
+
+- Then we ask to create the python script
+
+``` 
+I want to use this data to fine tune GPT-3. 
+
+Write me a python script to create prompt and completion pairs in this format:
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+
+I want each completion to contain a written summary of all data for that country using string interpolation. 
+
+Use END as the stop sequence in the completion
+
+The prompt and completion pairs need to be exported to a jsonL file.
+``` 
+
+- The python script returned by ChatGPT
+
+``` python
+import csv
+import json
+
+# Load the data from the CSV file
+data = []
+with open('countries.csv') as csv_file:
+    csv_reader = csv.DictReader(csv_file)
+    for row in csv_reader:
+        data.append(row)
+
+# Generate prompt and completion pairs for each country
+pairs = []
+for row in data:~~~~~~~~~~~~
+    prompt = f"What are the key facts about {row['Country']}?"
+    completion = f" {row['Country']} is a country with a population of {row['Population']} and the official language is {row['Language']}. The country has a GDP of {row['PIB']} and a per capita income of {row['IPC']}. The climate in {row['Country']} is {row['Weather']}. The flag of {row['Country']} has the colors {row['Flag Colors']}. The predominant religion in {row['Country']} is {row['Religion']} and the poverty rate is {row['Poverty %']}. The current president is {row['President']}. END"
+    pairs.append({"prompt": prompt, "completion": completion})
+
+# Export the prompt and completion pairs to a jsonL file
+with open('countries_data_pairs.jsonl', 'w') as json_file:
+    for pair in pairs:
+        json.dump(pair, json_file)
+        json_file.write('\n')    
+```
+
+- Run the script. As result, you will have a jsonl file as the following
+
+[countries_data_pairs.jsonl](https://github.com/elephantscale/OpenAI-labs/blob/d39ce7caeed2ffd9e6870dd2749c868c3d9e7a27/02%20-%20Fine%20Tunning/countries_data_pairs.jsonl)
