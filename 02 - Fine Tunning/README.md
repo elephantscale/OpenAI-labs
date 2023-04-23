@@ -52,3 +52,6 @@ with open("sample_data.csv", "w", newline="") as csvfile:
 
 - Run the script. As result, you will have a csv as the following
 
+[Countries.csv](https://github.com/elephantscale/OpenAI-labs/blob/09f74455f331e6d51af65782f9556e084513002c/02%20-%20Fine%20Tunning/countries.csv)
+
+### STEP 2) Prepare your Dataset
