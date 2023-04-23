@@ -1,4 +1,4 @@
-# Fine Tunning
+# Fine Tuning
 
 https://platform.openai.com/docs/guides/fine-tuning
 
@@ -10,13 +10,13 @@ https://platform.openai.com/docs/guides/fine-tuning
 ### STEP 1) Prepare your Dataset
 https://platform.openai.com/docs/guides/fine-tuning/data-formatting
 
-To fine-tune a model, you'll need a set of training examples that each consist of a single input ("prompt") and its associated output ("completion")
+* To fine-tune a model, you'll need a set of training examples that each consist of a single input ("prompt") and its associated output ("completion")
 
-For this lab we will create a dataset using ChatGPT
+* For this lab we will create a dataset using ChatGPT
 
-- We used to following prompt
+* We used to following prompt in the ChatGPT4 window
 
-``` bash
+``` text
 Write a Python script that creates a CSV with the following columns.
 Country, Population, Language, PIB, IPC, Weather, Flag Colors, Religion, Poverty %, President
 
@@ -50,7 +50,7 @@ with open("sample_data.csv", "w", newline="") as csvfile:
 
 ```
 
-- Run the script. As result, you will have a csv as the following
+* Run the script. As result, you will have a csv as the following
 
 [Countries.csv](https://github.com/elephantscale/OpenAI-labs/blob/09f74455f331e6d51af65782f9556e084513002c/02%20-%20Fine%20Tunning/countries.csv)
 
@@ -82,7 +82,7 @@ Do you understand?
 - Then we ask to create the python script
 
 ``` 
-I want to use this data to fine tune GPT-3. 
+I want to use this data to fine tune GPT4. 
 
 Write me a python script to create prompt and completion pairs in this format:
 {"prompt": "<prompt text>", "completion": "<ideal generated text>"}
