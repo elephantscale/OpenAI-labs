@@ -69,7 +69,7 @@ with open("sample_data.csv", "w", newline="") as csvfile:
 - First we will give context to ChatGpt using the following prompt
 
 ``` 
-I have a spreadsheet of countries data. 
+To give context. I have a CSV of countries data. 
 
 These are the column headings in csv format:
 Country,Population,Language,PIB,IPC,Weather,Flag Colors,Religion,Poverty %,President
@@ -84,7 +84,6 @@ India,1390000000,"Hindi, English",3054218,7.3,Tropical,"Saffron, White, Green","
 Canada,37742154,"English, French",1737177,10.9,Temperate,"Red, White",Christianity,9.5,Justin Trudeau
 Mexico,130222814,Spanish,1212241,8.3,Tropical,"Green, White, Red",Catholicism,41.9,Andres Manuel Lopez Obrador
 
-Do you understand?
 ```
 
 - Then we ask to create the python script
