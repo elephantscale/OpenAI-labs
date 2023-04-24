@@ -11,11 +11,7 @@ chmod +x Anaconda3-2023.03-Linux-x86_64.sh
 ```
 * Last install step: say **"yes"** to initializing Conda
 
-* If it still cannot recognize python, you can try this:
-
-```shell
-sudo apt install python-is-python3
-```
+## Close the terminals where installed, and open another one. 
 
 ### Step 2) Install Hugging Face
 
