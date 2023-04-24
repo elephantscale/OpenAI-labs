@@ -165,7 +165,7 @@ openai tools fine_tunes.prepare_data -f countries_data_pairs.jsonl
 
 * The CLI data preparation tool will suggest changes on your Jsonl file.
 
-![img.png](img.png)
+![img.png](../images/img.png)
 
 * As a result a new JsonL file will be created with the suffix prepared. 
 
@@ -194,7 +194,7 @@ We recommend use davinci as it is considered to be the stronger model and you wi
   * In the Stop Sequence put the token used in your data model. In this lab we use _END_.
     * (Please read https://platform.openai.com/docs/guides/fine-tuning/data-formatting)
 
-![img_2.png](img_2.png)
+![img_2.png](../images/img_2.png)
 
 #### 2. If you do not have access to the playground you can use the following Application Script (GUI):
 
@@ -233,6 +233,6 @@ result_text.pack()
 window.mainloop()
 ``` 
 
-![img_1.png](img_1.png)
+![img_1.png](../images/img_1.png)
 
 ## Congratulations, you have fine-tuned your first model!
