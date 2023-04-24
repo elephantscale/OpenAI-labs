@@ -2,7 +2,15 @@
 
 https://platform.openai.com/docs/guides/fine-tuning
 
-## Requirements:
+* In this lab we will practice fine-tuning an OpenAI model
+
+### Lab Goals:
+
+* Create a Dataset to fine-tune a ChatGPT-4 model
+* Learn how to use the OpenAI command-line interface (CLI) to fine-tune models
+* Learn how to format your data to fine-tune models
+
+### Requirements:
 
 1. Python installed on your machine
 2. Valid Open AI API key
@@ -54,7 +62,7 @@ with open("sample_data.csv", "w", newline="") as csvfile:
 
 [Countries.csv](https://github.com/elephantscale/OpenAI-labs/blob/09f74455f331e6d51af65782f9556e084513002c/02%20-%20Fine%20Tunning/countries.csv)
 
-### STEP 2) Create JSONL file to train the model
+### STEP 2) Create JSONL file to fine-tune the model
 
 - We will use ChatGpt again to create a Python script that will create the JsonL file to train the model.
 
@@ -126,3 +134,105 @@ with open('countries_data_pairs.jsonl', 'w') as json_file:
 - Run the script. As result, you will have a jsonl file as the following
 
 [countries_data_pairs.jsonl](https://github.com/elephantscale/OpenAI-labs/blob/d39ce7caeed2ffd9e6870dd2749c868c3d9e7a27/02%20-%20Fine%20Tunning/countries_data_pairs.jsonl)
+
+### STEP 3) Create a fine-tuned model
+
+* Install OpenAI command-line interface (CLI). To install this, run
+
+``` bash
+pip install --upgrade openai
+```
+
+* Set your OPENAI_API_KEY environment running the following command
+
+``` bash
+export OPENAI_API_KEY="<OPENAI_API_KEY>"
+```
+
+Note: Replace <OPENAI_API_KEY> with the API key provided
+
+* Install pandas package
+
+``` bash
+pip install --upgrade pandas
+```
+
+* Using the CLI data preparation tool we will validate and get suggestions and reformats your data. Run the following command
+
+``` bash
+openai tools fine_tunes.prepare_data -f countries_data_pairs.jsonl     
+```
+
+* The CLI data preparation tool will suggest changes on your Jsonl file.
+
+![img.png](img.png)
+
+* As a result a new JsonL file will be created with the suffix prepared. 
+
+_countries_data_pairs_prepared.jsonl_
+
+* Start your fine-tuning job using the OpenAI CLI:
+
+``` bash 
+ openai api fine_tunes.create -t countries_data_pairs_prepared.jsonl -m <BASE_MODEL> --suffix "<CUSTOM_MODEL_NAME>"
+```
+
+* Where BASE_MODEL is the name of the base model you're starting from (ada, babbage, curie, or davinci). 
+We recommend use davinci as it is considered to be the stronger model and you will get better results.
+
+* You can customize your fine-tuned model's name using the suffix parameter.
+* You can add a suffix of up to 40 characters to your fine-tuned model name.
+
+### STEP 4) Test your fine-tuned model
+
+* Once the fine-tuning is complete you can test your model using either the Playground tool provided by Open AI or using the API.
+
+#### 1. Using the Playground 
+
+* Go to https://platform.openai.com/playground. 
+  * Select the fine-tuned model created
+  * In the Stop Sequence put the token used in your data model. In this lab we use _END_.
+    * (Please read https://platform.openai.com/docs/guides/fine-tuning/data-formatting)
+
+![img_2.png](img_2.png)
+
+#### 2. If you do not have access to the playground you can use the following Application Script (GUI):
+
+* Replace FINE_TUNED_MODEL with the name of your fine-tuned model
+
+```python
+import tkinter as tk
+import openai
+
+
+# Replace FINE_TUNED_MODEL with the name of your fine-tuned model
+model_name = "FINE_TUNED_MODEL"
+
+
+def on_submit():
+   prompt = input_field.get()
+   completion = openai.Completion.create(model=model_name, prompt=prompt, max_tokens=256, stop=["END"])
+   input_field.delete(0, "end")
+   text = completion.choices[0]["text"]
+   result_text.config(state="normal")
+   result_text.delete("1.0", "end")
+   result_text.insert("end", text)
+   result_text.config(state="disabled")
+window = tk.Tk()
+window.title("Fine-tuned GPT-3")
+
+input_field = tk.Entry(window)
+submit_button = tk.Button(window, text="Submit", command=on_submit)
+
+result_text = tk.Text(window, state="normal", width=80, height=20)
+
+input_field.pack()
+submit_button.pack()
+result_text.pack()
+
+window.mainloop()
+``` 
+
+![img_1.png](img_1.png)
+
+## Congratulations, you have fine-tuned your first model!
