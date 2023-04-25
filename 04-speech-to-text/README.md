@@ -58,9 +58,10 @@ https://platform.openai.com/docs/guides/speech-to-text
 
 * This differs from our /Transcriptions endpoint since the output is not in the original input language and is instead translated to english text.
 
-* Download the mp3 files from git location
+* Download all mp3 files from git location
 
-    - <git location for mp3 file>
+    - https://github.com/elephantscale/OpenAI-labs/tree/main/mp3
+
 
 * open terminal and enter into python console using below command
 
@@ -101,15 +102,27 @@ https://platform.openai.com/docs/guides/speech-to-text
 
 * One way to handle this is to use the PyDub open source Python package to split the audio:
 
+    - Open Terminal and install pydub using below command
+
+    ```
+     pip install pydub
+    ```
+
+    - Open Terminal and install ffmpeg using below command
+    ```
+    sudo apt install ffmpeg
+    ```
+
 ``` python
     from pydub import AudioSegment  
 
     song = AudioSegment.from_mp3("good_morning.mp3")
 
     # PyDub handles time in milliseconds
-    ten_minutes = 10 * 60 * 1000
+    one_minutes = 1 * 60 * 1000
 
-    first_10_minutes = song[:ten_minutes]
+    first_1_minutes = song[:one_minutes]
 
-    first_10_minutes.export("good_morning_10.mp3", format="mp3")
+    first_1_minutes.export("commercials-sampleanswers-german_1.mp3", format="mp3")
+
 ```
