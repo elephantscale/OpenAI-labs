@@ -6,7 +6,7 @@ https://platform.openai.com/docs/guides/fine-tuning
 
 ### Lab Goals:
 
-* Create a Dataset to fine-tune a ChatGPT-4 model
+* Create a Dataset to fine-tune a ChatGPT model
 * Learn how to use the OpenAI command-line interface (CLI) to fine-tune models
 * Learn how to format your data to fine-tune models
 
