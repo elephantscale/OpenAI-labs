@@ -1,5 +1,11 @@
 # HuggingFace-OpenAI install
 
+### Step ) Install OpenAI
+
+```shell
+pip install openai
+```
+
 ### Step 1) Install Anaconda with the GUI installer
 
 * Download the Anaconda installer for your operating system from [here](https://www.anaconda.com/products/individual#Downloads). We recommend using the graphical installer.
