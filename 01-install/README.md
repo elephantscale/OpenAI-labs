@@ -1,10 +1,5 @@
 # HuggingFace-OpenAI install
 
-### Step ) Install OpenAI
-
-```shell
-pip install openai
-```
 
 ### Step 1) Install Anaconda with the GUI installer
 
@@ -61,3 +56,9 @@ python -c "from datasets import load_dataset; print(load_dataset('squad', split=
 
 ![](../images/01.png)
 
+### Step 6) Install OpenAI
+
+```shell
+pip install openai
+pip install python-dotenv
+```
