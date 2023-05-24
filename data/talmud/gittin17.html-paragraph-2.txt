@@ -1,0 +1,1 @@
+ A divorce document (Get) must have a date in it. Therefore, if they started writing it in the afternoon, but by the time the witnesses got to signing, it was night - it is already another day, the Get is invalid and must be rewritten. On the other hand, if they started at night, they can sign it the next morning, because it is still the same calendar day. 

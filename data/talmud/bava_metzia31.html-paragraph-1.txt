@@ -1,0 +1,1 @@
+ How is a finder to determine whether the objects he has found is truly lost? If he found a donkey or a cow grazing by the road, this is not considered a lost object. If he found a donkey with its gear overturned, or a cow running through the vineyards, this is indeed a lost object. 

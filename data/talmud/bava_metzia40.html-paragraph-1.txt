@@ -1,0 +1,1 @@
+ If one deposits produce with another for safekeeping, the custodian deducts the expected depletion when returning it. For wheat and rice, 2.5% is destroyed by mice and other causes over a year, for barley - 5%. The calculation should also include changes in volume due to humidity and other causes. 

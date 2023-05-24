@@ -1,0 +1,1 @@
+ Prosbul works by assigning the loan to court for collection. It is then "as if collected", and such loan is not canceled by the 7th year. 

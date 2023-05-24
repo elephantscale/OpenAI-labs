@@ -1,0 +1,1 @@
+ What if the length of the gaps is exactly equal to the total length of the closed fence? Is such partition valid or not? The Talmud spends a page trying to find a proof. In the end, since the verbiage of our ruling above is most easily understood if we assume that gaps equal to fence are valid, this become the law. 

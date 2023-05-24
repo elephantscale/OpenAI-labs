@@ -1,0 +1,1 @@
+ The residence area (techum) around a city is drawn as a rectangular, following the city's outlines. Houses that protrude beyond the rectangular shape of the city itself add to the techum, since measuring begins from them. 

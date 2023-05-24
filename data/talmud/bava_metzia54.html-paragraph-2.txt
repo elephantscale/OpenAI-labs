@@ -1,0 +1,1 @@
+ For example, adding a 1/5 to 20 can mean paying 4 (1/5 of 20), or it can mean 5, since the total then is 25, and 1/5 of it is 5. 

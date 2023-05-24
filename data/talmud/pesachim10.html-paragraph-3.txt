@@ -1,0 +1,1 @@
+ Next question: a mouse with bread enters the house, and then a weasel with bread exits the house. If you tell me that the weasel took the bread from the mouse, I will answer that I would expect the mouse, not the bread, to be in the weasel's mouth. 

@@ -1,0 +1,1 @@
+ A parallel situation is the Get of a slave: if the master dies and nobody inherits the slave, then he is free by himself, and giving him a Get now is meaningless. And if someone does inherit, then this slave is no longer in the domain of the dead man to give him freedom. 

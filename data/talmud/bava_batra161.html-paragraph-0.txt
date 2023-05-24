@@ -1,0 +1,1 @@
+Bava Batra 161 - Preventing Forgery in a "Bound" Document In a regular document the witnesses sign immediately at the end of the document's text, thus precluding the possibility of tampering with it.

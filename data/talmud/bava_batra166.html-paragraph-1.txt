@@ -1,0 +1,1 @@
+ If the amount becomes erased, such as "... selas," the minimum of 2 is assumed.

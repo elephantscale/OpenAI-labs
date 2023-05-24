@@ -1,0 +1,1 @@
+Zevachim 59 - Sacrifice Rejection, Damaged Altar If a sacrifice was slaughtered, and then the Altar became damaged, this sacrifice is rejected. It cannot become valid again, even after the Altar is repaired.

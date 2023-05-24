@@ -1,0 +1,1 @@
+ Even though we know that the son precedes the daughter in the inheritance coming from their father, it could still be that the daughter precedes the son in the inheritance coming from their mother. 

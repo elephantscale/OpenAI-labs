@@ -1,0 +1,1 @@
+ Each piece of the parchment on which the scroll is written must contain between 3 and 8 columns. The margin at the bottom of each column must be a hand-breadth, and at the top - three finger-breadths. However, he must not reduce the size of the script to preserve the margins, but keep it uniform and beautiful, even if the margin becomes slightly narrower because of it. 

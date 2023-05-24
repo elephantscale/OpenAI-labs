@@ -1,0 +1,1 @@
+ The auction is an attempt to get higher price for the orphans. Shouldn't it also last for sixty days? - No, this may be counterproductive, since people may retract their bids. Then shouldn't the Temple auction run for thirty days? - No, because an oral bid to the Temple is considered binding, and there the people can't retract. 
