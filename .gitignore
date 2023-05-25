@@ -6,6 +6,4 @@
 **/.ipynb_checkpoints
 .env
 **/*.swo
-**/__pycache__
-07-fastapi/__pycache__
-07-fastapi/__pycache__/main.cpython-310.pyc
+**/__pycache__/
