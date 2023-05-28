@@ -7,3 +7,4 @@
 .env
 **/*.swo
 **/__pycache__/
+*.log

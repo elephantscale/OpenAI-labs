@@ -9,7 +9,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.0.3",
+    version="0.0.4",
 )
 
 
@@ -21,6 +21,10 @@ class Item(BaseModel):
 @app.get("/items2/{question}", response_model=Item, summary="Read item", description="Read a specific item by its id.")
 def read_item(question: str):
     answer = get_answer(question)
+    with open('OpenAI.log', 'a') as f:
+        # Write the string to the file
+        f.write("Q: " + question + "\n")
+        f.write("A: " + answer + "\n")
     return {"question": question, "answer": answer}
 
 
