@@ -5,8 +5,11 @@ from Langchain_Semantic_Search_Pinecone import get_answer
 
 app = FastAPI(
     title="MosesAI API",
-    description="This API allows to ask Talmud questions",
-    version="0.0.2",
+    description="This API allows to ask Talmud questions. \
+                Click on the blue GET button, \
+                Then click on 'Try it out', \
+                Then ask your question. ",
+    version="0.0.3",
 )
 
 
