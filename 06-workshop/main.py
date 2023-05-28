@@ -21,6 +21,6 @@ def read_item(question: str):
     return {"question": question, "answer": answer}
 
 
-@app.get("/", summary="Read the root", description="Shalom. I am MosesAI, and right now, I know Talmud")
+@app.get("/", summary="Read the root", description="Shalom. I am MosesAI, and right now, I know Talmud Illuminated")
 def read_root():
     return {"Hello": "Shalom"}
