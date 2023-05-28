@@ -12,7 +12,7 @@ chmod +x Anaconda3-2023.03-Linux-x86_64.sh
 ```
 * Last install step: say **"yes"** to initializing Conda
 
-## Close the terminals where installed, and open another one. 
+## Close the terminals where you installed, and open another one. 
 
 ### Step 2) Install Hugging Face
 
