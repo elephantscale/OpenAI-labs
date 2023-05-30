@@ -38,9 +38,9 @@ def get_similar_docs(query, k=5, score=False):
     return similar_docs
 
 
-query = "When do you say Shema?"
-similar_docs= get_similar_docs(query)
-len(similar_docs)
+# query = "When do you say Shema?"
+# similar_docs= get_similar_docs(query)
+# len(similar_docs)
 
 
 llm = OpenAI(model_name=MODEL)
@@ -54,6 +54,6 @@ def get_answer(query):
     return chain.run(input_documents=similar_docs_list, question=query)
 
 
-query = "When to say Shema?"
-answer = get_answer(query)
-print(answer)
+# query = "When to say Shema?"
+# answer = get_answer(query)
+# print(answer)
