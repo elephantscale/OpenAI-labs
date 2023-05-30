@@ -1,23 +1,13 @@
 import os
 import openai
-
 from dotenv import load_dotenv, find_dotenv
+import pinecone
+from langchain.vectorstores import Pinecone
+from langchain.embeddings.openai import OpenAIEmbeddings
 
 _ = load_dotenv(find_dotenv())  # read local .env file
 openai.api_key = os.getenv('OPENAI_API_KEY')
 MODEL = "gpt-4"
-
-import pinecone
-# from langchain.document_loaders import DirectoryLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Pinecone
-# from langchain.llms import OpenAI
-# from langchain.chains.question_answering import load_qa_chain
-
-import openai
-from langchain.embeddings.openai import OpenAIEmbeddings
-
 embeddings = OpenAIEmbeddings(openai_api_key=openai.api_key)
 
 query_result = embeddings.embed_query("Hello world")
