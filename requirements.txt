@@ -1,7 +1,7 @@
-openai
+python-dotenv~=1.0.0
+openai~=0.27.7
 pinecone-client
-unstructured
-unstructured[local-inference]
 detectron2@git+https://github.com/facebookresearch/detectron2.git@v0.6#egg=detectron2
-langchain
-
+langchain~=0.0.184
+fastapi~=0.95.2
+pydantic~=1.10.8
