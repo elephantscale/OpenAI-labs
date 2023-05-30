@@ -4,6 +4,8 @@ from dotenv import load_dotenv, find_dotenv
 import pinecone
 from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.llms import OpenAI
+from langchain.chains.question_answering import load_qa_chain
 
 _ = load_dotenv(find_dotenv())  # read local .env file
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -21,13 +23,14 @@ pinecone.init(
 
 index_name = "langchain-demo"
 
+# To create index...
 # index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
 # if you already have an index, you can load it like this
 index = Pinecone.from_existing_index(index_name, embeddings)
 
 
-def get_similiar_docs(query, k=5, score=False):
+def get_similar_docs(query, k=5, score=False):
     if score:
         similar_docs = index.similarity_search_with_score(query, k=k)
     else:
@@ -36,23 +39,19 @@ def get_similiar_docs(query, k=5, score=False):
 
 
 query = "When do you say Shema?"
-similar_docs = get_similiar_docs(query)
+similar_docs= get_similar_docs(query)
 len(similar_docs)
 
-from langchain.llms import OpenAI
 
 llm = OpenAI(model_name=MODEL)
-
-from langchain.chains.question_answering import load_qa_chain
 
 chain = load_qa_chain(llm, chain_type="stuff")
 
 
 def get_answer(query):
-    similar_docs = get_similiar_docs(query)
+    similar_docs_list = get_similar_docs(query)
     # print(similar_docs)
-    answer = chain.run(input_documents=similar_docs, question=query)
-    return answer
+    return chain.run(input_documents=similar_docs_list, question=query)
 
 
 query = "When to say Shema?"
