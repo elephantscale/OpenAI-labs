@@ -30,11 +30,11 @@ index_name = "langchain-demo"
 index = Pinecone.from_existing_index(index_name, embeddings)
 
 
-def get_similar_docs(query, k=5, score=False):
+def get_similar_docs(query, num_sources=5, score=False):
     if score:
-        similar_docs = index.similarity_search_with_score(query, k=k)
+        similar_docs = index.similarity_search_with_score(query, k=num_sources)
     else:
-        similar_docs = index.similarity_search(query, k=k)
+        similar_docs = index.similarity_search(query, k=num_sources)
     return similar_docs
 
 
@@ -48,8 +48,8 @@ llm = OpenAI(model_name=MODEL)
 chain = load_qa_chain(llm, chain_type="stuff")
 
 
-def get_answer(query):
-    similar_docs_list = get_similar_docs(query)
+def get_answer(query, num_sources=5):
+    similar_docs_list = get_similar_docs(query, num_sources=num_sources)
     # print(similar_docs)
     return chain.run(input_documents=similar_docs_list, question=query)
 
