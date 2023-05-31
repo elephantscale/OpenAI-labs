@@ -9,7 +9,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.0.8",
+    version="0.1.0",
 )
 
 
