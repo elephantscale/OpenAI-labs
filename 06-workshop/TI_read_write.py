@@ -1,3 +1,14 @@
+"""
+This module provides functionality for
+    creating the Talmud Illuminated (TI) corpus
+    creating a Pinecone index with the TI data
+    reading the resulting pinecone index
+
+Functions:
+-----------
+    create_order(user_id, product_id, quantity): Creates an order.
+    get_order(order_id): Retrieves the details of an order.
+"""
 import os
 import openai
 from dotenv import load_dotenv, find_dotenv
@@ -12,8 +23,8 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 MODEL = "gpt-4"
 embeddings = OpenAIEmbeddings(openai_api_key=openai.api_key)
 
-query_result = embeddings.embed_query("Hello world")
-print(len(query_result))
+# query_result = embeddings.embed_query("Hello world")
+# print(len(query_result))
 
 # initialize pinecone
 pinecone.init(
@@ -53,7 +64,3 @@ def get_answer(query, num_sources=20):
     # print(similar_docs)
     return chain.run(input_documents=similar_docs_list, question=query)
 
-
-# query = "When to say Shema?"
-# answer = get_answer(query)
-# print(answer)

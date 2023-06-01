@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
 from pydantic import BaseModel
-from Langchain_Semantic_Search_Pinecone import get_answer
+from TI_read_write import get_answer
 
 app = FastAPI(
     title="MosesAI API",
