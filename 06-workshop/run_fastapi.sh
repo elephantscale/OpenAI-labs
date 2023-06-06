@@ -1,2 +1,2 @@
-# Start a fastapi application
-uvicorn  main:app --host 0.0.0.0
+# Start a fastapi application for development
+uvicorn  main:app --reload

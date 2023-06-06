@@ -1,10 +1,14 @@
 # Main for MosesAI fastapi
-# To be replained with Talmud_read_write.py
 
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
 from pydantic import BaseModel
-from TI_read_write import get_answer
+from Talmud_read_write import get_answer
+import logging
+
+# Configure logging
+logging.basicConfig(filename='logfile.log', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="MosesAI API",
@@ -12,7 +16,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.1.1",
+    version="0.2.1",
 )
 
 
@@ -24,24 +28,22 @@ class Item(BaseModel):
 @app.get("/{question}", response_model=Item, summary="Ask Moses AI a question",
          description="Click on 'Try it out', then ask away!")
 def read_item(question: str):
+    logger.info("Shalom")
     answer = get_answer(question)
-    with open('OpenAI.log', 'a') as f:
-        f.write("Q: " + question + "\n")
-        f.write("A: " + answer + "\n")
+    logger.info("Q: " + question + "\n")
+    logger.info("A: " + answer + "\n")
     return {"question": question, "answer": answer}
 
 
 @app.get("/{question_with_options}/{num_sources}")
 def read_item(question_with_options: str, num_sources: int):
     answer = get_answer(question_with_options, num_sources)
-    with open('OpenAI.log', 'a') as f:
-        # Write the string to the file
-        f.write("O: " + str(num_sources) + "\n")
-        f.write("Q: " + question_with_options + "\n")
-        f.write("A: " + answer + "\n")
+    logger.info.write("Q: " + question_with_options + "\n")
+    logger.info.write("A: " + answer + "\n")
     return {"question": question_with_options, "answer": answer}
 
 
 @app.get("/")
 def read_root():
+    logger.info("Shalom!!! Redirect to /doc")
     return RedirectResponse(url='/docs')
