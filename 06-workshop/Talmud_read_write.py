@@ -3,6 +3,8 @@ This module provides functionality for
     creating the Talmud Illuminated (TI) corpus
     creating a Pinecone index with the TI data
     reading the resulting pinecone index
+    
+    As part of refactoring, we should use it instead of main.py
 
 Functions:
 -----------

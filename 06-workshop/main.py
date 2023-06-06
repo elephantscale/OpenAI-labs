@@ -1,4 +1,5 @@
 # Main for MosesAI fastapi
+# To be replained with Talmud_read_write.py
 
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
