@@ -7,7 +7,7 @@ from Talmud_read_write import get_answer
 import logging
 
 # Configure logging
-logging.basicConfig(filename='logfile.log', level=logging.INFO)
+logging.basicConfig(filename='moses.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
@@ -16,7 +16,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.2.1",
+    version="0.2.2",
 )
 
 
@@ -28,22 +28,21 @@ class Item(BaseModel):
 @app.get("/{question}", response_model=Item, summary="Ask Moses AI a question",
          description="Click on 'Try it out', then ask away!")
 def read_item(question: str):
-    logger.info("Shalom")
     answer = get_answer(question)
-    logger.info("Q: " + question + "\n")
-    logger.info("A: " + answer + "\n")
+    logger.info("Q: " + question)
+    logger.info("A: " + answer)
     return {"question": question, "answer": answer}
 
 
 @app.get("/{question_with_options}/{num_sources}")
 def read_item(question_with_options: str, num_sources: int):
     answer = get_answer(question_with_options, num_sources)
-    logger.info.write("Q: " + question_with_options + "\n")
-    logger.info.write("A: " + answer + "\n")
+    logger.info("Q: " + question_with_options)
+    logger.info("A: " + answer)
     return {"question": question_with_options, "answer": answer}
 
 
 @app.get("/")
 def read_root():
-    logger.info("Shalom!!! Redirect to /doc")
+    logger.info("Shalom!!! Redirecting to /doc")
     return RedirectResponse(url='/docs')
