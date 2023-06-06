@@ -1,3 +1,5 @@
+# Main for MosesAI fastapi
+
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
 from pydantic import BaseModel
@@ -9,7 +11,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.1.0",
+    version="0.1.1",
 )
 
 
