@@ -7,7 +7,7 @@ from Talmud_read_write import get_answer
 import logging
 
 # Configure logging
-logging.basicConfig(filename='moses.log', level=logging.INFO)
+logging.basicConfig(filename='MosesAI.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
@@ -16,7 +16,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.2.2",
+    version="0.2.3",
 )
 
 
