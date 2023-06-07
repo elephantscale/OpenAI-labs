@@ -6,3 +6,4 @@ langchain==0.0.187
 fastapi~=0.95.2
 pydantic~=1.10.8
 starlette~=0.27.0
+tiktoken
