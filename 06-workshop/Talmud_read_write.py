@@ -29,10 +29,12 @@ embeddings = OpenAIEmbeddings(openai_api_key=openai.api_key)
 # initialize pinecone
 pinecone.init(
     api_key=os.getenv('PINECONE_API_KEY'),
-    environment="us-west4-gcp-free"  # next to api key in console
+    # environment="us-west4-gcp-free"  # next to api key in console
+    environment="us-central1-gcp"  # next to api key in console
 )
 
-index_name = "langchain-demo"
+#index_name = "langchain-demo"
+index_name = "talmud-pages"
 
 # To create index...
 # index = Pinecone.from_documents(docs, embeddings, index_name=index_name)

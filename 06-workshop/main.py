@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from Talmud_read_write import get_answer
 import logging
 
+VERSION = "0.2.6"
 # Configure logging
 logging.basicConfig(filename='MosesAI.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ app = FastAPI(
                 Click on the blue GET button, \
                 Then click on 'Try it out', \
                 Then ask your question. ",
-    version="0.2.3",
+    version=VERSION
 )
 
 
