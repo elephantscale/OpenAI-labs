@@ -2,11 +2,12 @@
 
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from Talmud_read_write import get_answer
 import logging
 
-VERSION = "0.2.6"
+VERSION = "0.3.0"
 # Configure logging
 logging.basicConfig(filename='MosesAI.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,7 +25,6 @@ app = FastAPI(
 class Item(BaseModel):
     question: str
     answer: str
-
 
 @app.get("/{question}", response_model=Item, summary="Ask Moses AI a question",
          description="Click on 'Try it out', then ask away!")
@@ -47,3 +47,13 @@ def read_item(question_with_options: str, num_sources: int):
 def read_root():
     logger.info("Shalom!!! Redirecting to /doc")
     return RedirectResponse(url='/docs')
+
+# @app.get("/{path:path}")
+# async def block_requests(path: str):
+#     blocked_paths = ["env.project", "env.save", ".json", "info.php"]
+#
+#     if path in blocked_paths:
+#         raise HTTPException(status_code=403, detail="Access forbidden")
+#
+#     # continue with your normal logic if the path is not blocked
+#     return {"message": "Hello World!"}
