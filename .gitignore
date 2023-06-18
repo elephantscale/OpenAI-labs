@@ -10,3 +10,8 @@
 *.log
 .DS_Store
 
+# Ignore node_modules directory
+node_modules/
+
+# Ignore .env file
+.env
