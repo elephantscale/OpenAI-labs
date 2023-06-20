@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from Talmud_read_write import get_answer
 import logging
@@ -21,6 +22,17 @@ app = FastAPI(
     version=VERSION
 )
 
+origins = [
+    "http://localhost:8000",
+    "http://localhost:3000"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Item(BaseModel):
     question: str
