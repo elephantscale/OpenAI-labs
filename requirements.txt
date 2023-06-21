@@ -1,9 +1,9 @@
-python-dotenv~=1.0.0
-openai~=0.27.7
+python-dotenv
+openai
 pinecone-client
 detectron2@git+https://github.com/facebookresearch/detectron2.git@v0.6#egg=detectron2
-langchain==0.0.187
-fastapi~=0.95.2
-pydantic~=1.10.8
-starlette~=0.27.0
+langchain
+fastapi
+pydantic
+starlette
 tiktoken
