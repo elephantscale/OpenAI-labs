@@ -2,7 +2,7 @@
 
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
@@ -42,14 +42,14 @@ class Item(BaseModel):
 
 
 @app.post("/ask", response_model=Item, summary="Ask Moses AI a question", description="Click on 'Try it out', then ask away!")
-def ask_simple_question(question: str):
+async def ask(question: str = Form(...,min_length=5, max_length=1000)):
     answer = get_answer(question)
     logger.info("Q: " + question)
     logger.info("A: " + answer)
     return {"question": question, "answer": answer}
 
 
-@app.get("/{question_with_options}/{num_sources}")
+@app.get("/ask_option/{question_with_options}/{num_sources}")
 def read_item(question_with_options: str, num_sources: int):
     answer = get_answer(question_with_options, num_sources)
     logger.info("Q: " + question_with_options)
