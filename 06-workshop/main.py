@@ -1,12 +1,13 @@
 # Main for MosesAI fastapi
 
+import logging
+
 from fastapi import FastAPI
-from starlette.responses import RedirectResponse
-from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from starlette.responses import RedirectResponse
+
 from Talmud_read_write import get_answer
-import logging
 
 VERSION = "0.3.0"
 # Configure logging
@@ -34,13 +35,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class Item(BaseModel):
     question: str
     answer: str
 
-@app.get("/{question}", response_model=Item, summary="Ask Moses AI a question",
-         description="Click on 'Try it out', then ask away!")
-def read_item(question: str):
+
+@app.post("/ask", response_model=Item, summary="Ask Moses AI a question", description="Click on 'Try it out', then ask away!")
+def ask_simple_question(question: str):
     answer = get_answer(question)
     logger.info("Q: " + question)
     logger.info("A: " + answer)
