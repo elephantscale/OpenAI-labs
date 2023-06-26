@@ -47,6 +47,15 @@ def read_item(question: str):
     return {"question": question, "answer": answer}
 
 
+@app.get("/{question}", summary="Ask CasifyAI a question",
+         description="Click on 'Try it out', then ask away!")
+def read_item(question: str):
+    answer = "Thinking of it"
+    logger.info("Q: " + question)
+    logger.info("A: " + answer)
+    return {"question": question, "answer": answer}
+
+
 @app.get("/{question_with_options}/{num_sources}")
 def read_item(question_with_options: str, num_sources: int):
     answer = get_answer(question_with_options, num_sources)

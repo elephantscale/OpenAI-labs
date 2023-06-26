@@ -10,14 +10,18 @@ const Chat = () => {
     };
 
     const handleSendMessage = async () => {
-        setMessages([...messages, {user: 'User', text: newMessage}]);
+        let userMessage = {user: 'User', text: newMessage};
+        setMessages(oldMessages => [...oldMessages, userMessage]);
         setNewMessage('');
 
-        const response = await axios.get('http://localhost:8000/question/', {
-            user_id: 'User',
-            message: newMessage
-        });
-        setMessages([...messages, {user: 'Bot', text: response.data.response}]);
+        try {
+            const response = await axios.get(`http://localhost:8000/question/?message=${encodeURIComponent(newMessage)}`);
+
+            let botMessage = {user: 'Bot', text: response.data.response};
+            setMessages(oldMessages => [...oldMessages, botMessage]);
+        } catch (error) {
+            console.error("Error in sending message", error);
+        }
     };
 
     return (
@@ -36,4 +40,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
