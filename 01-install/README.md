@@ -2,6 +2,7 @@
 
 ### Step 0) (Optional)
 * Create conda environment for this lab
+
 ```shell
 conda create --name OpenAI
 ```
