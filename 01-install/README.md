@@ -4,7 +4,7 @@
 * Create conda environment for this lab
 
 ```shell
-conda create --name OpenAI
+conda create --name OpenAI  python=3.10.9
 ```
 
 ### Step 1) Install Anaconda with the GUI installer
