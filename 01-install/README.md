@@ -1,11 +1,5 @@
 # HuggingFace-OpenAI install
 
-### Step 0) (Optional)
-* Create conda environment for this lab
-
-```shell
-conda create --name OpenAI  python=3.10.9
-```
 
 ### Step 1) Install Anaconda with the GUI installer
 
@@ -19,6 +13,13 @@ chmod +x Anaconda3-2023.03-Linux-x86_64.sh
 * Last install step: say **"yes"** to initializing Conda
 
 ## Close the terminals where you installed, and open another one. 
+
+### (Optional)
+* Create conda environment for all subsequent labs
+
+```shell
+conda create --name OpenAI  python=3.10.9
+```
 
 ### Step 2) Install Hugging Face
 
