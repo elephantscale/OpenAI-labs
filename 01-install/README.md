@@ -66,13 +66,13 @@ python -c "from datasets import load_dataset; print(load_dataset('squad', split=
 ### Step 6) Install OpenAI
 
 ```shell
-pip install openai
-pip install python-dotenv
+pip install openai  
+pip install python-dotenv  
 ```
 
 * Later, you will also need
 
 ```shell
-pip install redlines
-pip install panel
+pip install redlines  
+pip install panel  
 ```
