@@ -10,14 +10,22 @@ const Chat = () => {
     };
 
     const handleSendMessage = async () => {
-        setMessages([...messages, {user: 'User', text: newMessage}]);
+        const userMessage = { user: 'Learner', text: newMessage };
+        setMessages((prevMessages) => [...prevMessages, userMessage]);
         setNewMessage('');
 
-        const response = await axios.get('http://localhost:8000/question/', {
-            user_id: 'User',
-            message: newMessage
-        });
-        setMessages([...messages, {user: 'Bot', text: response.data.response}]);
+        try {
+            const response = await axios.get('http://localhost:8000/shema/', {
+                params: {
+                    user_id: 'Learner',
+                    message: newMessage
+                }
+            });
+            const botMessage = { user: 'MosesAI', text: response.data.answer };
+            setMessages((prevMessages) => [...prevMessages, botMessage]);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
