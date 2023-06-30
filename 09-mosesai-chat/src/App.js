@@ -9,16 +9,16 @@ const Chat = () => {
         setNewMessage(event.target.value);
     };
 
-    const handleSendMessage = async () => {
+    const handleSendMessage = async (userQuestion) => {
         const userMessage = { user: 'Learner', text: newMessage };
         setMessages((prevMessages) => [...prevMessages, userMessage]);
         setNewMessage('');
-
+        console.log("userQuestion " + userQuestion.question)
         try {
             const response = await axios.get('http://localhost:8000/shema/', {
                 params: {
                     user_id: 'Learner',
-                    message: newMessage
+                    message: userQuestion
                 }
             });
             const botMessage = { user: 'MosesAI', text: response.data.answer };
