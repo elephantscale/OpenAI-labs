@@ -15,7 +15,7 @@ const Chat = () => {
         setNewMessage('');
         console.log("userQuestion " + userQuestion.question)
         try {
-            const response = await axios.get('http://localhost:8000/shema/', {
+            const response = await axios.get('http://mosesai.org/', {
                 params: {
                     user_id: 'Learner',
                     message: userQuestion
