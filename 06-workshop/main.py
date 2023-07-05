@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from Talmud_read_write import get_answer
 import logging
 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 # Configure logging
 logging.basicConfig(filename='MosesAI.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,15 +42,6 @@ class Item(BaseModel):
          description="Click on 'Try it out', then ask away!")
 def read_item(question: str):
     answer = get_answer(question)
-    logger.info("Q: " + question)
-    logger.info("A: " + answer)
-    return {"question": question, "answer": answer}
-
-
-@app.get("/{question}", summary="Ask CasifyAI a question",
-         description="Click on 'Try it out', then ask away!")
-def read_item(question: str):
-    answer = "Thinking of it"
     logger.info("Q: " + question)
     logger.info("A: " + answer)
     return {"question": question, "answer": answer}
