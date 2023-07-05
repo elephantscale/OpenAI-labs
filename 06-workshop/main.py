@@ -36,7 +36,8 @@ def get_answer_with_history(question: str, history: Optional[List[str]]) -> str:
     if history is None:
         # Handle case where history is not provided
         logger.info(f"{current_time} - Question: {question} with no history")
-        return "Answer with absolutely no history taken into account."
+        answer = get_answer(question)
+        return answer
     else:
         # Implement your logic here to process the question and history to produce an answer.
         logger.info(f"{current_time} - Question: {question}")
