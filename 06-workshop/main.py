@@ -1,11 +1,10 @@
-# Main for MosesAI fastapi
-
-from fastapi import FastAPI
 from starlette.responses import RedirectResponse
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from Talmud_read_write import get_answer
+from typing import List, Optional
+import datetime
 import logging
 
 VERSION = "0.3.1"
@@ -21,6 +20,38 @@ app = FastAPI(
                 Then ask your question. ",
     version=VERSION
 )
+
+
+class QuestionWithHistory(BaseModel):
+    question: str
+    history: Optional[List[str]] = None
+
+
+class Answer(BaseModel):
+    answer: str
+
+
+def get_answer_with_history(question: str, history: Optional[List[str]]) -> str:
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if history is None:
+        # Handle case where history is not provided
+        logger.info(f"{current_time} - Question: {question} with no history")
+        return "Answer with absolutely no history taken into account."
+    else:
+        # Implement your logic here to process the question and history to produce an answer.
+        logger.info(f"{current_time} - Question: {question}")
+        logger.info(f"{current_time} - History: {history}")
+
+    return "This is a placeholder answer."
+
+
+@app.post("/ask", response_model=Answer)
+def ask_question(question_with_history: QuestionWithHistory):
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    logger.info(f"{current_time} - /ask")
+    answer = get_answer_with_history(question_with_history.question, question_with_history.history)
+    return {"answer": answer}
+
 
 origins = [
     "http://localhost:8000",
@@ -60,12 +91,3 @@ def read_root():
     logger.info("Shalom!!! Redirecting to /doc")
     return RedirectResponse(url='/docs')
 
-# @app.get("/{path:path}")
-# async def block_requests(path: str):
-#     blocked_paths = ["env.project", "env.save", ".json", "info.php"]
-#
-#     if path in blocked_paths:
-#         raise HTTPException(status_code=403, detail="Access forbidden")
-#
-#     # continue with your normal logic if the path is not blocked
-#     return {"message": "Hello World!"}

@@ -9,23 +9,22 @@ const Chat = () => {
         setNewMessage(event.target.value);
     };
 
-    const handleSendMessage = async (userQuestion) => {
+    const handleSendMessage = async () => {
         const userMessage = { user: 'Learner', text: newMessage };
         setMessages((prevMessages) => [...prevMessages, userMessage]);
-        setNewMessage('');
-        console.log("userQuestion " + userQuestion.question)
+
         try {
-            const response = await axios.get('http://localhost:8000/', {
-                params: {
-                    user_id: 'Learner',
-                    message: userQuestion
-                }
+            const response = await axios.post('http://localhost:8000/ask', {
+                question: newMessage
             });
             const botMessage = { user: 'MosesAI', text: response.data.answer };
             setMessages((prevMessages) => [...prevMessages, botMessage]);
         } catch (error) {
             console.log(error);
         }
+
+        // Clear the message input field after sending the message
+        setNewMessage('');
     };
 
     return (
@@ -44,4 +43,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
