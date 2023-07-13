@@ -59,8 +59,8 @@ quick_responses = ["Hello", "Order pizza", "Order drink", "Delivery", "End chat"
 def quick_response_click(event):
     inp.value = event.obj.name  # Set the input value to the name of the button
     button_conversation.clicks += 1  # Simulate click on the chat button
-    print("A")
-    collect_messages(None)  # Collect messages
+    #print("A")
+    #collect_messages(None)  # Collect messages
 
 quick_response_buttons = [pn.widgets.Button(name=response, width=150) for response in quick_responses]
 for button in quick_response_buttons:
