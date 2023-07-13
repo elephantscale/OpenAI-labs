@@ -11,14 +11,14 @@ openai.api_key = os.getenv('OPENAI_API_KEY')  # Get the OpenAI API key
 
 
 # This function generates a response from the chat model
-def get_completion(prompt, model="gpt-3.5-turbo"):
+def get_completion(prompt, model="gpt-4"):
     messages = [{"role": "user", "content": prompt}]
     response = openai.ChatCompletion.create(model=model, messages=messages, temperature=0)
     return response.choices[0].message["content"]
 
 
 # This function generates a response based on a list of messages
-def get_completion_from_messages(messages, model="gpt-3.5-turbo", temperature=0):
+def get_completion_from_messages(messages, model="gpt-4", temperature=0):
     response = openai.ChatCompletion.create(model=model, messages=messages, temperature=temperature)
     return response.choices[0].message["content"]
 
