@@ -1,3 +1,4 @@
+# Flast
 import os
 import openai
 import panel as pn
@@ -56,11 +57,13 @@ chat_box = pn.Row(inp, button_conversation)
 # Define quick response buttons and their actions
 quick_responses = ["Hello", "Order pizza", "Order drink", "Delivery", "End chat"]
 
+
 def quick_response_click(event):
     inp.value = event.obj.name  # Set the input value to the name of the button
     button_conversation.clicks += 1  # Simulate click on the chat button
-    #print("A")
-    #collect_messages(None)  # Collect messages
+    # print("A")
+    # collect_messages(None)  # Collect messages
+
 
 quick_response_buttons = [pn.widgets.Button(name=response, width=150) for response in quick_responses]
 for button in quick_response_buttons:
@@ -68,8 +71,6 @@ for button in quick_response_buttons:
 
 # Create a row with quick response buttons
 quick_response_row = pn.Row(*quick_response_buttons, css_classes=["container"], margin=(10, 0, 10, 0))
-
-
 
 # Create the dashboard which includes the chat box, quick responses and the interactive conversation widget
 dashboard = pn.Column(
