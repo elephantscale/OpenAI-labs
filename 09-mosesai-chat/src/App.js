@@ -33,7 +33,8 @@ const Chat = () => {
         setMessages((prevMessages) => [...prevMessages, userMessage]);
 
         try {
-            const response = await axios.post('http://localhost:8000/ask', {
+            // const response = await axios.post('http://localhost:8000/ask', {
+            const response = await axios.post('http://mosesai.org:8000/ask', {
                 question: newMessage
             });
             const botMessage = { user: 'MosesAI', text: response.data.answer };
