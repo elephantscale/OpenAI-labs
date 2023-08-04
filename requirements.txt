@@ -8,3 +8,5 @@ pydantic
 starlette
 tiktoken
 panel==1.2.0
+wandb
+utilities-package
