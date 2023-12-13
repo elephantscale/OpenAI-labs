@@ -1,0 +1,12 @@
+pip install python-dotenv==1.0.0
+pip install openai==0.27.8
+pip install pinecone-client
+pip install detectron2@git+https://github.com/facebookresearch/detectron2.git@v0.6#egg=detectron2
+pip install langchain
+pip install fastapi
+pip install pydantic
+pip install starlette
+pip install tiktoken
+pip install panel==1.2.0
+pip install wandb
+pip install utilities-package
