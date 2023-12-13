@@ -44,7 +44,7 @@ pip install panel
 pip install transformers[torch]
 ```
 
-### Step 3) Verify the installation
+### Step 5) Verify the installation
 
 ```bash
 python -c "from transformers import pipeline; print(pipeline('sentiment-analysis')('I love you'))"
@@ -58,7 +58,7 @@ python -c "from transformers import pipeline; print(pipeline('sentiment-analysis
 
 #  Install Hugging Face datasets
 
-### Step 5) Install datasets
+### Step 6) Install datasets
 
 ```bash
 pip install datasets
