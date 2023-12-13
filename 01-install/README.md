@@ -27,6 +27,8 @@ conda activate OpenAI
 ### Step 3) Install OpenAI
 
 ```shell
+git clone https://github.com/elephantscale/OpenAI-labs.git
+cd OpenAI-labs
 ./requirements-install.sh
 ```
 
