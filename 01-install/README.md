@@ -27,7 +27,7 @@ conda activate OpenAI
 ### Step 3) Install OpenAI
 
 ```shell
-./install-requirements.sh
+./requirements-install.sh
 ```
 
 
