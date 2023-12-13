@@ -27,16 +27,10 @@ conda activate OpenAI
 ### Step 3) Install OpenAI
 
 ```shell
-pip install openai  
-pip install python-dotenv  
+./install-requirements.sh
 ```
 
-* For additional packages
 
-```shell
-pip install redlines  
-pip install panel  
-```
 ### If also doing HuggingFace
 ### Step 4) Install Hugging Face
 
