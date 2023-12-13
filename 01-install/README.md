@@ -19,6 +19,7 @@ chmod +x Anaconda3-2023.03-Linux-x86_64.sh
 
 ```shell
 conda create --name OpenAI  python=3.10.9
+conda activate OpenAI
 ```
 
 ### Step 2) Install Hugging Face
