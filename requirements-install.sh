@@ -12,3 +12,4 @@ pip install redlines
 pip install jupyter
 pip install docarray
 pip install sentence_transformers
+pip install umap

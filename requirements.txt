@@ -12,3 +12,4 @@ wandb
 utilities-package
 pypdf
 sentence_transformers
+umap
