@@ -11,3 +11,4 @@ panel==1.2.0
 wandb
 utilities-package
 pypdf
+sentence_transformers
