@@ -16,3 +16,5 @@ node_modules/
 # Ignore .env file
 .env
 wandb/
+
+package-lock.json
