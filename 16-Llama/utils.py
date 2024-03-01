@@ -11,6 +11,7 @@ import time
 _ = load_dotenv(find_dotenv())
 # warnings.filterwarnings('ignore')
 url = f"{os.getenv('DLAI_TOGETHER_API_BASE', 'https://api.together.xyz')}/inference"
+print("url = " + url)
 headers = {
         "Authorization": f"Bearer {os.getenv('TOGETHER_API_KEY')}",
         "Content-Type": "application/json"
