@@ -21,3 +21,8 @@
 ![](../images/16-graph.png)
 
 ---
+
+## Final goal
+![](../images/17-graph.png)
+
+---
