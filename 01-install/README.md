@@ -6,9 +6,9 @@
 * Download the Anaconda installer for your operating system from [here](https://www.anaconda.com/products/individual#Downloads). We recommend using the graphical installer.
 * In Ubuntu, you can simply do this
 ```shell
-wget https://elephantscale-public.s3.amazonaws.com/downloads/Anaconda3-2023.03-Linux-x86_64.sh
-chmod +x Anaconda3-2023.03-Linux-x86_64.sh
-./Anaconda3-2023.03-Linux-x86_64.sh
+sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+curl -O https://repo.anaconda.com/archive/Anaconda3-2024.02-1-Linux-x86_64.sh 
+bash Anaconda3-2024.02-1-Linux-x86_64.sh
 ```
 * Last install step: say **"yes"** to initializing Conda
 
