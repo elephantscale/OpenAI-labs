@@ -9,6 +9,7 @@
 **/__pycache__/
 *.log
 .DS_Store
+.cache/
 
 # Ignore node_modules directory
 node_modules/
