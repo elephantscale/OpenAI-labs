@@ -1,0 +1,2 @@
+[console_scripts]
+autogen = autogen.autogen:main

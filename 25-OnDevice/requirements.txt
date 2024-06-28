@@ -1,0 +1,10 @@
+aimet_torch==1.32.1.post1
+datasets==2.20.0
+numpy==2.0.0
+Pillow==10.3.0
+qai_hub==0.12.0
+qai_hub_models==0.9.0
+torch==2.3.1
+torchinfo==1.8.0
+torchvision==0.18.1
+utils==1.0.2
