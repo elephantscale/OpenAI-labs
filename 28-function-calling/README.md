@@ -1,4 +1,26 @@
 # Function-Calling and Data Extraction with NexusRavenV2-13B:
+
+- **Setup local environment to run lab 28-database-agent** 
+     - Go inside 28-function-calling folder
+     - create venv using command
+       - ```python3 -m venv 28```
+     - Activate the new venv
+        - ```source 28/bin/activate```
+     - Next install jupyter notebook in the same venv
+        - ```pip3 install jupyter```
+     - Install lab requirements
+       - ``pip3 install -r requirements.txt``
+     - Create one .env file for the keys and add the values
+        ```
+        OPENAI_API_VERSION=
+        AZURE_DEPLOYMENT=
+        OPENAI_API_KEY=
+        AZURE_ENDPOINT=
+        TAVILY_API_KEY=
+        ```
+     - Start jupyter notebook
+       - ```jupyter notebook```
+     - Run any lab in jupyter notebook
 - Overview
 
 In this lab is specific to below two points:
