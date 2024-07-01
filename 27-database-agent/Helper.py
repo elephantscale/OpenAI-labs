@@ -9,7 +9,7 @@ file_url = "./data/all-states-history.csv"
 
 df = pd.read_csv("./data/all-states-history.csv").fillna(value=0)
 
-database_file_path = "./db/test.db"
+database_file_path = "./test.db"
 
 engine = create_engine(f'sqlite:///{database_file_path}')
 
