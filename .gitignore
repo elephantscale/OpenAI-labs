@@ -21,3 +21,5 @@ wandb/
 package-lock.json
 /27-database-agent/27/
 /28-function-calling/28/
+test.db
+
