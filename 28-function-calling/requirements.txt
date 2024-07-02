@@ -1,0 +1,8 @@
+openai==1.12.0
+matplotlib==3.9.0
+matplotlib-inline==0.1.7
+openapi-python-generator==0.5.0
+openapi-schema-pydantic==1.2.4
+python-dotenv==1.0.1
+Record==4.1
+datasets==2.20.0
