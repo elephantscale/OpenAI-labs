@@ -24,4 +24,5 @@ package-lock.json
 /29-pinecone/29/
 /30-advanced_retrieval_for_AI_with_chroma/30
 test.db
+.virtual_documents/
 
