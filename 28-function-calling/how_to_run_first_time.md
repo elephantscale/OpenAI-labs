@@ -47,7 +47,11 @@
      OPENAI_API_KEY=
      AZURE_ENDPOINT=
      TAVILY_API_KEY=
+     OPENAI_KEY= 
      ```
+   - note for generating TAVILY_API_KEY go here https://app.tavily.com/sign-in
+   - OPENAI_KEY is not the azure openai key it is open ai key
+         
 
 9. **Start Jupyter Notebook**
    - Start Jupyter Notebook with the command:
