@@ -1,0 +1,3692 @@
+# PIPELINE DEFINITION
+# Name: rlhf-train-template
+# Description: Performs reinforcement learning from human feedback.
+# Inputs:
+#    accelerator_type: str [Default: 'GPU']
+#    deploy_model: bool [Default: True]
+#    encryption_spec_key_name: str [Default: '']
+#    eval_dataset: str
+#    instruction: str
+#    kl_coeff: float [Default: 0.1]
+#    large_model_reference: str
+#    location: str [Default: '{{$.pipeline_google_cloud_location}}']
+#    model_display_name: str
+#    preference_dataset: str
+#    project: str [Default: '{{$.pipeline_google_cloud_project_id}}']
+#    prompt_dataset: str
+#    prompt_sequence_length: int [Default: 512.0]
+#    reinforcement_learning_rate_multiplier: float [Default: 1.0]
+#    reinforcement_learning_train_steps: int [Default: 1000.0]
+#    reward_model_learning_rate_multiplier: float [Default: 1.0]
+#    reward_model_train_steps: int [Default: 1000.0]
+#    target_sequence_length: int [Default: 64.0]
+#    tensorboard_resource_id: str [Default: '']
+# Outputs:
+#    endpoint_resource_name: str
+#    model_resource_name: str
+components:
+  comp-bulk-inferrer:
+    executorLabel: exec-bulk-inferrer
+    inputDefinitions:
+      parameters:
+        accelerator_count:
+          description: Number of accelerators.
+          parameterType: NUMBER_INTEGER
+        accelerator_type:
+          description: Type of accelerator.
+          parameterType: STRING
+        dataset_split:
+          description: Perform inference on this split of the input dataset.
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          parameterType: STRING
+        input_dataset_path:
+          description: Path to dataset to use for inference.
+          parameterType: STRING
+        input_model:
+          description: Model to use for inference.
+          parameterType: STRING
+        inputs_sequence_length:
+          description: 'Maximum encoder/prefix length. Inputs will be padded
+
+            or truncated to this length.'
+          parameterType: NUMBER_INTEGER
+        large_model_reference:
+          description: Predefined model used to create the ``input_model``.
+          parameterType: STRING
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        machine_type:
+          description: Type of machine.
+          parameterType: STRING
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        sampling_strategy:
+          defaultValue: greedy
+          description: The sampling strategy for inference.
+          isOptional: true
+          parameterType: STRING
+        targets_sequence_length:
+          description: 'Maximum decoder steps. Outputs will be at most this
+
+            length.'
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: 'GCP resources that can be used to track the custom finetuning
+
+            job.'
+          parameterType: STRING
+        output_prediction:
+          description: Where to save the output prediction.
+          parameterType: STRING
+        output_prediction_gcs_path:
+          parameterType: STRING
+  comp-condition-1:
+    dag:
+      tasks:
+        condition-2:
+          componentRef:
+            name: comp-condition-2
+          inputs:
+            parameters:
+              pipelinechannel--accelerator_type:
+                componentInputParameter: pipelinechannel--accelerator_type
+              pipelinechannel--encryption_spec_key_name:
+                componentInputParameter: pipelinechannel--encryption_spec_key_name
+              pipelinechannel--eval_dataset:
+                componentInputParameter: pipelinechannel--eval_dataset
+              pipelinechannel--instruction:
+                componentInputParameter: pipelinechannel--instruction
+              pipelinechannel--large_model_reference:
+                componentInputParameter: pipelinechannel--large_model_reference
+              pipelinechannel--location:
+                componentInputParameter: pipelinechannel--location
+              pipelinechannel--project:
+                componentInputParameter: pipelinechannel--project
+              pipelinechannel--prompt_sequence_length:
+                componentInputParameter: pipelinechannel--prompt_sequence_length
+              pipelinechannel--reinforcement-learning-graph-output_model_path:
+                componentInputParameter: pipelinechannel--reinforcement-learning-graph-output_model_path
+              pipelinechannel--rlhf-preprocessor-has_inference_dataset:
+                componentInputParameter: pipelinechannel--rlhf-preprocessor-has_inference_dataset
+              pipelinechannel--target_sequence_length:
+                componentInputParameter: pipelinechannel--target_sequence_length
+          taskInfo:
+            name: CheckModel Checkpoint Exists
+          triggerPolicy:
+            condition: inputs.parameter_values['pipelinechannel--reinforcement-learning-graph-output_model_path']
+              != ''
+    inputDefinitions:
+      parameters:
+        pipelinechannel--accelerator_type:
+          parameterType: STRING
+        pipelinechannel--encryption_spec_key_name:
+          parameterType: STRING
+        pipelinechannel--eval_dataset:
+          parameterType: STRING
+        pipelinechannel--instruction:
+          parameterType: STRING
+        pipelinechannel--large_model_reference:
+          parameterType: STRING
+        pipelinechannel--location:
+          parameterType: STRING
+        pipelinechannel--project:
+          parameterType: STRING
+        pipelinechannel--prompt_sequence_length:
+          parameterType: NUMBER_INTEGER
+        pipelinechannel--reinforcement-learning-graph-output_model_path:
+          parameterType: STRING
+        pipelinechannel--rlhf-preprocessor-has_inference_dataset:
+          parameterType: BOOLEAN
+        pipelinechannel--target_sequence_length:
+          parameterType: NUMBER_INTEGER
+  comp-condition-2:
+    dag:
+      tasks:
+        infer-eval-template:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-infer-eval-template
+          inputs:
+            parameters:
+              accelerator_type:
+                componentInputParameter: pipelinechannel--accelerator_type
+              encryption_spec_key_name:
+                componentInputParameter: pipelinechannel--encryption_spec_key_name
+              instruction:
+                componentInputParameter: pipelinechannel--instruction
+              large_model_reference:
+                componentInputParameter: pipelinechannel--large_model_reference
+              location:
+                componentInputParameter: pipelinechannel--location
+              model_checkpoint:
+                componentInputParameter: pipelinechannel--reinforcement-learning-graph-output_model_path
+              project:
+                componentInputParameter: pipelinechannel--project
+              prompt_dataset:
+                componentInputParameter: pipelinechannel--eval_dataset
+              prompt_sequence_length:
+                componentInputParameter: pipelinechannel--prompt_sequence_length
+              target_sequence_length:
+                componentInputParameter: pipelinechannel--target_sequence_length
+          taskInfo:
+            name: infer-eval-template
+    inputDefinitions:
+      parameters:
+        pipelinechannel--accelerator_type:
+          parameterType: STRING
+        pipelinechannel--encryption_spec_key_name:
+          parameterType: STRING
+        pipelinechannel--eval_dataset:
+          parameterType: STRING
+        pipelinechannel--instruction:
+          parameterType: STRING
+        pipelinechannel--large_model_reference:
+          parameterType: STRING
+        pipelinechannel--location:
+          parameterType: STRING
+        pipelinechannel--project:
+          parameterType: STRING
+        pipelinechannel--prompt_sequence_length:
+          parameterType: NUMBER_INTEGER
+        pipelinechannel--reinforcement-learning-graph-output_model_path:
+          parameterType: STRING
+        pipelinechannel--rlhf-preprocessor-has_inference_dataset:
+          parameterType: BOOLEAN
+        pipelinechannel--target_sequence_length:
+          parameterType: NUMBER_INTEGER
+  comp-deploy-llm-model:
+    executorLabel: exec-deploy-llm-model
+    inputDefinitions:
+      parameters:
+        deploy_model:
+          defaultValue: true
+          description: 'Whether to deploy the model to an endpoint. Default is
+
+            ``True``. If ``False``, the model will not be deployed and output
+
+            artifacts will contain empty strings.'
+          isOptional: true
+          parameterType: BOOLEAN
+        display_name:
+          description: Name of the model (shown in Model Registry).
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key.
+          isOptional: true
+          parameterType: STRING
+        location:
+          description: Location for model upload and deployment.
+          parameterType: STRING
+        model_resource_name:
+          description: Path to the created Model on Model Registry.
+          parameterType: STRING
+        project:
+          description: Name of the GCP project.
+          parameterType: STRING
+        regional_endpoint:
+          description: Regional API endpoint.
+          parameterType: STRING
+        service_account:
+          defaultValue: ''
+          description: If set, then a custom service account will be used.
+          isOptional: true
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        create_endpoint_gcp_resources:
+          description: 'Serialized JSON of GCP resources for
+
+            creating an endpoint.'
+          parameterType: STRING
+        deploy_model_gcp_resources:
+          description: 'Serialized JSON of GCP resources for deploying
+
+            the model.'
+          parameterType: STRING
+        endpoint_resource_name:
+          description: Path to the created endpoint on Online Prediction.
+          parameterType: STRING
+  comp-infer-eval-template:
+    dag:
+      outputs:
+        parameters:
+          output_prediction_gcs_path:
+            valueFromParameter:
+              outputParameterKey: output_prediction_gcs_path
+              producerSubtask: bulk-inferrer
+      tasks:
+        bulk-inferrer:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-bulk-inferrer
+          dependentTasks:
+          - infer-preprocessor
+          - private-text-importer
+          inputs:
+            parameters:
+              accelerator_count:
+                taskOutputParameter:
+                  outputParameterKey: metadata_accelerator_count
+                  producerTask: infer-preprocessor
+              accelerator_type:
+                taskOutputParameter:
+                  outputParameterKey: metadata_accelerator_type
+                  producerTask: infer-preprocessor
+              dataset_split:
+                runtimeValue:
+                  constant: train
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              image_uri:
+                taskOutputParameter:
+                  outputParameterKey: metadata_refined_image_uri
+                  producerTask: infer-preprocessor
+              input_dataset_path:
+                taskOutputParameter:
+                  outputParameterKey: imported_data_path
+                  producerTask: private-text-importer
+              input_model:
+                taskOutputParameter:
+                  outputParameterKey: metadata_reference_model_path
+                  producerTask: infer-preprocessor
+              inputs_sequence_length:
+                componentInputParameter: prompt_sequence_length
+              large_model_reference:
+                taskOutputParameter:
+                  outputParameterKey: metadata_large_model_reference
+                  producerTask: infer-preprocessor
+              location:
+                taskOutputParameter:
+                  outputParameterKey: metadata_tuning_location
+                  producerTask: infer-preprocessor
+              machine_type:
+                taskOutputParameter:
+                  outputParameterKey: metadata_machine_type
+                  producerTask: infer-preprocessor
+              project:
+                componentInputParameter: project
+              sampling_strategy:
+                componentInputParameter: sampling_strategy
+              targets_sequence_length:
+                componentInputParameter: target_sequence_length
+          taskInfo:
+            name: Bulk Inferrer
+        infer-preprocessor:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-infer-preprocessor
+          inputs:
+            parameters:
+              accelerator_type:
+                componentInputParameter: accelerator_type
+              artifact_registry:
+                runtimeValue:
+                  constant: rlhf
+              instruction:
+                componentInputParameter: instruction
+              large_model_reference:
+                componentInputParameter: large_model_reference
+              location:
+                runtimeValue:
+                  constant: us
+              project:
+                runtimeValue:
+                  constant: vertex-ai-restricted
+              tag:
+                runtimeValue:
+                  constant: '20240623_1707'
+              use_test_spec:
+                runtimeValue:
+                  constant: false
+          taskInfo:
+            name: Preprocess Inputs
+        preprocess-chat-dataset:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-preprocess-chat-dataset-3
+          inputs:
+            parameters:
+              dataset_type:
+                runtimeValue:
+                  constant: prompt
+              default_context:
+                componentInputParameter: instruction
+              input_dataset_uri:
+                componentInputParameter: prompt_dataset
+              large_model_reference:
+                componentInputParameter: large_model_reference
+          taskInfo:
+            name: Preprocess Dataset
+        private-text-importer:
+          cachingOptions: {}
+          componentRef:
+            name: comp-private-text-importer-2
+          dependentTasks:
+          - infer-preprocessor
+          - preprocess-chat-dataset
+          inputs:
+            parameters:
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              input_text:
+                taskOutputParameter:
+                  outputParameterKey: processed_dataset_uri
+                  producerTask: preprocess-chat-dataset
+              inputs_field_name:
+                runtimeValue:
+                  constant: input_text
+              instruction:
+                taskOutputParameter:
+                  outputParameterKey: metadata_instruction
+                  producerTask: infer-preprocessor
+              large_model_reference:
+                taskOutputParameter:
+                  outputParameterKey: metadata_large_model_reference
+                  producerTask: infer-preprocessor
+              location:
+                componentInputParameter: location
+              output_split_name:
+                runtimeValue:
+                  constant: train
+              project:
+                componentInputParameter: project
+              targets_field_name:
+                runtimeValue:
+                  constant: ''
+          taskInfo:
+            name: Import Prompt Dataset
+    inputDefinitions:
+      parameters:
+        accelerator_type:
+          defaultValue: GPU
+          description: One of 'TPU' or 'GPU'. If 'TPU' is specified, tuning components
+            run in europe-west4. Otherwise tuning components run in us-central1 on
+            GPUs. Default is 'GPU'.
+          isOptional: true
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key. If this is set, then all resources
+            created by the CustomJob will be encrypted with the provided encryption
+            key. Note that this is not supported for TPU at the moment.
+          isOptional: true
+          parameterType: STRING
+        instruction:
+          description: This field lets the model know what task it needs to perform.
+            Base models have been trained over a large set of varied instructions.
+            You can give a simple and intuitive description of the task and the model
+            will follow it, e.g. "Classify this movie review as positive or negative"
+            or "Translate this sentence to Danish". Do not specify this if your dataset
+            already prepends the instruction to the inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001` and `t5-small`
+            are supported in `us-central1` and `europe-west4`. `t5-large`, `t5-xl`
+            and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+        location:
+          defaultValue: '{{$.pipeline_google_cloud_location}}'
+          description: Location used to run non-tuning components, i.e. components
+            that do not require accelerators. If not specified the location used to
+            run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        model_checkpoint:
+          description: Optional Cloud storage path to the model checkpoint. If not
+            provided, the default checkpoint for the `large_model_reference` will
+            be used.
+          isOptional: true
+          parameterType: STRING
+        project:
+          defaultValue: '{{$.pipeline_google_cloud_project_id}}'
+          description: Project used to run custom jobs. If not specified the project
+            used to run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        prompt_dataset:
+          description: Cloud storage path to an unlabled JSONL dataset that contains
+            prompts. Text datasets must contain an `input_text` field that contains
+            the prompt. Chat datasets must contain at least 1 message in a `messages`
+            field. Each message must be valid JSON that contains `author` and `content`
+            fields, where valid `author` values are `user` and `assistant` and `content`
+            must be non-empty. Each row may contain multiple messages, but the first
+            and last author must be the `user`. An optional `context` field may be
+            provided for each example in a chat dataset. If provided, the `context`
+            will preprended to the message `content`. The `instruction` serves as
+            the default context. (Useful if most messages use the same system-level
+            context.) Any context provided in the example will override the default
+            value.
+          parameterType: STRING
+        prompt_sequence_length:
+          defaultValue: 512.0
+          description: Maximum tokenized sequence length for input text. Higher values
+            increase memory overhead. This value should be at most 8192. Default value
+            is 512.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        sampling_strategy:
+          defaultValue: greedy
+          description: This field specifies the sampling strategy. The valid options
+            are 'greedy' and 'temperature_sampling'.
+          isOptional: true
+          parameterType: STRING
+        target_sequence_length:
+          defaultValue: 64.0
+          description: ' Maximum tokenized sequence length for target text. Higher
+            values increase memory overhead. This value should be at most 1024. Default
+            value is 64.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      parameters:
+        output_prediction_gcs_path:
+          parameterType: STRING
+  comp-infer-preprocessor:
+    executorLabel: exec-infer-preprocessor
+    inputDefinitions:
+      parameters:
+        accelerator_type:
+          description: Specific accelerator type for the job.
+          parameterType: STRING
+        artifact_registry:
+          description: Registry that contains Docker images.
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Docker image URI to use for the custom job.
+          isOptional: true
+          parameterType: STRING
+        input_reference_model_path:
+          defaultValue: ''
+          description: The model checkpoint path for the reference model
+          isOptional: true
+          parameterType: STRING
+        instruction:
+          defaultValue: ''
+          description: The instruction to let the model know what task it needs to
+            perform.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: The model for fine tuning.
+          parameterType: STRING
+        location:
+          description: Region that contains the artifact registry.
+          parameterType: STRING
+        project:
+          description: Project that contains the artifact registry.
+          parameterType: STRING
+        tag:
+          description: Image tag.
+          parameterType: STRING
+        use_experimental_image:
+          defaultValue: false
+          description: ' Whether to use refined experimental image.'
+          isOptional: true
+          parameterType: BOOLEAN
+        use_test_spec:
+          description: Whether to use a lower resource machine for testing.
+          parameterType: BOOLEAN
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: GCP resources that can be used to track the custom job.
+          parameterType: STRING
+        metadata_accelerator_count:
+          description: The number of accelerator.
+          parameterType: NUMBER_INTEGER
+        metadata_accelerator_type:
+          description: Specific accelerator type for the custom job.
+          parameterType: STRING
+        metadata_instruction:
+          description: The instruction to let the model know what task it needs to
+            perform.
+          parameterType: STRING
+        metadata_large_model_reference:
+          description: The base model for fine tuning. The name should be in capitalized
+            snake case format.
+          parameterType: STRING
+        metadata_machine_type:
+          description: The type of the machine to provision for the custom job.
+          parameterType: STRING
+        metadata_reference_model_path:
+          description: The model checkpoint path for the reinforcer model
+          parameterType: STRING
+        metadata_refined_image_uri:
+          description: Docker image URI to use for the custom job.
+          parameterType: STRING
+        metadata_reward_model_path:
+          description: The model checkpoint path for the reward model.
+          parameterType: STRING
+        metadata_reward_model_reference:
+          description: ' The base model for training reward model. The name should
+            be in capitalized snake case format.'
+          parameterType: STRING
+        metadata_tuning_location:
+          description: The GCP region to run the custom job.
+          parameterType: STRING
+  comp-llm-deployment-graph:
+    dag:
+      outputs:
+        parameters:
+          endpoint_resource_name:
+            valueFromParameter:
+              outputParameterKey: endpoint_resource_name
+              producerSubtask: deploy-llm-model
+          model_resource_name:
+            valueFromParameter:
+              outputParameterKey: model_resource_name
+              producerSubtask: refined-upload-llm-model
+      tasks:
+        deploy-llm-model:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-deploy-llm-model
+          dependentTasks:
+          - refined-upload-llm-model
+          inputs:
+            parameters:
+              deploy_model:
+                componentInputParameter: deploy_model
+              display_name:
+                componentInputParameter: model_display_name
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              location:
+                componentInputParameter: upload_location
+              model_resource_name:
+                taskOutputParameter:
+                  outputParameterKey: model_resource_name
+                  producerTask: refined-upload-llm-model
+              project:
+                runtimeValue:
+                  constant: '{{$.pipeline_google_cloud_project_id}}'
+              regional_endpoint:
+                componentInputParameter: regional_endpoint
+          taskInfo:
+            name: Deploy Model
+        refined-upload-llm-model:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-refined-upload-llm-model
+          inputs:
+            parameters:
+              artifact_uri:
+                componentInputParameter: output_adapter_path
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              location:
+                componentInputParameter: upload_location
+              model_display_name:
+                componentInputParameter: model_display_name
+              model_reference_name:
+                componentInputParameter: large_model_reference
+              project:
+                runtimeValue:
+                  constant: '{{$.pipeline_google_cloud_project_id}}'
+              regional_endpoint:
+                componentInputParameter: regional_endpoint
+              tune_type:
+                runtimeValue:
+                  constant: rlhf
+              upload_model:
+                componentInputParameter: upload_model
+          taskInfo:
+            name: Upload Model
+    inputDefinitions:
+      parameters:
+        deploy_model:
+          defaultValue: true
+          description: Whether to deploy the model to an endpoint in `us-central1`.
+            Default is True.
+          isOptional: true
+          parameterType: BOOLEAN
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key. If this is set, then all resources
+            created by the CustomJob will be encrypted with the provided encryption
+            key. Note that this is not supported for TPU at the moment.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001` and `t5-small`
+            are supported in `us-central1` and `europe-west4`. `t5-large`, `t5-xl`
+            and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+        model_display_name:
+          description: Name of the fine-tuned model shown in the Model Registry. If
+            not provided, a default name will be created.
+          isOptional: true
+          parameterType: STRING
+        output_adapter_path:
+          description: Path to the trained model adapter if LoRA tuning was used.
+          parameterType: STRING
+        policy_model_reference:
+          description: The name of the model for deployment. The name should be in
+            capitalized snake case format.
+          parameterType: STRING
+        regional_endpoint:
+          defaultValue: ''
+          description: Regional endpoint to upload the model.
+          isOptional: true
+          parameterType: STRING
+        upload_location:
+          defaultValue: '{{$.pipeline_google_cloud_location}}'
+          description: Region to upload and deploy the model to. Default is the location
+            used to run the pipeline components.
+          isOptional: true
+          parameterType: STRING
+        upload_model:
+          defaultValue: true
+          isOptional: true
+          parameterType: BOOLEAN
+    outputDefinitions:
+      parameters:
+        endpoint_resource_name:
+          description: Path the Online Prediction Endpoint. This will be an empty
+            string if the model was not deployed.
+          parameterType: STRING
+        model_resource_name:
+          description: Path to the model uploaded to the Model Registry. This will
+            be an empty string if the model was not deployed.
+          parameterType: STRING
+  comp-preprocess-chat-dataset:
+    executorLabel: exec-preprocess-chat-dataset
+    inputDefinitions:
+      parameters:
+        allow_local_files:
+          defaultValue: false
+          description: Whether input URIs can specify local file paths.
+          isOptional: true
+          parameterType: BOOLEAN
+        dataset_type:
+          parameterType: STRING
+        default_context:
+          defaultValue: ''
+          description: Default context to apply to each example if a chat model is
+            specified.
+          isOptional: true
+          parameterType: STRING
+        input_dataset_uri:
+          description: Path to an unprocessed JSONL dataset.
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001`,
+            `chat-bison@001` and `t5-small` are supported in ``us-central1` and `europe-west4`.
+            `t5-large`, `t5-xl` and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        processed_dataset:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+          description: Processed chat dataset. Each example will contain fields `input_text`,
+            and if the input dataset is not a prompt dataset example will also contain
+            `output_text`.
+      parameters:
+        processed_dataset_uri:
+          description: String pattern that can be used to find the processed dataset
+            in downstream components.
+          parameterType: STRING
+  comp-preprocess-chat-dataset-2:
+    executorLabel: exec-preprocess-chat-dataset-2
+    inputDefinitions:
+      parameters:
+        allow_local_files:
+          defaultValue: false
+          description: Whether input URIs can specify local file paths.
+          isOptional: true
+          parameterType: BOOLEAN
+        dataset_type:
+          parameterType: STRING
+        default_context:
+          defaultValue: ''
+          description: Default context to apply to each example if a chat model is
+            specified.
+          isOptional: true
+          parameterType: STRING
+        input_dataset_uri:
+          description: Path to an unprocessed JSONL dataset.
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001`,
+            `chat-bison@001` and `t5-small` are supported in ``us-central1` and `europe-west4`.
+            `t5-large`, `t5-xl` and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        processed_dataset:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+          description: Processed chat dataset. Each example will contain fields `input_text`,
+            and if the input dataset is not a prompt dataset example will also contain
+            `output_text`.
+      parameters:
+        processed_dataset_uri:
+          description: String pattern that can be used to find the processed dataset
+            in downstream components.
+          parameterType: STRING
+  comp-preprocess-chat-dataset-3:
+    executorLabel: exec-preprocess-chat-dataset-3
+    inputDefinitions:
+      parameters:
+        allow_local_files:
+          defaultValue: false
+          description: Whether input URIs can specify local file paths.
+          isOptional: true
+          parameterType: BOOLEAN
+        dataset_type:
+          parameterType: STRING
+        default_context:
+          defaultValue: ''
+          description: Default context to apply to each example if a chat model is
+            specified.
+          isOptional: true
+          parameterType: STRING
+        input_dataset_uri:
+          description: Path to an unprocessed JSONL dataset.
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001`,
+            `chat-bison@001` and `t5-small` are supported in ``us-central1` and `europe-west4`.
+            `t5-large`, `t5-xl` and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        processed_dataset:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+          description: Processed chat dataset. Each example will contain fields `input_text`,
+            and if the input dataset is not a prompt dataset example will also contain
+            `output_text`.
+      parameters:
+        processed_dataset_uri:
+          description: String pattern that can be used to find the processed dataset
+            in downstream components.
+          parameterType: STRING
+  comp-private-text-comparison-importer:
+    executorLabel: exec-private-text-comparison-importer
+    inputDefinitions:
+      parameters:
+        choice_field_name:
+          description: 'Name of field that specifies the index of the best
+
+            candidate.'
+          parameterType: STRING
+        comma_separated_candidates_field_names:
+          description: 'Comma separated list of fields that
+
+            contain candidate text, e.g. ``''field_1,field_2,field_3''``.'
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Optional location of the text comparison importer image.
+          isOptional: true
+          parameterType: STRING
+        input_text:
+          description: Path to text data. Supports glob patterns.
+          parameterType: STRING
+        inputs_field_name:
+          description: Name of field that contains input text.
+          parameterType: STRING
+        instruction:
+          defaultValue: ''
+          description: Optional instruction to prepend to inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: 'Predefined model used to create the model to be
+
+            trained. This paramerter is used for obtaining model vocabulary because
+
+            this component tokenizes and then caches the tokenized tasks.'
+          parameterType: STRING
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        machine_type:
+          defaultValue: e2-highmem-8
+          description: The type of the machine to provision for the custom job.
+          isOptional: true
+          parameterType: STRING
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        split:
+          description: 'The created seqio task has 1 split, its name is specified
+            by this
+
+            argument.'
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: GCP resources that can be used to track the custom job.
+          parameterType: STRING
+        output_dataset_path:
+          description: Path to cached SeqIO task created from input dataset.
+          parameterType: STRING
+  comp-private-text-comparison-importer-2:
+    executorLabel: exec-private-text-comparison-importer-2
+    inputDefinitions:
+      parameters:
+        choice_field_name:
+          description: 'Name of field that specifies the index of the best
+
+            candidate.'
+          parameterType: STRING
+        comma_separated_candidates_field_names:
+          description: 'Comma separated list of fields that
+
+            contain candidate text, e.g. ``''field_1,field_2,field_3''``.'
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Optional location of the text comparison importer image.
+          isOptional: true
+          parameterType: STRING
+        input_text:
+          description: Path to text data. Supports glob patterns.
+          parameterType: STRING
+        inputs_field_name:
+          description: Name of field that contains input text.
+          parameterType: STRING
+        instruction:
+          defaultValue: ''
+          description: Optional instruction to prepend to inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: 'Predefined model used to create the model to be
+
+            trained. This paramerter is used for obtaining model vocabulary because
+
+            this component tokenizes and then caches the tokenized tasks.'
+          parameterType: STRING
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        machine_type:
+          defaultValue: e2-highmem-8
+          description: The type of the machine to provision for the custom job.
+          isOptional: true
+          parameterType: STRING
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        split:
+          description: 'The created seqio task has 1 split, its name is specified
+            by this
+
+            argument.'
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: GCP resources that can be used to track the custom job.
+          parameterType: STRING
+        output_dataset_path:
+          description: Path to cached SeqIO task created from input dataset.
+          parameterType: STRING
+  comp-private-text-importer:
+    executorLabel: exec-private-text-importer
+    inputDefinitions:
+      parameters:
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Optional location of the text importer image.
+          isOptional: true
+          parameterType: STRING
+        input_text:
+          description: Path to text data. Supports glob patterns.
+          parameterType: STRING
+        inputs_field_name:
+          description: Name of field that contains input text.
+          parameterType: STRING
+        instruction:
+          defaultValue: ''
+          description: Optional instruction to prepend to inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: 'Predefined model used to create the model to be
+
+            trained. This paramerter is used for obtaining model vocabulary because
+
+            this component tokenizes and then caches the tokenized tasks.'
+          parameterType: STRING
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        machine_type:
+          defaultValue: e2-highmem-8
+          description: The type of the machine to provision for the custom job.
+          isOptional: true
+          parameterType: STRING
+        max_num_input_examples:
+          description: Maximum number of examples to import.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        output_split_name:
+          defaultValue: all
+          description: 'The created seqio task has 1 split, its name is specified
+
+            by this argument.'
+          isOptional: true
+          parameterType: STRING
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        targets_field_name:
+          description: Name of field that contains target text.
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        imported_data:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+          description: Artifact representing the imported data and cached Tasks.
+      parameters:
+        gcp_resources:
+          description: Tracker for GCP resources created by this component.
+          parameterType: STRING
+        imported_data_path:
+          description: Path to cached SeqIO task created from input dataset.
+          parameterType: STRING
+  comp-private-text-importer-2:
+    executorLabel: exec-private-text-importer-2
+    inputDefinitions:
+      parameters:
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Optional location of the text importer image.
+          isOptional: true
+          parameterType: STRING
+        input_text:
+          description: Path to text data. Supports glob patterns.
+          parameterType: STRING
+        inputs_field_name:
+          description: Name of field that contains input text.
+          parameterType: STRING
+        instruction:
+          defaultValue: ''
+          description: Optional instruction to prepend to inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: 'Predefined model used to create the model to be
+
+            trained. This paramerter is used for obtaining model vocabulary because
+
+            this component tokenizes and then caches the tokenized tasks.'
+          parameterType: STRING
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        machine_type:
+          defaultValue: e2-highmem-8
+          description: The type of the machine to provision for the custom job.
+          isOptional: true
+          parameterType: STRING
+        max_num_input_examples:
+          description: Maximum number of examples to import.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        output_split_name:
+          defaultValue: all
+          description: 'The created seqio task has 1 split, its name is specified
+
+            by this argument.'
+          isOptional: true
+          parameterType: STRING
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        targets_field_name:
+          description: Name of field that contains target text.
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        imported_data:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+          description: Artifact representing the imported data and cached Tasks.
+      parameters:
+        gcp_resources:
+          description: Tracker for GCP resources created by this component.
+          parameterType: STRING
+        imported_data_path:
+          description: Path to cached SeqIO task created from input dataset.
+          parameterType: STRING
+  comp-refined-upload-llm-model:
+    executorLabel: exec-refined-upload-llm-model
+    inputDefinitions:
+      parameters:
+        artifact_uri:
+          description: Path to the artifact to upload.
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key.
+          isOptional: true
+          parameterType: STRING
+        location:
+          description: Location for model upload and deployment.
+          parameterType: STRING
+        model_display_name:
+          description: Name of the model (shown in Model Registry).
+          parameterType: STRING
+        model_reference_name:
+          description: Large model reference name.
+          parameterType: STRING
+        project:
+          description: Name of the GCP project.
+          parameterType: STRING
+        regional_endpoint:
+          description: Regional API endpoint.
+          parameterType: STRING
+        tune_type:
+          defaultValue: ''
+          description: 'Method used to tune the model, e.g. ``rlhf``. If present,
+            this
+
+            value is used to set the ``tune-type`` run label during model upload.'
+          isOptional: true
+          parameterType: STRING
+        upload_model:
+          defaultValue: true
+          description: 'Whether to upload the model to the Model Registry. Default
+
+            is ``True``. If ``False``, the model will not be uploaded and output
+
+            artifacts will contain empty strings.'
+          isOptional: true
+          parameterType: BOOLEAN
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: Serialized JSON of `gcp_resources`.
+          parameterType: STRING
+        model_resource_name:
+          description: Path to the created Model on Model Registry.
+          parameterType: STRING
+  comp-reinforcement-learning-graph:
+    dag:
+      outputs:
+        parameters:
+          output_adapter_path:
+            valueFromParameter:
+              outputParameterKey: output_adapter_path
+              producerSubtask: reinforcer
+          output_model_path:
+            valueFromParameter:
+              outputParameterKey: output_model_path
+              producerSubtask: reinforcer
+      tasks:
+        preprocess-chat-dataset:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-preprocess-chat-dataset-2
+          inputs:
+            parameters:
+              dataset_type:
+                runtimeValue:
+                  constant: prompt
+              default_context:
+                componentInputParameter: instruction
+              input_dataset_uri:
+                componentInputParameter: prompt_dataset
+              large_model_reference:
+                componentInputParameter: large_model_reference
+          taskInfo:
+            name: Preprocess Prompt Dataset
+        private-text-importer:
+          cachingOptions: {}
+          componentRef:
+            name: comp-private-text-importer
+          dependentTasks:
+          - preprocess-chat-dataset
+          inputs:
+            parameters:
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              input_text:
+                taskOutputParameter:
+                  outputParameterKey: processed_dataset_uri
+                  producerTask: preprocess-chat-dataset
+              inputs_field_name:
+                runtimeValue:
+                  constant: input_text
+              instruction:
+                componentInputParameter: instruction
+              large_model_reference:
+                componentInputParameter: policy_model_reference
+              location:
+                componentInputParameter: location
+              output_split_name:
+                runtimeValue:
+                  constant: train
+              project:
+                componentInputParameter: project
+              targets_field_name:
+                runtimeValue:
+                  constant: non_existent_targets_field_name
+          taskInfo:
+            name: Import Prompt Dataset
+        reinforcer:
+          cachingOptions: {}
+          componentRef:
+            name: comp-reinforcer
+          dependentTasks:
+          - private-text-importer
+          inputs:
+            parameters:
+              accelerator_count:
+                componentInputParameter: accelerator_count
+              accelerator_type:
+                componentInputParameter: accelerator_type
+              batch_size:
+                componentInputParameter: batch_size
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              image_uri:
+                componentInputParameter: rl_image_uri
+              input_dataset_path:
+                taskOutputParameter:
+                  outputParameterKey: imported_data_path
+                  producerTask: private-text-importer
+              input_preference_dataset_path:
+                componentInputParameter: input_preference_dataset_path
+              input_reference_model_path:
+                componentInputParameter: policy_model_path
+              input_reward_adapter_path:
+                componentInputParameter: input_reward_adapter_path
+              input_reward_model_path:
+                componentInputParameter: input_reward_model_path
+              inputs_sequence_length:
+                componentInputParameter: prompt_sequence_length
+              kl_coeff:
+                componentInputParameter: kl_coeff
+              large_model_reference:
+                componentInputParameter: policy_model_reference
+              learning_rate_multiplier:
+                componentInputParameter: reinforcement_learning_rate_multiplier
+              location:
+                componentInputParameter: tuning_location
+              lora_dim:
+                componentInputParameter: lora_dim
+              machine_type:
+                componentInputParameter: machine_type
+              num_microbatches:
+                componentInputParameter: num_microbatches
+              project:
+                componentInputParameter: project
+              reward_lora_dim:
+                componentInputParameter: reward_lora_dim
+              reward_model_reference:
+                componentInputParameter: reward_model_reference
+              targets_sequence_length:
+                componentInputParameter: target_sequence_length
+              tensorboard_resource_id:
+                componentInputParameter: tensorboard_resource_id
+              train_steps:
+                componentInputParameter: reinforcement_learning_train_steps
+          taskInfo:
+            name: Reinforcer
+    inputDefinitions:
+      parameters:
+        accelerator_count:
+          description: The number of accelerator.
+          parameterType: NUMBER_INTEGER
+        accelerator_type:
+          description: Specific accelerator type for the custom job.
+          parameterType: STRING
+        batch_size:
+          defaultValue: 64.0
+          description: Number of examples in each finetuning step. Default is 64.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key. If this is set, then all resources
+            created by the CustomJob will be encrypted with the provided encryption
+            key. Note that this is not supported for TPU at the moment.
+          isOptional: true
+          parameterType: STRING
+        input_preference_dataset_path:
+          description: Path to preference dataset used by the reward model.
+          parameterType: STRING
+        input_reward_adapter_path:
+          description: Path to the reward LoRA adapter to use during reinforcement
+            learning.
+          parameterType: STRING
+        input_reward_model_path:
+          parameterType: STRING
+        instruction:
+          description: This field lets the model know what task it needs to perform.
+            Base models have been trained over a large set of varied instructions.
+            You can give a simple and intuitive description of the task and the model
+            will follow it, e.g. "Classify this movie review as positive or negative"
+            or "Translate this sentence to Danish". Do not specify this if your dataset
+            already prepends the instruction to the inputs field.
+          isOptional: true
+          parameterType: STRING
+        kl_coeff:
+          defaultValue: 0.1
+          description: Coefficient for KL penalty. This regularizes the policy model
+            and penalizes if it diverges from its initial distribution. If set to
+            0, the reference language model is not loaded into memory. Default value
+            is 0.1.
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001` and `t5-small`
+            are supported in `us-central1` and `europe-west4`. `t5-large`, `t5-xl`
+            and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+        location:
+          defaultValue: '{{$.pipeline_google_cloud_location}}'
+          description: Location used to run non-tuning components, i.e. components
+            that do not require accelerators. If not specified the location used to
+            run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        lora_dim:
+          defaultValue: 1.0
+          description: The rank of the LoRA adapter. If >0, then use LoRA-tuning.
+            If =0, then use full-tuning. Default is 1.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        machine_type:
+          description: The type of the machine to provision for the custom job. Must
+            be a valid GCE instance type and compatible with the accelerator type.
+          parameterType: STRING
+        num_microbatches:
+          defaultValue: 0.0
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        policy_model_path:
+          description: The model checkpoint path to the reinforcer model.
+          parameterType: STRING
+        policy_model_reference:
+          description: Name of the policy model. The name should be in capitalized
+            snake case format.
+          parameterType: STRING
+        project:
+          defaultValue: '{{$.pipeline_google_cloud_project_id}}'
+          description: Project used to run custom jobs. If not specified the project
+            used to run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        prompt_dataset:
+          description: Cloud storage path to an unlabled JSONL dataset that contains
+            prompts. Text datasets must contain an `input_text` field that contains
+            the prompt. Chat datasets must contain at least 1 message in a `messages`
+            field. Each message must be valid JSON that contains `author` and `content`
+            fields, where valid `author` values are `user` and `assistant` and `content`
+            must be non-empty. Each row may contain multiple messages, but the first
+            and last author must be the `user`. An optional `context` field may be
+            provided for each example in a chat dataset. If provided, the `context`
+            will preprended to the message `content`. The `instruction` serves as
+            the default context. (Useful if most messages use the same system-level
+            context.) Any context provided in the example will override the default
+            value.
+          parameterType: STRING
+        prompt_sequence_length:
+          defaultValue: 512.0
+          description: Maximum tokenized sequence length for input text. Higher values
+            increase memory overhead. This value should be at most 8192. Default value
+            is 512.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        reinforcement_learning_rate_multiplier:
+          defaultValue: 1.0
+          description: Constant used to adjust the base learning rate used during
+            reinforcement learning. Multiply by a number > 1 to increase the magnitude
+            of updates applied at each training step or multiply by a number < 1 to
+            decrease the magnitude of updates. Default value is 1.0.
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        reinforcement_learning_train_steps:
+          defaultValue: 1000.0
+          description: Number of reinforcement learning steps to perform when tuning
+            a base model. Default value is 1000.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        reward_lora_dim:
+          defaultValue: 4.0
+          description: The rank of the reward LoRA adapter. Full tuning is not support
+            for the reward model. Default is 4.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        reward_model_reference:
+          description: Name of the reward model. The name should be in capitalized
+            snake case format.
+          parameterType: STRING
+        rl_image_uri:
+          description: Docker image URI to use for the reinforcement learning training
+            job.
+          parameterType: STRING
+        target_sequence_length:
+          defaultValue: 64.0
+          description: Maximum tokenized sequence length for target text. Higher values
+            increase memory overhead. This value should be at most 1024. Default value
+            is 64.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        tensorboard_resource_id:
+          defaultValue: ''
+          description: Optional tensorboard resource id in format `projects/{project_number}/locations/{location}/tensorboards/{tensorboard_id}`.
+            If provided, tensorboard metrics will be uploaded to this location.
+          isOptional: true
+          parameterType: STRING
+        tuning_location:
+          description: The GCP region to run the custom job.
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        output_adapter_path:
+          description: Path to the trained model adapter if LoRA tuning was used.
+          parameterType: STRING
+        output_model_path:
+          description: Path to the trained model checkpoint.
+          parameterType: STRING
+  comp-reinforcer:
+    executorLabel: exec-reinforcer
+    inputDefinitions:
+      parameters:
+        accelerator_count:
+          description: Number of TPU accelerators.
+          parameterType: NUMBER_INTEGER
+        accelerator_type:
+          description: Type of TPU accelerator. Can be either TPU_V2 or TPU_V3.
+          parameterType: STRING
+        batch_size:
+          defaultValue: 64.0
+          description: Number of examples in each finetuning step. Default is 64.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          description: Location of reinforcement learning Docker image.
+          parameterType: STRING
+        input_dataset_path:
+          description: Path to training dataset.
+          parameterType: STRING
+        input_preference_dataset_path:
+          description: Path to preference dataset.
+          parameterType: STRING
+        input_reference_model_path:
+          description: Path to the base model to fine tune.
+          parameterType: STRING
+        input_reward_adapter_path:
+          description: Path to the reward model's LoRA adapter.
+          parameterType: STRING
+        input_reward_model_path:
+          description: 'Path to the reward model to use during
+
+            reinforcement learning.'
+          parameterType: STRING
+        inputs_sequence_length:
+          description: Maximum number of input tokens per row.
+          parameterType: NUMBER_INTEGER
+        kl_coeff:
+          defaultValue: 0.1
+          description: 'Coefficient for KL penalty. This regularizes the policy model
+            and
+
+            penalizes if it diverges from its initial distribution. If set to 0, then
+
+            the reference LM is not loaded into memory.'
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        large_model_reference:
+          description: 'Predefined model used to create the
+
+            ``input_reference_model``.'
+          parameterType: STRING
+        learning_rate_multiplier:
+          defaultValue: 1.0
+          description: 'Constant multiplied by the base learning rate used
+
+            to adjust the learning rate during reinforcement learning.'
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        lora_dim:
+          defaultValue: 0.0
+          description: 'The rank of the LoRA adapter. If >0, then use LoRA-tuning.
+            If =0,
+
+            then use full-tuning.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        machine_type:
+          description: 'The type of the machine to provision for the custom job. Must
+
+            be a valid GCE instance type and compatible with the accelerator type.'
+          parameterType: STRING
+        num_microbatches:
+          defaultValue: 0.0
+          description: 'Number of microbatches to break the total batch size into
+
+            during training. If <= 1, the model is trained on the full batch size
+
+            directly.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        reward_lora_dim:
+          defaultValue: 4.0
+          description: 'The rank of the Reward model LoRA adapter. Full tuning is
+
+            not support for the reward model. Default is 4.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        reward_model_reference:
+          parameterType: STRING
+        targets_sequence_length:
+          description: Maximum number of target tokens per row.
+          parameterType: NUMBER_INTEGER
+        tensorboard_resource_id:
+          defaultValue: ''
+          description: 'Optional tensorboard resource id. Format:
+
+            `projects/{project_number}/locations/{location}/tensorboards/{tensorboard_id}`.
+
+            If provided, tensorboard metrics will be uploaded to this location.'
+          isOptional: true
+          parameterType: STRING
+        train_split:
+          defaultValue: train
+          description: 'Name of the split in the input dataset that contains training
+
+            data. Default is ``''train''``.'
+          isOptional: true
+          parameterType: STRING
+        train_steps:
+          description: 'Number of training steps. These are the number of steps on
+            top
+
+            of any steps used to train the base model.'
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      artifacts:
+        tensorboard_metrics:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+          description: Training stats (tensorboard) path.
+      parameters:
+        gcp_resources:
+          description: 'GCP resources that can be used to track the custom finetuning
+
+            job.'
+          parameterType: STRING
+        output_adapter_path:
+          description: 'Path to the trained model adapter if LoRA tuning was
+
+            used.'
+          parameterType: STRING
+        output_model_path:
+          description: Path to the trained model checkpoint.
+          parameterType: STRING
+  comp-reward-model-graph:
+    dag:
+      outputs:
+        parameters:
+          reward_dataset_path:
+            valueFromParameter:
+              outputParameterKey: output_dataset_path
+              producerSubtask: private-text-comparison-importer
+          reward_model_adapter_path:
+            valueFromParameter:
+              outputParameterKey: output_adapter_path
+              producerSubtask: reward-model-trainer
+      tasks:
+        preprocess-chat-dataset:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-preprocess-chat-dataset
+          inputs:
+            parameters:
+              dataset_type:
+                runtimeValue:
+                  constant: preference
+              default_context:
+                componentInputParameter: instruction
+              input_dataset_uri:
+                componentInputParameter: preference_dataset
+              large_model_reference:
+                componentInputParameter: large_model_reference
+          taskInfo:
+            name: Preprocess Prompt Dataset
+        private-text-comparison-importer:
+          cachingOptions: {}
+          componentRef:
+            name: comp-private-text-comparison-importer
+          dependentTasks:
+          - preprocess-chat-dataset
+          inputs:
+            parameters:
+              choice_field_name:
+                runtimeValue:
+                  constant: choice
+              comma_separated_candidates_field_names:
+                componentInputParameter: comma_separated_candidates_field_names
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              input_text:
+                taskOutputParameter:
+                  outputParameterKey: processed_dataset_uri
+                  producerTask: preprocess-chat-dataset
+              inputs_field_name:
+                runtimeValue:
+                  constant: input_text
+              instruction:
+                componentInputParameter: instruction
+              large_model_reference:
+                componentInputParameter: reward_model_reference
+              location:
+                componentInputParameter: location
+              project:
+                componentInputParameter: project
+              split:
+                runtimeValue:
+                  constant: train
+          taskInfo:
+            name: Import Preference Dataset
+        private-text-comparison-importer-2:
+          cachingOptions: {}
+          componentRef:
+            name: comp-private-text-comparison-importer-2
+          inputs:
+            parameters:
+              choice_field_name:
+                runtimeValue:
+                  constant: choice
+              comma_separated_candidates_field_names:
+                componentInputParameter: comma_separated_candidates_field_names
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              input_text:
+                componentInputParameter: eval_dataset
+              inputs_field_name:
+                runtimeValue:
+                  constant: input_text
+              instruction:
+                componentInputParameter: instruction
+              large_model_reference:
+                componentInputParameter: reward_model_reference
+              location:
+                componentInputParameter: location
+              project:
+                componentInputParameter: project
+              split:
+                runtimeValue:
+                  constant: train
+          taskInfo:
+            name: Import Preference Eval Dataset
+        reward-model-trainer:
+          cachingOptions: {}
+          componentRef:
+            name: comp-reward-model-trainer
+          dependentTasks:
+          - private-text-comparison-importer
+          - private-text-comparison-importer-2
+          inputs:
+            parameters:
+              accelerator_count:
+                componentInputParameter: accelerator_count
+              accelerator_type:
+                componentInputParameter: accelerator_type
+              batch_size:
+                componentInputParameter: batch_size
+              encryption_spec_key_name:
+                componentInputParameter: encryption_spec_key_name
+              eval_dataset_path:
+                taskOutputParameter:
+                  outputParameterKey: output_dataset_path
+                  producerTask: private-text-comparison-importer-2
+              image_uri:
+                componentInputParameter: reward_model_image_uri
+              input_dataset_path:
+                taskOutputParameter:
+                  outputParameterKey: output_dataset_path
+                  producerTask: private-text-comparison-importer
+              input_model_path:
+                componentInputParameter: reward_model_path
+              inputs_sequence_length:
+                componentInputParameter: prompt_sequence_length
+              large_model_reference:
+                componentInputParameter: reward_model_reference
+              learning_rate_multiplier:
+                componentInputParameter: reward_model_learning_rate_multiplier
+              location:
+                componentInputParameter: tuning_location
+              lora_dim:
+                componentInputParameter: lora_dim
+              machine_type:
+                componentInputParameter: machine_type
+              num_microbatches:
+                componentInputParameter: num_microbatches
+              project:
+                componentInputParameter: project
+              targets_sequence_length:
+                componentInputParameter: target_sequence_length
+              tensorboard_resource_id:
+                componentInputParameter: tensorboard_resource_id
+              train_steps:
+                componentInputParameter: reward_model_train_steps
+          taskInfo:
+            name: Reward Model Trainer
+    inputDefinitions:
+      parameters:
+        accelerator_count:
+          description: The number of accelerator.
+          parameterType: NUMBER_INTEGER
+        accelerator_type:
+          description: Specific accelerator type for the custom job.
+          parameterType: STRING
+        batch_size:
+          defaultValue: 64.0
+          description: Number of examples in each finetuning step. Default is 64.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        comma_separated_candidates_field_names:
+          description: Comma separated list of fields that contain candidate text,
+            e.g. ``'field_1,field_2,field_3'``.
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: Customer-managed encryption key. If this is set, then all resources
+            created by the CustomJob will be encrypted with the provided encryption
+            key. Note that this is not supported for TPU at the moment.
+          isOptional: true
+          parameterType: STRING
+        eval_dataset:
+          isOptional: true
+          parameterType: STRING
+        instruction:
+          description: This field lets the model know what task it needs to perform.
+            Base models have been trained over a large set of varied instructions.
+            You can give a simple and intuitive description of the task and the model
+            will follow it, e.g. "Classify this movie review as positive or negative"
+            or "Translate this sentence to Danish". Do not specify this if your dataset
+            already prepends the instruction to the inputs field.
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: Name of the base model. Supported values are `text-bison@001`,
+            `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001` and `t5-small`
+            are supported in `us-central1` and `europe-west4`. `t5-large`, `t5-xl`
+            and `t5-xxl` are only supported in `europe-west4`.
+          parameterType: STRING
+        location:
+          defaultValue: '{{$.pipeline_google_cloud_location}}'
+          description: Location used to run non-tuning components, i.e. components
+            that do not require accelerators. If not specified the location used to
+            run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        lora_dim:
+          defaultValue: 4.0
+          description: The rank of the LoRA adapter. If >0, then use LoRA-tuning.
+            Full tuning is not supported for the reward model. Default is 4.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        machine_type:
+          description: The type of the machine to provision for the custom job. Must
+            be a valid GCE instance type and compatible with the accelerator type.
+          parameterType: STRING
+        num_microbatches:
+          defaultValue: 0.0
+          description: The number of microbatches to break the total batch size into
+            during training.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        preference_dataset:
+          description: Cloud storage path to a human preference JSONL dataset used
+            to train a reward model. Each example in a preference dataset must contain
+            `candidate_0` and `candidate_1` fields that contain candidate responses,
+            `choice` that specifies the preferred candidate and either `input_text`
+            (if tuning a text model) or `messages` (if tuning a chat model). Chat
+            datasets must contain at least 1 message in a `messages` field. Each message
+            must be valid JSON that contains `author` and `content` fields, where
+            valid `author` values are `user` and `assistant` and `content` must be
+            non-empty. Each row may contain multiple messages, but the first and last
+            author must be the `user`. An optional `context` field may be provided
+            for each example in a chat dataset. If provided, the `context` will preprended
+            to the message `content`. The `instruction` serves as the default context.
+            (Useful if most messages use the same system-level context.) Any context
+            provided in the example will override the default value.
+          parameterType: STRING
+        project:
+          defaultValue: '{{$.pipeline_google_cloud_project_id}}'
+          description: Project used to run custom jobs. If not specified the project
+            used to run the pipeline will be used.
+          isOptional: true
+          parameterType: STRING
+        prompt_sequence_length:
+          defaultValue: 512.0
+          description: Maximum tokenized sequence length for input text. Higher values
+            increase memory overhead. This value should be at most 8192. Default value
+            is 512.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        reward_model_image_uri:
+          description: Docker image URI to use for the reward model training job.
+          parameterType: STRING
+        reward_model_learning_rate_multiplier:
+          defaultValue: 1.0
+          description: Constant used to adjust the base learning rate used when training
+            a reward model. Multiply by a number > 1 to increase the magnitude of
+            updates applied at each training step or multiply by a number < 1 to decrease
+            the magnitude of updates. Default value is 1.0.
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        reward_model_path:
+          description: The model checkpoint path for the reward model.
+          parameterType: STRING
+        reward_model_reference:
+          description: Name of the base model. The name should be in capitalized snake
+            case format.
+          parameterType: STRING
+        reward_model_train_steps:
+          defaultValue: 1000.0
+          description: Number of steps to use when training a reward model. Default
+            value is 1000.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        target_sequence_length:
+          defaultValue: 64.0
+          description: ' Maximum tokenized sequence length for target text. Higher
+            values increase memory overhead. This value should be at most 1024. Default
+            value is 64.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        tensorboard_resource_id:
+          defaultValue: ''
+          description: Optional tensorboard resource id in format `projects/{project_number}/locations/{location}/tensorboards/{tensorboard_id}`.
+            If provided, tensorboard metrics will be uploaded to this location.
+          isOptional: true
+          parameterType: STRING
+        tuning_location:
+          description: The GCP region to run the custom job.
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        reward_dataset_path:
+          description: Preference dataset use for tuning the reward model.
+          parameterType: STRING
+        reward_model_adapter_path:
+          description: Path to the output LoRA adapter.
+          parameterType: STRING
+  comp-reward-model-trainer:
+    executorLabel: exec-reward-model-trainer
+    inputDefinitions:
+      parameters:
+        accelerator_count:
+          description: Number of TPU accelerators.
+          parameterType: NUMBER_INTEGER
+        accelerator_type:
+          description: Type of TPU accelerator. Can be either TPU_V2 or TPU_V3.
+          parameterType: STRING
+        batch_size:
+          defaultValue: 64.0
+          description: Number of examples in each finetuning step. Default is 64.
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: 'Customer-managed encryption key. If this is set,
+
+            then all resources created by the CustomJob will be encrypted with the
+
+            provided encryption key. Note that this is not supported for TPU at the
+
+            moment.'
+          isOptional: true
+          parameterType: STRING
+        eval_dataset_path:
+          defaultValue: ''
+          description: 'Path to eval dataset to use during the reward model
+
+            training.'
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          description: Location of reward model Docker image.
+          parameterType: STRING
+        input_dataset_path:
+          description: Path to dataset to use to train a reward model.
+          parameterType: STRING
+        input_model_path:
+          description: Path to the base model to fine tune.
+          parameterType: STRING
+        inputs_sequence_length:
+          description: Maximum number of input tokens per row.
+          parameterType: NUMBER_INTEGER
+        large_model_reference:
+          description: Predefined model used to create the ``input_model``.
+          parameterType: STRING
+        learning_rate_multiplier:
+          defaultValue: 1.0
+          description: 'Constant multiplied by the base learning rate used
+
+            to adjust the learning rate when training a reward model.'
+          isOptional: true
+          parameterType: NUMBER_DOUBLE
+        location:
+          description: Location used to run the job.
+          parameterType: STRING
+        lora_dim:
+          defaultValue: 4.0
+          description: 'The rank of the LoRA adapter. If >0, then use LoRA-tuning.
+            If =0,
+
+            then use full-tuning.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        machine_type:
+          description: 'The type of the machine to provision for the custom job. Must
+
+            be a valid GCE instance type and compatible with the accelerator type.'
+          parameterType: STRING
+        num_microbatches:
+          defaultValue: 0.0
+          description: 'Number of microbatches to break the total batch size into
+
+            during training. If <= 1, the model is trained on the full batch size
+
+            directly.'
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        project:
+          description: Project used to run the job.
+          parameterType: STRING
+        targets_sequence_length:
+          description: Maximum number of target tokens per row.
+          parameterType: NUMBER_INTEGER
+        tensorboard_resource_id:
+          defaultValue: ''
+          description: 'Optional tensorboard resource id. Format:
+
+            `projects/{project_number}/locations/{location}/tensorboards/{tensorboard_id}`.
+
+            If provided, tensorboard metrics will be uploaded to this location.'
+          isOptional: true
+          parameterType: STRING
+        train_split:
+          defaultValue: train
+          description: 'Name of the split in the input dataset that contains training
+
+            data. Default is ``''train''``.'
+          isOptional: true
+          parameterType: STRING
+        train_steps:
+          description: 'Number of training steps. These are the number of steps on
+            top
+
+            of any steps used to train the base model.'
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      artifacts:
+        tensorboard_metrics:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+          description: Training stats (tensorboard) path.
+      parameters:
+        gcp_resources:
+          description: 'GCP resources that can be used to track the custom finetuning
+
+            job.'
+          parameterType: STRING
+        output_adapter_path:
+          description: Trained reward LoRA adapter.
+          parameterType: STRING
+  comp-rlhf-preprocessor:
+    executorLabel: exec-rlhf-preprocessor
+    inputDefinitions:
+      parameters:
+        accelerator_type:
+          description: Specific accelerator type for the job.
+          parameterType: STRING
+        artifact_registry:
+          description: Registry that contains Docker images.
+          parameterType: STRING
+        deploy_model:
+          defaultValue: true
+          description: Whether to deploy the model.
+          isOptional: true
+          parameterType: BOOLEAN
+        evaluation_dataset:
+          defaultValue: ''
+          description: Path to evaluation data.
+          isOptional: true
+          parameterType: STRING
+        image_uri:
+          defaultValue: us-docker.pkg.dev/vertex-ai-restricted/rlhf/refined_cpu:20240623_1707
+          description: Docker image URI to use for the custom job.
+          isOptional: true
+          parameterType: STRING
+        input_reference_model_path:
+          defaultValue: ''
+          isOptional: true
+          parameterType: STRING
+        large_model_reference:
+          description: The model for fine tuning.
+          parameterType: STRING
+        location:
+          description: Region that contains the artifact registry.
+          parameterType: STRING
+        model_display_name:
+          defaultValue: ''
+          description: Display name of the model.
+          isOptional: true
+          parameterType: STRING
+        project:
+          description: Project that contains the artifact registry.
+          parameterType: STRING
+        tag:
+          description: Image tag.
+          parameterType: STRING
+        tensorboard_resource_id:
+          defaultValue: ''
+          description: TensorBoard resource id.
+          isOptional: true
+          parameterType: STRING
+        upload_location:
+          defaultValue: ''
+          description: Region where the model will be uploaded.
+          isOptional: true
+          parameterType: STRING
+        use_experimental_image:
+          defaultValue: false
+          description: ' Whether to use refined experimental image.'
+          isOptional: true
+          parameterType: BOOLEAN
+        use_test_spec:
+          description: Whether to use a lower resource machine for testing.
+          parameterType: BOOLEAN
+    outputDefinitions:
+      parameters:
+        gcp_resources:
+          description: GCP resources that can be used to track the custom job.
+          parameterType: STRING
+        has_inference_dataset:
+          description: Whether inference data are provided.
+          parameterType: BOOLEAN
+        has_tensorboard_id:
+          description: Whether a tensorboard id is provided.
+          parameterType: BOOLEAN
+        metadata_accelerator_count:
+          description: The number of accelerator.
+          parameterType: NUMBER_INTEGER
+        metadata_accelerator_type:
+          description: Specific accelerator type for the custom job.
+          parameterType: STRING
+        metadata_candidate_columns_string:
+          parameterType: STRING
+        metadata_deploy_model:
+          description: Whether to deploy the model.
+          parameterType: BOOLEAN
+        metadata_large_model_reference:
+          parameterType: STRING
+        metadata_machine_type:
+          description: The type of the machine to provision for the custom job.
+          parameterType: STRING
+        metadata_model_display_name:
+          description: Display name of the model.
+          parameterType: STRING
+        metadata_num_microbatches:
+          description: 'Number of microbatches to break the total batch
+
+            size into during training.'
+          parameterType: NUMBER_INTEGER
+        metadata_reference_model_path:
+          parameterType: STRING
+        metadata_refined_image_uri:
+          description: Docker image URI to use for the custom job.
+          parameterType: STRING
+        metadata_reward_model_path:
+          parameterType: STRING
+        metadata_reward_model_reference:
+          parameterType: STRING
+        metadata_tuning_location:
+          description: The GCP region to run the custom job.
+          parameterType: STRING
+        metadata_upload_location:
+          description: Regional endpoint.
+          parameterType: STRING
+        metadata_upload_model:
+          description: Whether to upload the model.
+          parameterType: BOOLEAN
+  comp-validate-pipeline:
+    executorLabel: exec-validate-pipeline
+    inputDefinitions:
+      parameters:
+        accelerator_type:
+          defaultValue: ''
+          description: 'One of ''TPU'' or ''GPU''. If ''TPU'' is specified, tuning
+
+            components run in europe-west4. Otherwise tuning components run in
+
+            us-central1 on GPUs. Default is ''GPU''.'
+          isOptional: true
+          parameterType: STRING
+        encryption_spec_key_name:
+          defaultValue: ''
+          description: If set, CMEK support will be validated.
+          isOptional: true
+          parameterType: STRING
+        eval_dataset:
+          description: 'Optional Cloud storage path to an evaluation dataset. The
+
+            format should match that of the preference dataset.'
+          isOptional: true
+          parameterType: STRING
+        location:
+          description: 'Location used to run non-tuning components, i.e. components
+
+            that do not require accelerators. If not specified the location used
+
+            to run the pipeline will be used.'
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        reward_model_eval_dataset:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-bulk-inferrer:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "BulkInferrer", "job_spec": {"worker_pool_specs": [{"replica_count":
+          "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}",
+          "accelerator_type": "{{$.inputs.parameters[''accelerator_type'']}}", "accelerator_count":
+          {{$.inputs.parameters[''accelerator_count'']}}}, "container_spec": {"image_uri":
+          "{{$.inputs.parameters[''image_uri'']}}", "args": ["--app_name=bulk_inferrer",
+          "--input_model={{$.inputs.parameters[''input_model'']}}", "--input_dataset={{$.inputs.parameters[''input_dataset_path'']}}",
+          "--dataset_split={{$.inputs.parameters[''dataset_split'']}}", "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--inputs_sequence_length={{$.inputs.parameters[''inputs_sequence_length'']}}",
+          "--targets_sequence_length={{$.inputs.parameters[''targets_sequence_length'']}}",
+          "--sampling_strategy={{$.inputs.parameters[''sampling_strategy'']}}", "--output_prediction={{$.outputs.parameters[''output_prediction''].output_file}}",
+          "--output_prediction_gcs_path={{$.outputs.parameters[''output_prediction_gcs_path''].output_file}}"]}}]},
+          "encryption_spec": {"kms_key_name": "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-deploy-llm-model:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - deploy_llm_model
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef deploy_llm_model(\n    project: str,\n    location: str,\n  \
+          \  model_resource_name: str,\n    display_name: str,\n    regional_endpoint:\
+          \ str,\n    endpoint_resource_name: dsl.OutputPath(str),\n    create_endpoint_gcp_resources:\
+          \ dsl.OutputPath(str),\n    deploy_model_gcp_resources: dsl.OutputPath(str),\n\
+          \    encryption_spec_key_name: str = '',\n    service_account: str = '',\n\
+          \    deploy_model: bool = True,\n):\n  \"\"\"Creates a vertex endpoint and\
+          \ deploy the specified model.\n\n  Args:\n      project: Name of the GCP\
+          \ project.\n      location: Location for model upload and deployment.\n\
+          \      model_resource_name: Path to the created Model on Model Registry.\n\
+          \      display_name: Name of the model (shown in Model Registry).\n    \
+          \  regional_endpoint: Regional API endpoint.\n      encryption_spec_key_name:\
+          \ Customer-managed encryption key.\n      service_account: If set, then\
+          \ a custom service account will be used.\n      deploy_model: Whether to\
+          \ deploy the model to an endpoint. Default is\n        ``True``. If ``False``,\
+          \ the model will not be deployed and output\n        artifacts will contain\
+          \ empty strings.\n\n  Returns:\n      endpoint_resource_name: Path to the\
+          \ created endpoint on Online Prediction.\n      create_endpoint_gcp_resources:\
+          \ Serialized JSON of GCP resources for\n          creating an endpoint.\n\
+          \      deploy_model_gcp_resources: Serialized JSON of GCP resources for\
+          \ deploying\n          the model.\n  \"\"\"\n  import json\n  import logging\n\
+          \  import os\n  import sys\n  from typing import Any, Dict\n\n  try:\n \
+          \   from google_cloud_pipeline_components.container.v1.gcp_launcher import\
+          \ lro_remote_runner\n  except ImportError:\n    from google_cloud_pipeline_components.container.v1.gcp_launcher\
+          \ import lro_remote_runner\n\n  def run_lro_remote_runner(\n      url: str,\
+          \ payload: Dict[str, Any], gcp_resources: str\n  ) -> Any:\n    remote_runner\
+          \ = lro_remote_runner.LroRemoteRunner(location)\n    lro = remote_runner.create_lro(url,\
+          \ json.dumps(payload), gcp_resources)\n    return remote_runner.poll_lro(lro=lro)\n\
+          \n  try:\n    os.makedirs(os.path.dirname(endpoint_resource_name), exist_ok=True)\n\
+          \n    if not deploy_model:\n      with open(endpoint_resource_name, 'w')\
+          \ as fout:\n        fout.write('')\n      return\n\n    regional_endpoint\
+          \ = regional_endpoint.rstrip('/')\n\n    create_endpoint_payload = {\n \
+          \       'displayName': display_name,\n    }\n\n    pipeline_labels_str =\
+          \ os.getenv('VERTEX_AI_PIPELINES_RUN_LABELS')\n    if pipeline_labels_str:\n\
+          \      create_endpoint_payload['labels'] = json.loads(pipeline_labels_str)\n\
+          \n    if encryption_spec_key_name:\n      create_endpoint_payload['encryption_spec']\
+          \ = {\n          'kms_key_name': encryption_spec_key_name\n      }\n\n \
+          \   create_endpoint_lro = run_lro_remote_runner(\n        url=(\n      \
+          \      f'{regional_endpoint}/projects/{project}/locations/{location}'\n\
+          \            '/endpoints'\n        ),\n        payload=create_endpoint_payload,\n\
+          \        gcp_resources=create_endpoint_gcp_resources,\n    )\n\n    response_endpoint\
+          \ = create_endpoint_lro['response']['name']\n    with open(endpoint_resource_name,\
+          \ 'w') as fout:\n      fout.write(response_endpoint)\n\n    logging.info(\n\
+          \        'Endpoint created successfully. Deploying model %s to endpoint',\n\
+          \        model_resource_name,\n    )\n\n    deploy_model_payload = {\n \
+          \       'deployedModel': {\n            'model': model_resource_name,\n\
+          \            'displayName': display_name,\n            'automaticResources':\
+          \ {'minReplicaCount': 1, 'maxReplicaCount': 1},\n        }\n    }\n    if\
+          \ service_account:\n      deploy_model_payload['deployedModel']['service_account']\
+          \ = service_account\n\n    _ = run_lro_remote_runner(\n        url=f'{regional_endpoint}/{response_endpoint}:deployModel',\n\
+          \        payload=deploy_model_payload,\n        gcp_resources=deploy_model_gcp_resources,\n\
+          \    )\n\n    logging.info('Model deployed successfully!')\n  except Exception\
+          \ as e:  # pylint: disable=broad-exception-caught\n    if isinstance(e,\
+          \ ValueError):\n      raise\n    logging.exception(str(e))\n    sys.exit(13)\n\
+          \n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-infer-preprocessor:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "infer_preprocessor", "job_spec": {"worker_pool_specs":
+          [{"replica_count": "1", "machine_spec": {"machine_type": "n1-standard-4"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=infer_preprocessor", "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--input_reference_model_path={{$.inputs.parameters[''input_reference_model_path'']}}",
+          "--accelerator_type={{$.inputs.parameters[''accelerator_type'']}}", "--use_test_spec={{$.inputs.parameters[''use_test_spec'']}}",
+          "--project={{$.inputs.parameters[''project'']}}", "--location={{$.inputs.parameters[''location'']}}",
+          "--artifact_registry={{$.inputs.parameters[''artifact_registry'']}}", "--tag={{$.inputs.parameters[''tag'']}}",
+          "--use_experimental_image={{$.inputs.parameters[''use_experimental_image'']}}",
+          "--instruction={{$.inputs.parameters[''instruction'']}}", "--metadata_large_model_reference_path={{$.outputs.parameters[''metadata_large_model_reference''].output_file}}",
+          "--metadata_reference_model_path_path={{$.outputs.parameters[''metadata_reference_model_path''].output_file}}",
+          "--metadata_reward_model_reference_path={{$.outputs.parameters[''metadata_reward_model_reference''].output_file}}",
+          "--metadata_reward_model_path_path={{$.outputs.parameters[''metadata_reward_model_path''].output_file}}",
+          "--metadata_machine_type_path={{$.outputs.parameters[''metadata_machine_type''].output_file}}",
+          "--metadata_tuning_location_path={{$.outputs.parameters[''metadata_tuning_location''].output_file}}",
+          "--metadata_accelerator_type_path={{$.outputs.parameters[''metadata_accelerator_type''].output_file}}",
+          "--metadata_accelerator_count_path={{$.outputs.parameters[''metadata_accelerator_count''].output_file}}",
+          "--metadata_instruction_path={{$.outputs.parameters[''metadata_instruction''].output_file}}",
+          "--metadata_refined_image_uri_path={{$.outputs.parameters[''metadata_refined_image_uri''].output_file}}"]}}]}}'
+        - --project
+        - '{{$.pipeline_google_cloud_project_id}}'
+        - --location
+        - '{{$.pipeline_google_cloud_location}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-preprocess-chat-dataset:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - preprocess_chat_dataset
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef preprocess_chat_dataset(\n    large_model_reference: str,\n \
+          \   input_dataset_uri: str,\n    dataset_type: str,\n    processed_dataset:\
+          \ dsl.OutputPath(dsl.Artifact),  # pytype: disable=invalid-annotation\n\
+          \    processed_dataset_uri: dsl.OutputPath(str),  # pytype: disable=invalid-annotation\n\
+          \    default_context: str = '',\n    allow_local_files: bool = False,\n\
+          ):  # pylint: disable=g-doc-args\n  # fmt: off\n  \"\"\"Preprocesses datasets\
+          \ before tokenization.\n\n  For text datasets, this is a no-op.\n\n  Args:\n\
+          \    large_model_reference: Name of the base model. Supported values are\
+          \ `text-bison@001`, `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and\
+          \ `t5-xxl`. `text-bison@001`, `chat-bison@001` and `t5-small` are supported\
+          \ in ``us-central1` and `europe-west4`. `t5-large`, `t5-xl` and `t5-xxl`\
+          \ are only supported in `europe-west4`.\n    input_dataset_uri: Path to\
+          \ an unprocessed JSONL dataset.\n    default_context: Default context to\
+          \ apply to each example if a chat model is specified.\n    allow_local_files:\
+          \ Whether input URIs can specify local file paths.\n    is_prompt_dataset:\
+          \ Whether the input dataset contains prompts for inference. In this case,\
+          \ the last author in `messages` should be the `user`, and the output dataset\
+          \ will only contain `input_text`.\n\n  Returns:\n    processed_dataset:\
+          \ Processed chat dataset. Each example will contain fields `input_text`,\
+          \ and if the input dataset is not a prompt dataset example will also contain\
+          \ `output_text`.\n    processed_dataset_uri: String pattern that can be\
+          \ used to find the processed dataset in downstream components.\n\n  \"\"\
+          \"\n  # fmt: on\n  # pylint: disable=g-import-not-at-top\n  import dataclasses\n\
+          \  import json\n  import os\n  from typing import Any, Callable, List, Mapping\n\
+          \  import apache_beam as beam\n  # pylint: enable=g-import-not-at-top\n\n\
+          \  # [ Define helper methods and classes for preprocessing\n  # pylint:\
+          \ disable=invalid-name\n  INPUT_TEXT_KEY = 'input_text'\n  OUTPUT_TEXT_KEY\
+          \ = 'output_text'\n  CONTEXT_KEY = 'context'\n  MESSAGES_KEY = 'messages'\n\
+          \  CANDIDATE_0_KEY = 'candidate_0'\n  CANDIDATE_1_KEY = 'candidate_1'\n\
+          \  CHOICE_KEY = 'choice'\n  AUTHOR_KEY = 'author'\n  CONTENT_KEY = 'content'\n\
+          \  AUTHOR_USER = 'user'\n  AUTHOR_ASSISTANT = 'assistant'\n  VALID_AUTHORS\
+          \ = {AUTHOR_USER, AUTHOR_ASSISTANT}\n  SUPERVISED_DATASET = 'supervised'\n\
+          \  PROMPT_DATASET = 'prompt'\n  PREFERENCE_DATASET = 'preference'\n  VALID_DATASETS\
+          \ = {SUPERVISED_DATASET, PROMPT_DATASET, PREFERENCE_DATASET}\n  # pylint:\
+          \ enable=invalid-name\n\n  @dataclasses.dataclass\n  class PromptSchema:\n\
+          \    global_prefix: str\n    user_prefix: str\n    user_postfix: str\n \
+          \   assistant_prefix: str\n    assistant_postfix: str\n    get_system_message:\
+          \ Callable[[str], str]  # pytype: disable=invalid-annotation\n\n  def _get_chat_bison_001_system_message(context:\
+          \ str) -> str:\n    return f'[SYSTEM]:{context}\\n\\n' if context else ''\n\
+          \n  chat_bison_001_schema = PromptSchema(\n      global_prefix=(\n     \
+          \     'Only answer after [assistant] and never reply as [user]:\\n'\n  \
+          \    ),\n      get_system_message=_get_chat_bison_001_system_message,\n\
+          \      user_prefix='[user]:',\n      user_postfix='\\n',\n      assistant_prefix='[assistant]:',\n\
+          \      assistant_postfix='\\n',\n  )\n\n  def _get_chat_llama_system_message(context:\
+          \ str) -> str:\n    return f'<<SYS>>\\n{context}\\n<</SYS>>\\n\\n' if context\
+          \ else ''\n\n  chat_llama_schema = PromptSchema(\n      global_prefix='<s>[INST]\
+          \ ',\n      get_system_message=_get_chat_llama_system_message,\n      user_prefix='',\n\
+          \      user_postfix=' [/INST]',\n      assistant_prefix=' ',\n      assistant_postfix='</s><s>[INST]\
+          \ ',\n  )\n\n  MODEL_TO_SCHEMA_MAPPING = {  # pylint: disable=invalid-name\n\
+          \      'chat-bison@001': chat_bison_001_schema,\n      'llama-2-7b-chat':\
+          \ chat_llama_schema,\n      'llama-2-13b-chat': chat_llama_schema,\n  }\n\
+          \n  def get_gcs_path(input_path: str, allow_local_files: bool) -> str:\n\
+          \    \"\"\"Gets the /gcs/ path for a given URI.\"\"\"\n    if input_path.startswith('gs://'):\n\
+          \      return input_path.replace('gs://', '/gcs/', 1)\n    elif input_path.startswith('/gcs/')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  def get_gs_path(input_path:\
+          \ str, allow_local_files: bool) -> str:\n    \"\"\"Gets the gs:// path for\
+          \ a given URI.\"\"\"\n    if input_path.startswith('/gcs/'):\n      return\
+          \ input_path.replace('/gcs/', 'gs://', 1)\n    elif input_path.startswith('gs://')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  class JsonCoder(beam.coders.Coder):\n\
+          \    \"\"\"A coder that encodes/decodes lines as JSON strings.\"\"\"\n\n\
+          \    def encode(self, x):\n      return json.dumps(x).encode('utf-8')\n\n\
+          \    def decode(self, x):\n      return json.loads(x)\n\n  class ChatDatasetProcessor(beam.DoFn):\n\
+          \    \"\"\"Converts chat data from input format to the format expected by\
+          \ the model.\"\"\"\n\n    def __init__(\n        self,\n        default_context:\
+          \ str,\n        prompt_schema: PromptSchema,\n        dataset_type: str,\n\
+          \    ):\n      self._default_context = default_context\n      self._schema\
+          \ = prompt_schema\n      self._dataset_type = dataset_type\n\n    def _get_messages_or_fail(\n\
+          \        self, element: Mapping[str, Any]\n    ) -> List[Mapping[str, str]]:\n\
+          \      messages = element.get(MESSAGES_KEY)\n      if not messages:\n  \
+          \      raise ValueError(\n            'No messages present. Please include\
+          \ a non-empty '\n            f'`messages` field in each line of dataset:\
+          \ {element}.'\n        )\n      elif messages[0].get(AUTHOR_KEY) != AUTHOR_USER:\n\
+          \        raise ValueError(f'First author must be the {AUTHOR_USER}: {element}')\n\
+          \      elif (\n          self._dataset_type in {PROMPT_DATASET, PREFERENCE_DATASET}\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_USER\n      ):\n \
+          \       raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_USER}: {element}'\n     \
+          \   )\n      elif (\n          self._dataset_type == SUPERVISED_DATASET\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_ASSISTANT\n      ):\n\
+          \        raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_ASSISTANT}: {element}'\n\
+          \        )\n      return messages\n\n    def _get_or_fail(self, message:\
+          \ Mapping[str, str], key: str) -> str:\n      value = message.get(key)\n\
+          \      if not value and value != 0:\n        raise ValueError(\n       \
+          \     f'Each message must contain non-empty value for {key}. '\n       \
+          \     f'Invalid message: {message}'\n        )\n      return value\n\n \
+          \   def _get_author_or_fail(self, message: Mapping[str, str]) -> str:\n\
+          \      author = self._get_or_fail(message, AUTHOR_KEY)\n      if author\
+          \ not in VALID_AUTHORS:\n        raise ValueError(\n            'The `author`\
+          \ of each message needs to be from one of'\n            f' {VALID_AUTHORS}.\
+          \ Got author = {author}.'\n        )\n      return author\n\n    def process(self,\
+          \ element):\n      context = element.get(CONTEXT_KEY, self._default_context)\n\
+          \      messages = self._get_messages_or_fail(element)\n\n      message_history\
+          \ = [\n          self._schema.global_prefix,\n          self._schema.get_system_message(context),\n\
+          \      ]\n      for message in messages:\n        author = self._get_author_or_fail(message)\n\
+          \        content = self._get_or_fail(message, CONTENT_KEY)\n        if author\
+          \ == AUTHOR_USER:\n          message_history.append(\n              f'{self._schema.user_prefix}{content}{self._schema.user_postfix}'\n\
+          \          )\n        elif author == AUTHOR_ASSISTANT:\n          message_history.append(self._schema.assistant_prefix)\n\
+          \          input_text = ''.join(message_history)\n          # For training\
+          \ datasets yield an example for each user/assistant\n          # exchange:\n\
+          \          if self._dataset_type == SUPERVISED_DATASET:\n            yield\
+          \ {\n                INPUT_TEXT_KEY: input_text.rstrip(),\n            \
+          \    OUTPUT_TEXT_KEY: content,\n            }\n          message_history\
+          \ = [\n              input_text,\n              f'{content}{self._schema.assistant_postfix}',\n\
+          \          ]\n        else:\n          raise ValueError(\n             \
+          \ f'Unknown author {author}. Must be one of {VALID_AUTHORS}.'\n        \
+          \  )\n      # For prompt and preference datasets, only yield an example\
+          \ after the\n      # final user message:\n      if self._dataset_type ==\
+          \ PROMPT_DATASET:\n        message_history.append(self._schema.assistant_prefix)\n\
+          \        input_text = ''.join(message_history)\n        yield {INPUT_TEXT_KEY:\
+          \ input_text.rstrip()}\n      elif self._dataset_type == PREFERENCE_DATASET:\n\
+          \        message_history.append(self._schema.assistant_prefix)\n       \
+          \ input_text = ''.join(message_history)\n        yield {\n            INPUT_TEXT_KEY:\
+          \ input_text.rstrip(),\n            CANDIDATE_0_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_0_KEY),\n            CANDIDATE_1_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_1_KEY),\n            CHOICE_KEY: self._get_or_fail(element,\
+          \ CHOICE_KEY),\n        }\n\n  # ]\n\n  processed_dataset_uri = get_gcs_path(processed_dataset_uri,\
+          \ allow_local_files)\n\n  # Reuse the input dataset if no preprocessing\
+          \ is needed.\n  if large_model_reference.lower() not in MODEL_TO_SCHEMA_MAPPING:\n\
+          \    with open(processed_dataset_uri, 'w') as f:\n      f.write(input_dataset_uri)\n\
+          \    return\n\n  prompt_schema = MODEL_TO_SCHEMA_MAPPING[large_model_reference]\n\
+          \n  # Provide gs:// paths for datasets processed by Beam.\n  input_dataset_uri\
+          \ = get_gs_path(input_dataset_uri, allow_local_files)\n  processed_dataset\
+          \ = get_gs_path(processed_dataset, allow_local_files)\n  os.makedirs(processed_dataset,\
+          \ exist_ok=True)\n  processed_dataset_prefix = os.path.join(processed_dataset,\
+          \ 'shard')\n  dataset_type = dataset_type.lower()\n  if dataset_type not\
+          \ in VALID_DATASETS:\n    raise ValueError(\n        f'Unknown dataset type\
+          \ {dataset_type}. Must be one of {VALID_DATASETS}.'\n    )\n\n  pipeline_options\
+          \ = (\n      beam.options.pipeline_options.PipelineOptions.from_dictionary({\n\
+          \          'runner': 'DirectRunner',\n      })\n  )\n  with beam.Pipeline(options=pipeline_options)\
+          \ as pipeline:\n    _ = (\n        pipeline\n        | 'Read JSON from input\
+          \ dataset'\n        >> beam.io.ReadFromText(input_dataset_uri, coder=JsonCoder())\n\
+          \        | 'Process chat dataset'\n        >> beam.ParDo(\n            ChatDatasetProcessor(\n\
+          \                default_context=default_context,\n                prompt_schema=prompt_schema,\n\
+          \                dataset_type=dataset_type,\n            )\n        )\n\
+          \        | 'Write processed JSON to output file'\n        >> beam.io.WriteToText(\n\
+          \            file_path_prefix=processed_dataset_prefix,\n            file_name_suffix='.jsonl',\n\
+          \            coder=JsonCoder(),\n        )\n    )\n\n  # Write file pattern\
+          \ that the tokenizer can use to find all processed files.\n  with open(processed_dataset_uri,\
+          \ 'w') as f:\n    processed_dataset_pattern = os.path.join(processed_dataset,\
+          \ '*.jsonl')\n    f.write(processed_dataset_pattern)\n\n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-preprocess-chat-dataset-2:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - preprocess_chat_dataset
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef preprocess_chat_dataset(\n    large_model_reference: str,\n \
+          \   input_dataset_uri: str,\n    dataset_type: str,\n    processed_dataset:\
+          \ dsl.OutputPath(dsl.Artifact),  # pytype: disable=invalid-annotation\n\
+          \    processed_dataset_uri: dsl.OutputPath(str),  # pytype: disable=invalid-annotation\n\
+          \    default_context: str = '',\n    allow_local_files: bool = False,\n\
+          ):  # pylint: disable=g-doc-args\n  # fmt: off\n  \"\"\"Preprocesses datasets\
+          \ before tokenization.\n\n  For text datasets, this is a no-op.\n\n  Args:\n\
+          \    large_model_reference: Name of the base model. Supported values are\
+          \ `text-bison@001`, `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and\
+          \ `t5-xxl`. `text-bison@001`, `chat-bison@001` and `t5-small` are supported\
+          \ in ``us-central1` and `europe-west4`. `t5-large`, `t5-xl` and `t5-xxl`\
+          \ are only supported in `europe-west4`.\n    input_dataset_uri: Path to\
+          \ an unprocessed JSONL dataset.\n    default_context: Default context to\
+          \ apply to each example if a chat model is specified.\n    allow_local_files:\
+          \ Whether input URIs can specify local file paths.\n    is_prompt_dataset:\
+          \ Whether the input dataset contains prompts for inference. In this case,\
+          \ the last author in `messages` should be the `user`, and the output dataset\
+          \ will only contain `input_text`.\n\n  Returns:\n    processed_dataset:\
+          \ Processed chat dataset. Each example will contain fields `input_text`,\
+          \ and if the input dataset is not a prompt dataset example will also contain\
+          \ `output_text`.\n    processed_dataset_uri: String pattern that can be\
+          \ used to find the processed dataset in downstream components.\n\n  \"\"\
+          \"\n  # fmt: on\n  # pylint: disable=g-import-not-at-top\n  import dataclasses\n\
+          \  import json\n  import os\n  from typing import Any, Callable, List, Mapping\n\
+          \  import apache_beam as beam\n  # pylint: enable=g-import-not-at-top\n\n\
+          \  # [ Define helper methods and classes for preprocessing\n  # pylint:\
+          \ disable=invalid-name\n  INPUT_TEXT_KEY = 'input_text'\n  OUTPUT_TEXT_KEY\
+          \ = 'output_text'\n  CONTEXT_KEY = 'context'\n  MESSAGES_KEY = 'messages'\n\
+          \  CANDIDATE_0_KEY = 'candidate_0'\n  CANDIDATE_1_KEY = 'candidate_1'\n\
+          \  CHOICE_KEY = 'choice'\n  AUTHOR_KEY = 'author'\n  CONTENT_KEY = 'content'\n\
+          \  AUTHOR_USER = 'user'\n  AUTHOR_ASSISTANT = 'assistant'\n  VALID_AUTHORS\
+          \ = {AUTHOR_USER, AUTHOR_ASSISTANT}\n  SUPERVISED_DATASET = 'supervised'\n\
+          \  PROMPT_DATASET = 'prompt'\n  PREFERENCE_DATASET = 'preference'\n  VALID_DATASETS\
+          \ = {SUPERVISED_DATASET, PROMPT_DATASET, PREFERENCE_DATASET}\n  # pylint:\
+          \ enable=invalid-name\n\n  @dataclasses.dataclass\n  class PromptSchema:\n\
+          \    global_prefix: str\n    user_prefix: str\n    user_postfix: str\n \
+          \   assistant_prefix: str\n    assistant_postfix: str\n    get_system_message:\
+          \ Callable[[str], str]  # pytype: disable=invalid-annotation\n\n  def _get_chat_bison_001_system_message(context:\
+          \ str) -> str:\n    return f'[SYSTEM]:{context}\\n\\n' if context else ''\n\
+          \n  chat_bison_001_schema = PromptSchema(\n      global_prefix=(\n     \
+          \     'Only answer after [assistant] and never reply as [user]:\\n'\n  \
+          \    ),\n      get_system_message=_get_chat_bison_001_system_message,\n\
+          \      user_prefix='[user]:',\n      user_postfix='\\n',\n      assistant_prefix='[assistant]:',\n\
+          \      assistant_postfix='\\n',\n  )\n\n  def _get_chat_llama_system_message(context:\
+          \ str) -> str:\n    return f'<<SYS>>\\n{context}\\n<</SYS>>\\n\\n' if context\
+          \ else ''\n\n  chat_llama_schema = PromptSchema(\n      global_prefix='<s>[INST]\
+          \ ',\n      get_system_message=_get_chat_llama_system_message,\n      user_prefix='',\n\
+          \      user_postfix=' [/INST]',\n      assistant_prefix=' ',\n      assistant_postfix='</s><s>[INST]\
+          \ ',\n  )\n\n  MODEL_TO_SCHEMA_MAPPING = {  # pylint: disable=invalid-name\n\
+          \      'chat-bison@001': chat_bison_001_schema,\n      'llama-2-7b-chat':\
+          \ chat_llama_schema,\n      'llama-2-13b-chat': chat_llama_schema,\n  }\n\
+          \n  def get_gcs_path(input_path: str, allow_local_files: bool) -> str:\n\
+          \    \"\"\"Gets the /gcs/ path for a given URI.\"\"\"\n    if input_path.startswith('gs://'):\n\
+          \      return input_path.replace('gs://', '/gcs/', 1)\n    elif input_path.startswith('/gcs/')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  def get_gs_path(input_path:\
+          \ str, allow_local_files: bool) -> str:\n    \"\"\"Gets the gs:// path for\
+          \ a given URI.\"\"\"\n    if input_path.startswith('/gcs/'):\n      return\
+          \ input_path.replace('/gcs/', 'gs://', 1)\n    elif input_path.startswith('gs://')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  class JsonCoder(beam.coders.Coder):\n\
+          \    \"\"\"A coder that encodes/decodes lines as JSON strings.\"\"\"\n\n\
+          \    def encode(self, x):\n      return json.dumps(x).encode('utf-8')\n\n\
+          \    def decode(self, x):\n      return json.loads(x)\n\n  class ChatDatasetProcessor(beam.DoFn):\n\
+          \    \"\"\"Converts chat data from input format to the format expected by\
+          \ the model.\"\"\"\n\n    def __init__(\n        self,\n        default_context:\
+          \ str,\n        prompt_schema: PromptSchema,\n        dataset_type: str,\n\
+          \    ):\n      self._default_context = default_context\n      self._schema\
+          \ = prompt_schema\n      self._dataset_type = dataset_type\n\n    def _get_messages_or_fail(\n\
+          \        self, element: Mapping[str, Any]\n    ) -> List[Mapping[str, str]]:\n\
+          \      messages = element.get(MESSAGES_KEY)\n      if not messages:\n  \
+          \      raise ValueError(\n            'No messages present. Please include\
+          \ a non-empty '\n            f'`messages` field in each line of dataset:\
+          \ {element}.'\n        )\n      elif messages[0].get(AUTHOR_KEY) != AUTHOR_USER:\n\
+          \        raise ValueError(f'First author must be the {AUTHOR_USER}: {element}')\n\
+          \      elif (\n          self._dataset_type in {PROMPT_DATASET, PREFERENCE_DATASET}\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_USER\n      ):\n \
+          \       raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_USER}: {element}'\n     \
+          \   )\n      elif (\n          self._dataset_type == SUPERVISED_DATASET\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_ASSISTANT\n      ):\n\
+          \        raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_ASSISTANT}: {element}'\n\
+          \        )\n      return messages\n\n    def _get_or_fail(self, message:\
+          \ Mapping[str, str], key: str) -> str:\n      value = message.get(key)\n\
+          \      if not value and value != 0:\n        raise ValueError(\n       \
+          \     f'Each message must contain non-empty value for {key}. '\n       \
+          \     f'Invalid message: {message}'\n        )\n      return value\n\n \
+          \   def _get_author_or_fail(self, message: Mapping[str, str]) -> str:\n\
+          \      author = self._get_or_fail(message, AUTHOR_KEY)\n      if author\
+          \ not in VALID_AUTHORS:\n        raise ValueError(\n            'The `author`\
+          \ of each message needs to be from one of'\n            f' {VALID_AUTHORS}.\
+          \ Got author = {author}.'\n        )\n      return author\n\n    def process(self,\
+          \ element):\n      context = element.get(CONTEXT_KEY, self._default_context)\n\
+          \      messages = self._get_messages_or_fail(element)\n\n      message_history\
+          \ = [\n          self._schema.global_prefix,\n          self._schema.get_system_message(context),\n\
+          \      ]\n      for message in messages:\n        author = self._get_author_or_fail(message)\n\
+          \        content = self._get_or_fail(message, CONTENT_KEY)\n        if author\
+          \ == AUTHOR_USER:\n          message_history.append(\n              f'{self._schema.user_prefix}{content}{self._schema.user_postfix}'\n\
+          \          )\n        elif author == AUTHOR_ASSISTANT:\n          message_history.append(self._schema.assistant_prefix)\n\
+          \          input_text = ''.join(message_history)\n          # For training\
+          \ datasets yield an example for each user/assistant\n          # exchange:\n\
+          \          if self._dataset_type == SUPERVISED_DATASET:\n            yield\
+          \ {\n                INPUT_TEXT_KEY: input_text.rstrip(),\n            \
+          \    OUTPUT_TEXT_KEY: content,\n            }\n          message_history\
+          \ = [\n              input_text,\n              f'{content}{self._schema.assistant_postfix}',\n\
+          \          ]\n        else:\n          raise ValueError(\n             \
+          \ f'Unknown author {author}. Must be one of {VALID_AUTHORS}.'\n        \
+          \  )\n      # For prompt and preference datasets, only yield an example\
+          \ after the\n      # final user message:\n      if self._dataset_type ==\
+          \ PROMPT_DATASET:\n        message_history.append(self._schema.assistant_prefix)\n\
+          \        input_text = ''.join(message_history)\n        yield {INPUT_TEXT_KEY:\
+          \ input_text.rstrip()}\n      elif self._dataset_type == PREFERENCE_DATASET:\n\
+          \        message_history.append(self._schema.assistant_prefix)\n       \
+          \ input_text = ''.join(message_history)\n        yield {\n            INPUT_TEXT_KEY:\
+          \ input_text.rstrip(),\n            CANDIDATE_0_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_0_KEY),\n            CANDIDATE_1_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_1_KEY),\n            CHOICE_KEY: self._get_or_fail(element,\
+          \ CHOICE_KEY),\n        }\n\n  # ]\n\n  processed_dataset_uri = get_gcs_path(processed_dataset_uri,\
+          \ allow_local_files)\n\n  # Reuse the input dataset if no preprocessing\
+          \ is needed.\n  if large_model_reference.lower() not in MODEL_TO_SCHEMA_MAPPING:\n\
+          \    with open(processed_dataset_uri, 'w') as f:\n      f.write(input_dataset_uri)\n\
+          \    return\n\n  prompt_schema = MODEL_TO_SCHEMA_MAPPING[large_model_reference]\n\
+          \n  # Provide gs:// paths for datasets processed by Beam.\n  input_dataset_uri\
+          \ = get_gs_path(input_dataset_uri, allow_local_files)\n  processed_dataset\
+          \ = get_gs_path(processed_dataset, allow_local_files)\n  os.makedirs(processed_dataset,\
+          \ exist_ok=True)\n  processed_dataset_prefix = os.path.join(processed_dataset,\
+          \ 'shard')\n  dataset_type = dataset_type.lower()\n  if dataset_type not\
+          \ in VALID_DATASETS:\n    raise ValueError(\n        f'Unknown dataset type\
+          \ {dataset_type}. Must be one of {VALID_DATASETS}.'\n    )\n\n  pipeline_options\
+          \ = (\n      beam.options.pipeline_options.PipelineOptions.from_dictionary({\n\
+          \          'runner': 'DirectRunner',\n      })\n  )\n  with beam.Pipeline(options=pipeline_options)\
+          \ as pipeline:\n    _ = (\n        pipeline\n        | 'Read JSON from input\
+          \ dataset'\n        >> beam.io.ReadFromText(input_dataset_uri, coder=JsonCoder())\n\
+          \        | 'Process chat dataset'\n        >> beam.ParDo(\n            ChatDatasetProcessor(\n\
+          \                default_context=default_context,\n                prompt_schema=prompt_schema,\n\
+          \                dataset_type=dataset_type,\n            )\n        )\n\
+          \        | 'Write processed JSON to output file'\n        >> beam.io.WriteToText(\n\
+          \            file_path_prefix=processed_dataset_prefix,\n            file_name_suffix='.jsonl',\n\
+          \            coder=JsonCoder(),\n        )\n    )\n\n  # Write file pattern\
+          \ that the tokenizer can use to find all processed files.\n  with open(processed_dataset_uri,\
+          \ 'w') as f:\n    processed_dataset_pattern = os.path.join(processed_dataset,\
+          \ '*.jsonl')\n    f.write(processed_dataset_pattern)\n\n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-preprocess-chat-dataset-3:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - preprocess_chat_dataset
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef preprocess_chat_dataset(\n    large_model_reference: str,\n \
+          \   input_dataset_uri: str,\n    dataset_type: str,\n    processed_dataset:\
+          \ dsl.OutputPath(dsl.Artifact),  # pytype: disable=invalid-annotation\n\
+          \    processed_dataset_uri: dsl.OutputPath(str),  # pytype: disable=invalid-annotation\n\
+          \    default_context: str = '',\n    allow_local_files: bool = False,\n\
+          ):  # pylint: disable=g-doc-args\n  # fmt: off\n  \"\"\"Preprocesses datasets\
+          \ before tokenization.\n\n  For text datasets, this is a no-op.\n\n  Args:\n\
+          \    large_model_reference: Name of the base model. Supported values are\
+          \ `text-bison@001`, `chat-bison@001`, `t5-small`, `t5-large`, `t5-xl` and\
+          \ `t5-xxl`. `text-bison@001`, `chat-bison@001` and `t5-small` are supported\
+          \ in ``us-central1` and `europe-west4`. `t5-large`, `t5-xl` and `t5-xxl`\
+          \ are only supported in `europe-west4`.\n    input_dataset_uri: Path to\
+          \ an unprocessed JSONL dataset.\n    default_context: Default context to\
+          \ apply to each example if a chat model is specified.\n    allow_local_files:\
+          \ Whether input URIs can specify local file paths.\n    is_prompt_dataset:\
+          \ Whether the input dataset contains prompts for inference. In this case,\
+          \ the last author in `messages` should be the `user`, and the output dataset\
+          \ will only contain `input_text`.\n\n  Returns:\n    processed_dataset:\
+          \ Processed chat dataset. Each example will contain fields `input_text`,\
+          \ and if the input dataset is not a prompt dataset example will also contain\
+          \ `output_text`.\n    processed_dataset_uri: String pattern that can be\
+          \ used to find the processed dataset in downstream components.\n\n  \"\"\
+          \"\n  # fmt: on\n  # pylint: disable=g-import-not-at-top\n  import dataclasses\n\
+          \  import json\n  import os\n  from typing import Any, Callable, List, Mapping\n\
+          \  import apache_beam as beam\n  # pylint: enable=g-import-not-at-top\n\n\
+          \  # [ Define helper methods and classes for preprocessing\n  # pylint:\
+          \ disable=invalid-name\n  INPUT_TEXT_KEY = 'input_text'\n  OUTPUT_TEXT_KEY\
+          \ = 'output_text'\n  CONTEXT_KEY = 'context'\n  MESSAGES_KEY = 'messages'\n\
+          \  CANDIDATE_0_KEY = 'candidate_0'\n  CANDIDATE_1_KEY = 'candidate_1'\n\
+          \  CHOICE_KEY = 'choice'\n  AUTHOR_KEY = 'author'\n  CONTENT_KEY = 'content'\n\
+          \  AUTHOR_USER = 'user'\n  AUTHOR_ASSISTANT = 'assistant'\n  VALID_AUTHORS\
+          \ = {AUTHOR_USER, AUTHOR_ASSISTANT}\n  SUPERVISED_DATASET = 'supervised'\n\
+          \  PROMPT_DATASET = 'prompt'\n  PREFERENCE_DATASET = 'preference'\n  VALID_DATASETS\
+          \ = {SUPERVISED_DATASET, PROMPT_DATASET, PREFERENCE_DATASET}\n  # pylint:\
+          \ enable=invalid-name\n\n  @dataclasses.dataclass\n  class PromptSchema:\n\
+          \    global_prefix: str\n    user_prefix: str\n    user_postfix: str\n \
+          \   assistant_prefix: str\n    assistant_postfix: str\n    get_system_message:\
+          \ Callable[[str], str]  # pytype: disable=invalid-annotation\n\n  def _get_chat_bison_001_system_message(context:\
+          \ str) -> str:\n    return f'[SYSTEM]:{context}\\n\\n' if context else ''\n\
+          \n  chat_bison_001_schema = PromptSchema(\n      global_prefix=(\n     \
+          \     'Only answer after [assistant] and never reply as [user]:\\n'\n  \
+          \    ),\n      get_system_message=_get_chat_bison_001_system_message,\n\
+          \      user_prefix='[user]:',\n      user_postfix='\\n',\n      assistant_prefix='[assistant]:',\n\
+          \      assistant_postfix='\\n',\n  )\n\n  def _get_chat_llama_system_message(context:\
+          \ str) -> str:\n    return f'<<SYS>>\\n{context}\\n<</SYS>>\\n\\n' if context\
+          \ else ''\n\n  chat_llama_schema = PromptSchema(\n      global_prefix='<s>[INST]\
+          \ ',\n      get_system_message=_get_chat_llama_system_message,\n      user_prefix='',\n\
+          \      user_postfix=' [/INST]',\n      assistant_prefix=' ',\n      assistant_postfix='</s><s>[INST]\
+          \ ',\n  )\n\n  MODEL_TO_SCHEMA_MAPPING = {  # pylint: disable=invalid-name\n\
+          \      'chat-bison@001': chat_bison_001_schema,\n      'llama-2-7b-chat':\
+          \ chat_llama_schema,\n      'llama-2-13b-chat': chat_llama_schema,\n  }\n\
+          \n  def get_gcs_path(input_path: str, allow_local_files: bool) -> str:\n\
+          \    \"\"\"Gets the /gcs/ path for a given URI.\"\"\"\n    if input_path.startswith('gs://'):\n\
+          \      return input_path.replace('gs://', '/gcs/', 1)\n    elif input_path.startswith('/gcs/')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  def get_gs_path(input_path:\
+          \ str, allow_local_files: bool) -> str:\n    \"\"\"Gets the gs:// path for\
+          \ a given URI.\"\"\"\n    if input_path.startswith('/gcs/'):\n      return\
+          \ input_path.replace('/gcs/', 'gs://', 1)\n    elif input_path.startswith('gs://')\
+          \ or allow_local_files:\n      return input_path\n    else:\n      raise\
+          \ ValueError(\n          f'Invalid Cloud storage URI {input_path}. '\n \
+          \         'Must start with `gs://` or `/gcs/`.'\n      )\n\n  class JsonCoder(beam.coders.Coder):\n\
+          \    \"\"\"A coder that encodes/decodes lines as JSON strings.\"\"\"\n\n\
+          \    def encode(self, x):\n      return json.dumps(x).encode('utf-8')\n\n\
+          \    def decode(self, x):\n      return json.loads(x)\n\n  class ChatDatasetProcessor(beam.DoFn):\n\
+          \    \"\"\"Converts chat data from input format to the format expected by\
+          \ the model.\"\"\"\n\n    def __init__(\n        self,\n        default_context:\
+          \ str,\n        prompt_schema: PromptSchema,\n        dataset_type: str,\n\
+          \    ):\n      self._default_context = default_context\n      self._schema\
+          \ = prompt_schema\n      self._dataset_type = dataset_type\n\n    def _get_messages_or_fail(\n\
+          \        self, element: Mapping[str, Any]\n    ) -> List[Mapping[str, str]]:\n\
+          \      messages = element.get(MESSAGES_KEY)\n      if not messages:\n  \
+          \      raise ValueError(\n            'No messages present. Please include\
+          \ a non-empty '\n            f'`messages` field in each line of dataset:\
+          \ {element}.'\n        )\n      elif messages[0].get(AUTHOR_KEY) != AUTHOR_USER:\n\
+          \        raise ValueError(f'First author must be the {AUTHOR_USER}: {element}')\n\
+          \      elif (\n          self._dataset_type in {PROMPT_DATASET, PREFERENCE_DATASET}\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_USER\n      ):\n \
+          \       raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_USER}: {element}'\n     \
+          \   )\n      elif (\n          self._dataset_type == SUPERVISED_DATASET\n\
+          \          and messages[-1].get(AUTHOR_KEY) != AUTHOR_ASSISTANT\n      ):\n\
+          \        raise ValueError(\n            f'Last author in the {self._dataset_type}\
+          \ dataset must be the'\n            f' {AUTHOR_ASSISTANT}: {element}'\n\
+          \        )\n      return messages\n\n    def _get_or_fail(self, message:\
+          \ Mapping[str, str], key: str) -> str:\n      value = message.get(key)\n\
+          \      if not value and value != 0:\n        raise ValueError(\n       \
+          \     f'Each message must contain non-empty value for {key}. '\n       \
+          \     f'Invalid message: {message}'\n        )\n      return value\n\n \
+          \   def _get_author_or_fail(self, message: Mapping[str, str]) -> str:\n\
+          \      author = self._get_or_fail(message, AUTHOR_KEY)\n      if author\
+          \ not in VALID_AUTHORS:\n        raise ValueError(\n            'The `author`\
+          \ of each message needs to be from one of'\n            f' {VALID_AUTHORS}.\
+          \ Got author = {author}.'\n        )\n      return author\n\n    def process(self,\
+          \ element):\n      context = element.get(CONTEXT_KEY, self._default_context)\n\
+          \      messages = self._get_messages_or_fail(element)\n\n      message_history\
+          \ = [\n          self._schema.global_prefix,\n          self._schema.get_system_message(context),\n\
+          \      ]\n      for message in messages:\n        author = self._get_author_or_fail(message)\n\
+          \        content = self._get_or_fail(message, CONTENT_KEY)\n        if author\
+          \ == AUTHOR_USER:\n          message_history.append(\n              f'{self._schema.user_prefix}{content}{self._schema.user_postfix}'\n\
+          \          )\n        elif author == AUTHOR_ASSISTANT:\n          message_history.append(self._schema.assistant_prefix)\n\
+          \          input_text = ''.join(message_history)\n          # For training\
+          \ datasets yield an example for each user/assistant\n          # exchange:\n\
+          \          if self._dataset_type == SUPERVISED_DATASET:\n            yield\
+          \ {\n                INPUT_TEXT_KEY: input_text.rstrip(),\n            \
+          \    OUTPUT_TEXT_KEY: content,\n            }\n          message_history\
+          \ = [\n              input_text,\n              f'{content}{self._schema.assistant_postfix}',\n\
+          \          ]\n        else:\n          raise ValueError(\n             \
+          \ f'Unknown author {author}. Must be one of {VALID_AUTHORS}.'\n        \
+          \  )\n      # For prompt and preference datasets, only yield an example\
+          \ after the\n      # final user message:\n      if self._dataset_type ==\
+          \ PROMPT_DATASET:\n        message_history.append(self._schema.assistant_prefix)\n\
+          \        input_text = ''.join(message_history)\n        yield {INPUT_TEXT_KEY:\
+          \ input_text.rstrip()}\n      elif self._dataset_type == PREFERENCE_DATASET:\n\
+          \        message_history.append(self._schema.assistant_prefix)\n       \
+          \ input_text = ''.join(message_history)\n        yield {\n            INPUT_TEXT_KEY:\
+          \ input_text.rstrip(),\n            CANDIDATE_0_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_0_KEY),\n            CANDIDATE_1_KEY: self._get_or_fail(element,\
+          \ CANDIDATE_1_KEY),\n            CHOICE_KEY: self._get_or_fail(element,\
+          \ CHOICE_KEY),\n        }\n\n  # ]\n\n  processed_dataset_uri = get_gcs_path(processed_dataset_uri,\
+          \ allow_local_files)\n\n  # Reuse the input dataset if no preprocessing\
+          \ is needed.\n  if large_model_reference.lower() not in MODEL_TO_SCHEMA_MAPPING:\n\
+          \    with open(processed_dataset_uri, 'w') as f:\n      f.write(input_dataset_uri)\n\
+          \    return\n\n  prompt_schema = MODEL_TO_SCHEMA_MAPPING[large_model_reference]\n\
+          \n  # Provide gs:// paths for datasets processed by Beam.\n  input_dataset_uri\
+          \ = get_gs_path(input_dataset_uri, allow_local_files)\n  processed_dataset\
+          \ = get_gs_path(processed_dataset, allow_local_files)\n  os.makedirs(processed_dataset,\
+          \ exist_ok=True)\n  processed_dataset_prefix = os.path.join(processed_dataset,\
+          \ 'shard')\n  dataset_type = dataset_type.lower()\n  if dataset_type not\
+          \ in VALID_DATASETS:\n    raise ValueError(\n        f'Unknown dataset type\
+          \ {dataset_type}. Must be one of {VALID_DATASETS}.'\n    )\n\n  pipeline_options\
+          \ = (\n      beam.options.pipeline_options.PipelineOptions.from_dictionary({\n\
+          \          'runner': 'DirectRunner',\n      })\n  )\n  with beam.Pipeline(options=pipeline_options)\
+          \ as pipeline:\n    _ = (\n        pipeline\n        | 'Read JSON from input\
+          \ dataset'\n        >> beam.io.ReadFromText(input_dataset_uri, coder=JsonCoder())\n\
+          \        | 'Process chat dataset'\n        >> beam.ParDo(\n            ChatDatasetProcessor(\n\
+          \                default_context=default_context,\n                prompt_schema=prompt_schema,\n\
+          \                dataset_type=dataset_type,\n            )\n        )\n\
+          \        | 'Write processed JSON to output file'\n        >> beam.io.WriteToText(\n\
+          \            file_path_prefix=processed_dataset_prefix,\n            file_name_suffix='.jsonl',\n\
+          \            coder=JsonCoder(),\n        )\n    )\n\n  # Write file pattern\
+          \ that the tokenizer can use to find all processed files.\n  with open(processed_dataset_uri,\
+          \ 'w') as f:\n    processed_dataset_pattern = os.path.join(processed_dataset,\
+          \ '*.jsonl')\n    f.write(processed_dataset_pattern)\n\n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-private-text-comparison-importer:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "TfdsComparisonImporter", "job_spec": {"worker_pool_specs":
+          [{"replica_count": "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=text_comparison_importer", "--input_text={{$.inputs.parameters[''input_text'']}}",
+          "--inputs_field_name={{$.inputs.parameters[''inputs_field_name'']}}", "--comma_separated_candidates_field_names={{$.inputs.parameters[''comma_separated_candidates_field_names'']}}",
+          "--choice_field_name={{$.inputs.parameters[''choice_field_name'']}}", "--split={{$.inputs.parameters[''split'']}}",
+          "--output_cache_dir={{$.outputs.parameters[''output_dataset_path''].output_file}}",
+          "--instruction={{$.inputs.parameters[''instruction'']}}", "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--private_bucket_subdir={{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}"]}}]},
+          "encryption_spec": {"kms_key_name": "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-private-text-comparison-importer-2:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "TfdsComparisonImporter", "job_spec": {"worker_pool_specs":
+          [{"replica_count": "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=text_comparison_importer", "--input_text={{$.inputs.parameters[''input_text'']}}",
+          "--inputs_field_name={{$.inputs.parameters[''inputs_field_name'']}}", "--comma_separated_candidates_field_names={{$.inputs.parameters[''comma_separated_candidates_field_names'']}}",
+          "--choice_field_name={{$.inputs.parameters[''choice_field_name'']}}", "--split={{$.inputs.parameters[''split'']}}",
+          "--output_cache_dir={{$.outputs.parameters[''output_dataset_path''].output_file}}",
+          "--instruction={{$.inputs.parameters[''instruction'']}}", "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--private_bucket_subdir={{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}"]}}]},
+          "encryption_spec": {"kms_key_name": "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-private-text-importer:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "TextImporter", "job_spec": {"worker_pool_specs": [{"replica_count":
+          "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=text_importer", "--input_text={{$.inputs.parameters[''input_text'']}}",
+          "--inputs_field_name={{$.inputs.parameters[''inputs_field_name'']}}", "--targets_field_name={{$.inputs.parameters[''targets_field_name'']}}",
+          "--output_split_name={{$.inputs.parameters[''output_split_name'']}}", "--instruction={{$.inputs.parameters[''instruction'']}}",
+          "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--private_bucket_subdir={{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}",
+          "--output_dataset_path={{$.pipeline_root}}{{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}",
+          "--imported_data_path={{$.outputs.parameters[''imported_data_path''].output_file}}",
+          "--max_num_input_examples={{$.inputs.parameters[''max_num_input_examples'']}}",
+          "--executor_input={{$.json_escape[1]}}"]}}]}, "encryption_spec": {"kms_key_name":
+          "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-private-text-importer-2:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "TextImporter", "job_spec": {"worker_pool_specs": [{"replica_count":
+          "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=text_importer", "--input_text={{$.inputs.parameters[''input_text'']}}",
+          "--inputs_field_name={{$.inputs.parameters[''inputs_field_name'']}}", "--targets_field_name={{$.inputs.parameters[''targets_field_name'']}}",
+          "--output_split_name={{$.inputs.parameters[''output_split_name'']}}", "--instruction={{$.inputs.parameters[''instruction'']}}",
+          "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--private_bucket_subdir={{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}",
+          "--output_dataset_path={{$.pipeline_root}}{{$.pipeline_task_name}}_{{$.pipeline_task_uuid}}",
+          "--imported_data_path={{$.outputs.parameters[''imported_data_path''].output_file}}",
+          "--max_num_input_examples={{$.inputs.parameters[''max_num_input_examples'']}}",
+          "--executor_input={{$.json_escape[1]}}"]}}]}, "encryption_spec": {"kms_key_name":
+          "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-refined-upload-llm-model:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - refined_upload_llm_model
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef refined_upload_llm_model(\n    project: str,\n    location: str,\n\
+          \    artifact_uri: str,\n    model_reference_name: str,\n    model_display_name:\
+          \ str,\n    regional_endpoint: str,\n    model_resource_name: dsl.OutputPath(str),\n\
+          \    gcp_resources: dsl.OutputPath(str),\n    encryption_spec_key_name:\
+          \ str = '',\n    upload_model: bool = True,\n    tune_type: str = '',\n\
+          ):\n  \"\"\"Uploads LLM model.\n\n  Args:\n      project: Name of the GCP\
+          \ project.\n      location: Location for model upload and deployment.\n\
+          \      artifact_uri: Path to the artifact to upload.\n      model_reference_name:\
+          \ Large model reference name.\n      model_display_name: Name of the model\
+          \ (shown in Model Registry).\n      regional_endpoint: Regional API endpoint.\n\
+          \      encryption_spec_key_name: Customer-managed encryption key.\n    \
+          \  upload_model: Whether to upload the model to the Model Registry. Default\n\
+          \        is ``True``. If ``False``, the model will not be uploaded and output\n\
+          \        artifacts will contain empty strings.\n      tune_type: Method\
+          \ used to tune the model, e.g. ``rlhf``. If present, this\n        value\
+          \ is used to set the ``tune-type`` run label during model upload.\n\n  Returns:\n\
+          \      model_resource_name: Path to the created Model on Model Registry.\n\
+          \      gcp_resources: Serialized JSON of `gcp_resources`.\n  \"\"\"\n  import\
+          \ json\n  import logging\n  import os\n  import sys\n\n  try:\n    from\
+          \ google_cloud_pipeline_components.container.v1.gcp_launcher import lro_remote_runner\n\
+          \  except ImportError:\n    from google_cloud_pipeline_components.container.v1.gcp_launcher\
+          \ import lro_remote_runner\n\n  try:\n    os.makedirs(os.path.dirname(model_resource_name),\
+          \ exist_ok=True)\n\n    if not upload_model:\n      with open(model_resource_name,\
+          \ 'w') as fout:\n        fout.write('')\n      return\n\n    pipeline_labels_str\
+          \ = os.getenv('VERTEX_AI_PIPELINES_RUN_LABELS')\n    labels = json.loads(pipeline_labels_str)\
+          \ if pipeline_labels_str else {}\n    labels['google-vertex-llm-tuning-base-model-id']\
+          \ = (\n        model_reference_name.replace('@', '-')\n    )\n    if tune_type:\n\
+          \      labels['tune-type'] = tune_type\n\n    model_upload_payload = {\n\
+          \        'model': {\n            'displayName': model_display_name,\n  \
+          \          'largeModelReference': {'name': model_reference_name},\n    \
+          \        'labels': labels,\n            'generatedModelSource': {'genie_source':\
+          \ {'base_model_uri': ''}},\n            'artifactUri': artifact_uri,\n \
+          \       }\n    }\n    if encryption_spec_key_name:\n      model_upload_payload['model']['encryption_spec']\
+          \ = {\n          'kms_key_name': encryption_spec_key_name\n      }\n\n \
+          \   regional_endpoint = regional_endpoint.rstrip('/')\n    upload_model_uri\
+          \ = (\n        f'{regional_endpoint}/projects/{project}/locations/{location}/models:'\n\
+          \        'upload'\n    )\n\n    remote_runner = lro_remote_runner.LroRemoteRunner(location)\n\
+          \    upload_model_lro = remote_runner.create_lro(\n        upload_model_uri,\n\
+          \        json.dumps(model_upload_payload),\n        gcp_resources,\n   \
+          \ )\n    upload_model_lro = remote_runner.poll_lro(lro=upload_model_lro)\n\
+          \    model_resource = upload_model_lro['response']['model']\n    model_version_id\
+          \ = upload_model_lro['response'].get(\n        'model_version_id'\n    )\
+          \ or upload_model_lro['response'].get('modelVersionId')\n    if model_version_id:\n\
+          \      model_resource += f'@{model_version_id}'\n\n    with open(model_resource_name,\
+          \ 'w') as fout:\n      fout.write(model_resource)\n\n  except Exception\
+          \ as e:  # pylint: disable=broad-exception-caught\n    if isinstance(e,\
+          \ ValueError):\n      raise\n    logging.exception(str(e))\n    sys.exit(13)\n\
+          \n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-reinforcer:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "Reinforcer", "job_spec": {"worker_pool_specs": [{"replica_count":
+          "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}",
+          "accelerator_type": "{{$.inputs.parameters[''accelerator_type'']}}", "accelerator_count":
+          {{$.inputs.parameters[''accelerator_count'']}}}, "container_spec": {"image_uri":
+          "{{$.inputs.parameters[''image_uri'']}}", "args": ["--app_name=reinforcer",
+          "--input_reference_model_path={{$.inputs.parameters[''input_reference_model_path'']}}",
+          "--input_reward_model_path={{$.inputs.parameters[''input_reward_model_path'']}}",
+          "--input_reward_adapter_path={{$.inputs.parameters[''input_reward_adapter_path'']}}",
+          "--input_dataset_path={{$.inputs.parameters[''input_dataset_path'']}}",
+          "--input_preference_dataset_path={{$.inputs.parameters[''input_preference_dataset_path'']}}",
+          "--train_steps={{$.inputs.parameters[''train_steps'']}}", "--output_model_path={{$.outputs.parameters[''output_model_path''].output_file}}",
+          "--output_adapter_path={{$.outputs.parameters[''output_adapter_path''].output_file}}",
+          "--tensorboard_metrics_path={{$.outputs.artifacts[''tensorboard_metrics''].path}}",
+          "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--reward_model_reference={{$.inputs.parameters[''reward_model_reference'']}}",
+          "--inputs_sequence_length={{$.inputs.parameters[''inputs_sequence_length'']}}",
+          "--targets_sequence_length={{$.inputs.parameters[''targets_sequence_length'']}}",
+          "--train_split={{$.inputs.parameters[''train_split'']}}", "--batch_size={{$.inputs.parameters[''batch_size'']}}",
+          "--learning_rate_multiplier={{$.inputs.parameters[''learning_rate_multiplier'']}}",
+          "--kl_coeff={{$.inputs.parameters[''kl_coeff'']}}", "--lora_dim={{$.inputs.parameters[''lora_dim'']}}",
+          "--reward_lora_dim={{$.inputs.parameters[''reward_lora_dim'']}}", "--num_microbatches={{$.inputs.parameters[''num_microbatches'']}}"]}}],
+          "base_output_directory": {"output_uri_prefix": "{{$.outputs.artifacts[''tensorboard_metrics''].uri}}"},
+          "tensorboard": "{{$.inputs.parameters[''tensorboard_resource_id'']}}"},
+          "encryption_spec": {"kms_key_name": "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-reward-model-trainer:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "RewardModelTrainer", "job_spec": {"worker_pool_specs":
+          [{"replica_count": "1", "machine_spec": {"machine_type": "{{$.inputs.parameters[''machine_type'']}}",
+          "accelerator_type": "{{$.inputs.parameters[''accelerator_type'']}}", "accelerator_count":
+          {{$.inputs.parameters[''accelerator_count'']}}}, "container_spec": {"image_uri":
+          "{{$.inputs.parameters[''image_uri'']}}", "args": ["--app_name=reward_model_trainer",
+          "--train_steps={{$.inputs.parameters[''train_steps'']}}", "--input_model_path={{$.inputs.parameters[''input_model_path'']}}",
+          "--input_dataset_path={{$.inputs.parameters[''input_dataset_path'']}}",
+          "--eval_dataset_path={{$.inputs.parameters[''eval_dataset_path'']}}", "--output_adapter_path={{$.outputs.parameters[''output_adapter_path''].output_file}}",
+          "--tensorboard_metrics_path={{$.outputs.artifacts[''tensorboard_metrics''].path}}",
+          "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--inputs_sequence_length={{$.inputs.parameters[''inputs_sequence_length'']}}",
+          "--targets_sequence_length={{$.inputs.parameters[''targets_sequence_length'']}}",
+          "--train_split={{$.inputs.parameters[''train_split'']}}", "--batch_size={{$.inputs.parameters[''batch_size'']}}",
+          "--learning_rate_multiplier={{$.inputs.parameters[''learning_rate_multiplier'']}}",
+          "--lora_dim={{$.inputs.parameters[''lora_dim'']}}", "--num_microbatches={{$.inputs.parameters[''num_microbatches'']}}"]}}],
+          "base_output_directory": {"output_uri_prefix": "{{$.outputs.artifacts[''tensorboard_metrics''].uri}}"},
+          "tensorboard": "{{$.inputs.parameters[''tensorboard_resource_id'']}}"},
+          "encryption_spec": {"kms_key_name": "{{$.inputs.parameters[''encryption_spec_key_name'']}}"}}'
+        - --project
+        - '{{$.inputs.parameters[''project'']}}'
+        - --location
+        - '{{$.inputs.parameters[''location'']}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-rlhf-preprocessor:
+      container:
+        args:
+        - --type
+        - CustomJob
+        - --payload
+        - '{"display_name": "rlhf_preprocessor", "job_spec": {"worker_pool_specs":
+          [{"replica_count": "1", "machine_spec": {"machine_type": "n1-standard-4"},
+          "container_spec": {"image_uri": "{{$.inputs.parameters[''image_uri'']}}",
+          "args": ["--app_name=rlhf_preprocessor", "--evaluation_dataset={{$.inputs.parameters[''evaluation_dataset'']}}",
+          "--tensorboard_resource_id={{$.inputs.parameters[''tensorboard_resource_id'']}}",
+          "--large_model_reference={{$.inputs.parameters[''large_model_reference'']}}",
+          "--input_reference_model_path={{$.inputs.parameters[''input_reference_model_path'']}}",
+          "--accelerator_type={{$.inputs.parameters[''accelerator_type'']}}", "--use_test_spec={{$.inputs.parameters[''use_test_spec'']}}",
+          "--project={{$.inputs.parameters[''project'']}}", "--location={{$.inputs.parameters[''location'']}}",
+          "--artifact_registry={{$.inputs.parameters[''artifact_registry'']}}", "--tag={{$.inputs.parameters[''tag'']}}",
+          "--use_experimental_image={{$.inputs.parameters[''use_experimental_image'']}}",
+          "--upload_location={{$.inputs.parameters[''upload_location'']}}", "--deploy_model={{$.inputs.parameters[''deploy_model'']}}",
+          "--model_display_name={{$.inputs.parameters[''model_display_name'']}}",
+          "--has_tensorboard_id_path={{$.outputs.parameters[''has_tensorboard_id''].output_file}}",
+          "--has_inference_dataset_path={{$.outputs.parameters[''has_inference_dataset''].output_file}}",
+          "--metadata_candidate_columns_string_path={{$.outputs.parameters[''metadata_candidate_columns_string''].output_file}}",
+          "--metadata_large_model_reference_path={{$.outputs.parameters[''metadata_large_model_reference''].output_file}}",
+          "--metadata_reference_model_path_path={{$.outputs.parameters[''metadata_reference_model_path''].output_file}}",
+          "--metadata_reward_model_reference_path={{$.outputs.parameters[''metadata_reward_model_reference''].output_file}}",
+          "--metadata_reward_model_path_path={{$.outputs.parameters[''metadata_reward_model_path''].output_file}}",
+          "--metadata_machine_type_path={{$.outputs.parameters[''metadata_machine_type''].output_file}}",
+          "--metadata_tuning_location_path={{$.outputs.parameters[''metadata_tuning_location''].output_file}}",
+          "--metadata_accelerator_type_path={{$.outputs.parameters[''metadata_accelerator_type''].output_file}}",
+          "--metadata_accelerator_count_path={{$.outputs.parameters[''metadata_accelerator_count''].output_file}}",
+          "--metadata_refined_image_uri_path={{$.outputs.parameters[''metadata_refined_image_uri''].output_file}}",
+          "--metadata_num_microbatches_path={{$.outputs.parameters[''metadata_num_microbatches''].output_file}}",
+          "--metadata_upload_location_path={{$.outputs.parameters[''metadata_upload_location''].output_file}}",
+          "--metadata_deploy_model_path={{$.outputs.parameters[''metadata_deploy_model''].output_file}}",
+          "--metadata_model_display_name_path={{$.outputs.parameters[''metadata_model_display_name''].output_file}}",
+          "--metadata_upload_model_path={{$.outputs.parameters[''metadata_upload_model''].output_file}}"]}}]}}'
+        - --project
+        - '{{$.pipeline_google_cloud_project_id}}'
+        - --location
+        - '{{$.pipeline_google_cloud_location}}'
+        - --gcp_resources
+        - '{{$.outputs.parameters[''gcp_resources''].output_file}}'
+        command:
+        - python3
+        - -u
+        - -m
+        - google_cloud_pipeline_components.container.v1.custom_job.launcher
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+    exec-validate-pipeline:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - validate_pipeline
+        command:
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef validate_pipeline(\n    location: str,\n    encryption_spec_key_name:\
+          \ str = '',\n    accelerator_type: str = '',\n    eval_dataset: Optional[str]\
+          \ = None,\n) -> NamedTuple('PreprocessedInputs', reward_model_eval_dataset=str):\n\
+          \  # fmt: off\n  \"\"\"Validates and preprocesses RLHF pipeline parameters.\n\
+          \n  Args:\n    location: Location used to run non-tuning components, i.e.\
+          \ components\n      that do not require accelerators. If not specified the\
+          \ location used\n      to run the pipeline will be used.\n    encryption_spec_key_name:\
+          \ If set, CMEK support will be validated.\n    accelerator_type: One of\
+          \ 'TPU' or 'GPU'. If 'TPU' is specified, tuning\n      components run in\
+          \ europe-west4. Otherwise tuning components run in\n      us-central1 on\
+          \ GPUs. Default is 'GPU'.\n    eval_dataset: Optional Cloud storage path\
+          \ to an evaluation dataset. The\n      format should match that of the preference\
+          \ dataset.\n  \"\"\"\n  # fmt: on\n  # pylint: disable=g-import-not-at-top,import-outside-toplevel\n\
+          \  import json\n  import logging\n  import re\n  import sys\n  import glob\n\
+          \  # pylint: enable=g-import-not-at-top,import-outside-toplevel\n  outputs\
+          \ = NamedTuple(\n      'PreprocessedInputs',\n      reward_model_eval_dataset=str,\n\
+          \  )\n\n  try:\n    # [ Set eval_dataset\n    eval_dataset = eval_dataset\
+          \ or ''\n    gcs_eval_dataset_uri = re.sub('^gs://', '/gcs/', eval_dataset)\n\
+          \    files_in_folder = glob.glob(gcs_eval_dataset_uri)\n    if not files_in_folder:\n\
+          \      eval_dataset = ''\n    else:\n      first_file = files_in_folder[0]\n\
+          \      required_fields = ('candidate_0', 'candidate_1', 'choice')\n    \
+          \  oneof_fields = {'input_text', 'messages'}\n      max_lines_to_check =\
+          \ 100\n      with open(first_file, 'r') as inputs:\n        for i, line\
+          \ in enumerate(inputs):\n          json_data = json.loads(line)\n      \
+          \    is_valid_preference_data = all(\n              field in json_data for\
+          \ field in required_fields\n          ) and any(oneof_field in json_data\
+          \ for oneof_field in oneof_fields)\n          if not is_valid_preference_data:\n\
+          \            eval_dataset = ''\n          if not eval_dataset or i >= max_lines_to_check:\n\
+          \            break\n    # ]\n    # [ Check CMEK\n    supported_pipeline_regions\
+          \ = {\n        'asia-northeast1',\n        'asia-northeast3',\n        'asia-southeast1',\n\
+          \        'europe-west1',\n        'europe-west2',\n        'europe-west3',\n\
+          \        'europe-west4',\n        'europe-west9',\n        'northamerica-northeast1',\n\
+          \        'us-central1',\n        'us-east4',\n        'us-west1',\n    \
+          \    'us-west4',\n    }\n    if location not in supported_pipeline_regions:\n\
+          \      raise ValueError(\n          f'Unsupported pipeline region: {location}.\
+          \ Must be one of'\n          f' {supported_pipeline_regions}.'\n      )\n\
+          \n    valid_cmek_accelerator_types = {\n        'GPU',\n        'CPU', \
+          \ # Only used for testing.\n    }\n    valid_cmek_config = (\n        location\
+          \ == 'us-central1'\n        and accelerator_type in valid_cmek_accelerator_types\n\
+          \    )\n    if encryption_spec_key_name and not valid_cmek_config:\n   \
+          \   raise ValueError(\n          'encryption_spec_key_name (CMEK) is only\
+          \ supported for GPU training'\n          ' in us-central1. Please either\
+          \ unset encryption_spec_key_name or'\n          ' create your pipeline in\
+          \ us-central1 to use GPU instead.'\n      )\n    # CMEK ]\n\n    return\
+          \ outputs(reward_model_eval_dataset=eval_dataset)\n\n  except Exception\
+          \ as e:  # pylint: disable=broad-exception-caught\n    if isinstance(e,\
+          \ ValueError):\n      raise\n    logging.exception(str(e))\n    sys.exit(13)\n\
+          \n"
+        image: gcr.io/ml-pipeline/google-cloud-pipeline-components:2.15.0
+pipelineInfo:
+  description: Performs reinforcement learning from human feedback.
+  name: rlhf-train-template
+root:
+  dag:
+    outputs:
+      parameters:
+        endpoint_resource_name:
+          valueFromParameter:
+            outputParameterKey: endpoint_resource_name
+            producerSubtask: llm-deployment-graph
+        model_resource_name:
+          valueFromParameter:
+            outputParameterKey: model_resource_name
+            producerSubtask: llm-deployment-graph
+    tasks:
+      condition-1:
+        componentRef:
+          name: comp-condition-1
+        dependentTasks:
+        - reinforcement-learning-graph
+        - rlhf-preprocessor
+        inputs:
+          parameters:
+            pipelinechannel--accelerator_type:
+              componentInputParameter: accelerator_type
+            pipelinechannel--encryption_spec_key_name:
+              componentInputParameter: encryption_spec_key_name
+            pipelinechannel--eval_dataset:
+              componentInputParameter: eval_dataset
+            pipelinechannel--instruction:
+              componentInputParameter: instruction
+            pipelinechannel--large_model_reference:
+              componentInputParameter: large_model_reference
+            pipelinechannel--location:
+              componentInputParameter: location
+            pipelinechannel--project:
+              componentInputParameter: project
+            pipelinechannel--prompt_sequence_length:
+              componentInputParameter: prompt_sequence_length
+            pipelinechannel--reinforcement-learning-graph-output_model_path:
+              taskOutputParameter:
+                outputParameterKey: output_model_path
+                producerTask: reinforcement-learning-graph
+            pipelinechannel--rlhf-preprocessor-has_inference_dataset:
+              taskOutputParameter:
+                outputParameterKey: has_inference_dataset
+                producerTask: rlhf-preprocessor
+            pipelinechannel--target_sequence_length:
+              componentInputParameter: target_sequence_length
+        taskInfo:
+          name: Perform Inference
+        triggerPolicy:
+          condition: inputs.parameter_values['pipelinechannel--rlhf-preprocessor-has_inference_dataset']
+            == true
+      llm-deployment-graph:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-llm-deployment-graph
+        dependentTasks:
+        - reinforcement-learning-graph
+        - rlhf-preprocessor
+        inputs:
+          parameters:
+            deploy_model:
+              taskOutputParameter:
+                outputParameterKey: metadata_deploy_model
+                producerTask: rlhf-preprocessor
+            encryption_spec_key_name:
+              componentInputParameter: encryption_spec_key_name
+            large_model_reference:
+              componentInputParameter: large_model_reference
+            model_display_name:
+              taskOutputParameter:
+                outputParameterKey: metadata_model_display_name
+                producerTask: rlhf-preprocessor
+            output_adapter_path:
+              taskOutputParameter:
+                outputParameterKey: output_adapter_path
+                producerTask: reinforcement-learning-graph
+            policy_model_reference:
+              taskOutputParameter:
+                outputParameterKey: metadata_large_model_reference
+                producerTask: rlhf-preprocessor
+            regional_endpoint:
+              taskOutputParameter:
+                outputParameterKey: metadata_upload_location
+                producerTask: rlhf-preprocessor
+            upload_location:
+              componentInputParameter: location
+            upload_model:
+              taskOutputParameter:
+                outputParameterKey: metadata_upload_model
+                producerTask: rlhf-preprocessor
+        taskInfo:
+          name: Upload and Deploy Tuned Model
+      reinforcement-learning-graph:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-reinforcement-learning-graph
+        dependentTasks:
+        - reward-model-graph
+        - rlhf-preprocessor
+        inputs:
+          parameters:
+            accelerator_count:
+              taskOutputParameter:
+                outputParameterKey: metadata_accelerator_count
+                producerTask: rlhf-preprocessor
+            accelerator_type:
+              taskOutputParameter:
+                outputParameterKey: metadata_accelerator_type
+                producerTask: rlhf-preprocessor
+            encryption_spec_key_name:
+              componentInputParameter: encryption_spec_key_name
+            input_preference_dataset_path:
+              taskOutputParameter:
+                outputParameterKey: reward_dataset_path
+                producerTask: reward-model-graph
+            input_reward_adapter_path:
+              taskOutputParameter:
+                outputParameterKey: reward_model_adapter_path
+                producerTask: reward-model-graph
+            input_reward_model_path:
+              taskOutputParameter:
+                outputParameterKey: metadata_reward_model_path
+                producerTask: rlhf-preprocessor
+            instruction:
+              componentInputParameter: instruction
+            kl_coeff:
+              componentInputParameter: kl_coeff
+            large_model_reference:
+              componentInputParameter: large_model_reference
+            location:
+              componentInputParameter: location
+            machine_type:
+              taskOutputParameter:
+                outputParameterKey: metadata_machine_type
+                producerTask: rlhf-preprocessor
+            num_microbatches:
+              taskOutputParameter:
+                outputParameterKey: metadata_num_microbatches
+                producerTask: rlhf-preprocessor
+            policy_model_path:
+              taskOutputParameter:
+                outputParameterKey: metadata_reference_model_path
+                producerTask: rlhf-preprocessor
+            policy_model_reference:
+              taskOutputParameter:
+                outputParameterKey: metadata_large_model_reference
+                producerTask: rlhf-preprocessor
+            project:
+              componentInputParameter: project
+            prompt_dataset:
+              componentInputParameter: prompt_dataset
+            prompt_sequence_length:
+              componentInputParameter: prompt_sequence_length
+            reinforcement_learning_rate_multiplier:
+              componentInputParameter: reinforcement_learning_rate_multiplier
+            reinforcement_learning_train_steps:
+              componentInputParameter: reinforcement_learning_train_steps
+            reward_lora_dim:
+              runtimeValue:
+                constant: 4.0
+            reward_model_reference:
+              taskOutputParameter:
+                outputParameterKey: metadata_reward_model_reference
+                producerTask: rlhf-preprocessor
+            rl_image_uri:
+              taskOutputParameter:
+                outputParameterKey: metadata_refined_image_uri
+                producerTask: rlhf-preprocessor
+            target_sequence_length:
+              componentInputParameter: target_sequence_length
+            tensorboard_resource_id:
+              componentInputParameter: tensorboard_resource_id
+            tuning_location:
+              taskOutputParameter:
+                outputParameterKey: metadata_tuning_location
+                producerTask: rlhf-preprocessor
+        taskInfo:
+          name: Reinforcement Learning
+      reward-model-graph:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-reward-model-graph
+        dependentTasks:
+        - rlhf-preprocessor
+        - validate-pipeline
+        inputs:
+          parameters:
+            accelerator_count:
+              taskOutputParameter:
+                outputParameterKey: metadata_accelerator_count
+                producerTask: rlhf-preprocessor
+            accelerator_type:
+              taskOutputParameter:
+                outputParameterKey: metadata_accelerator_type
+                producerTask: rlhf-preprocessor
+            comma_separated_candidates_field_names:
+              taskOutputParameter:
+                outputParameterKey: metadata_candidate_columns_string
+                producerTask: rlhf-preprocessor
+            encryption_spec_key_name:
+              componentInputParameter: encryption_spec_key_name
+            eval_dataset:
+              taskOutputParameter:
+                outputParameterKey: reward_model_eval_dataset
+                producerTask: validate-pipeline
+            instruction:
+              componentInputParameter: instruction
+            large_model_reference:
+              componentInputParameter: large_model_reference
+            location:
+              componentInputParameter: location
+            lora_dim:
+              runtimeValue:
+                constant: 4.0
+            machine_type:
+              taskOutputParameter:
+                outputParameterKey: metadata_machine_type
+                producerTask: rlhf-preprocessor
+            num_microbatches:
+              taskOutputParameter:
+                outputParameterKey: metadata_num_microbatches
+                producerTask: rlhf-preprocessor
+            preference_dataset:
+              componentInputParameter: preference_dataset
+            project:
+              componentInputParameter: project
+            prompt_sequence_length:
+              componentInputParameter: prompt_sequence_length
+            reward_model_image_uri:
+              taskOutputParameter:
+                outputParameterKey: metadata_refined_image_uri
+                producerTask: rlhf-preprocessor
+            reward_model_learning_rate_multiplier:
+              componentInputParameter: reward_model_learning_rate_multiplier
+            reward_model_path:
+              taskOutputParameter:
+                outputParameterKey: metadata_reward_model_path
+                producerTask: rlhf-preprocessor
+            reward_model_reference:
+              taskOutputParameter:
+                outputParameterKey: metadata_reward_model_reference
+                producerTask: rlhf-preprocessor
+            reward_model_train_steps:
+              componentInputParameter: reward_model_train_steps
+            target_sequence_length:
+              componentInputParameter: target_sequence_length
+            tensorboard_resource_id:
+              componentInputParameter: tensorboard_resource_id
+            tuning_location:
+              taskOutputParameter:
+                outputParameterKey: metadata_tuning_location
+                producerTask: rlhf-preprocessor
+        taskInfo:
+          name: Train Reward Model
+      rlhf-preprocessor:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-rlhf-preprocessor
+        inputs:
+          parameters:
+            accelerator_type:
+              componentInputParameter: accelerator_type
+            artifact_registry:
+              runtimeValue:
+                constant: rlhf
+            deploy_model:
+              componentInputParameter: deploy_model
+            evaluation_dataset:
+              componentInputParameter: eval_dataset
+            large_model_reference:
+              componentInputParameter: large_model_reference
+            location:
+              runtimeValue:
+                constant: us
+            model_display_name:
+              componentInputParameter: model_display_name
+            project:
+              runtimeValue:
+                constant: vertex-ai-restricted
+            tag:
+              runtimeValue:
+                constant: '20240623_1707'
+            tensorboard_resource_id:
+              componentInputParameter: tensorboard_resource_id
+            upload_location:
+              componentInputParameter: location
+            use_test_spec:
+              runtimeValue:
+                constant: false
+        taskInfo:
+          name: Preprocess Inputs
+      validate-pipeline:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-validate-pipeline
+        inputs:
+          parameters:
+            accelerator_type:
+              componentInputParameter: accelerator_type
+            encryption_spec_key_name:
+              componentInputParameter: encryption_spec_key_name
+            eval_dataset:
+              componentInputParameter: eval_dataset
+            location:
+              componentInputParameter: location
+        taskInfo:
+          name: Validate Inputs
+  inputDefinitions:
+    parameters:
+      accelerator_type:
+        defaultValue: GPU
+        description: One of 'TPU' or 'GPU'. If 'TPU' is specified, tuning components
+          run in europe-west4. Otherwise tuning components run in us-central1 on GPUs.
+          Default is 'GPU'.
+        isOptional: true
+        parameterType: STRING
+      deploy_model:
+        defaultValue: true
+        description: Whether to deploy the model to an endpoint in `us-central1`.
+          Default is True.
+        isOptional: true
+        parameterType: BOOLEAN
+      encryption_spec_key_name:
+        defaultValue: ''
+        description: Customer-managed encryption key. If this is set, then all resources
+          created by the CustomJob will be encrypted with the provided encryption
+          key. Note that this is not supported for TPU at the moment.
+        isOptional: true
+        parameterType: STRING
+      eval_dataset:
+        description: Optional Cloud storage path to an evaluation dataset. The dataset
+          format is jsonl. The evaluation dataset can be used to compute train-time
+          metrics (when training a reward model) or perform bulk inference for third-party
+          models. To compute train-time metrics this dataset must contain the same
+          fields as the peference dataset. For bulk inference with third-party models
+          only `input_text` is needed. Note, train-time metrics are only computed
+          for the first 5000 samples in the dataset for efficient evaluation during
+          training.
+        isOptional: true
+        parameterType: STRING
+      instruction:
+        description: This field lets the model know what task it needs to perform.
+          Base models have been trained over a large set of varied instructions. You
+          can give a simple and intuitive description of the task and the model will
+          follow it, e.g. "Classify this movie review as positive or negative" or
+          "Translate this sentence to Danish". Do not specify this if your dataset
+          already prepends the instruction to the inputs field.
+        isOptional: true
+        parameterType: STRING
+      kl_coeff:
+        defaultValue: 0.1
+        description: Coefficient for KL penalty. This regularizes the policy model
+          and penalizes if it diverges from its initial distribution. If set to 0,
+          the reference language model is not loaded into memory. Default value is
+          0.1.
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      large_model_reference:
+        description: Name of the base model. Supported values are `text-bison@001`,
+          `t5-small`, `t5-large`, `t5-xl` and `t5-xxl`. `text-bison@001` and `t5-small`
+          are supported in `us-central1` and `europe-west4`. `t5-large`, `t5-xl` and
+          `t5-xxl` are only supported in `europe-west4`.
+        parameterType: STRING
+      location:
+        defaultValue: '{{$.pipeline_google_cloud_location}}'
+        description: Location used to run non-tuning components, i.e. components that
+          do not require accelerators. If not specified the location used to run the
+          pipeline will be used.
+        isOptional: true
+        parameterType: STRING
+      model_display_name:
+        description: Name of the fine-tuned model shown in the Model Registry. If
+          not provided, a default name will be created.
+        isOptional: true
+        parameterType: STRING
+      preference_dataset:
+        description: Cloud storage path to a human preference JSONL dataset used to
+          train a reward model. Each example in a preference dataset must contain
+          `candidate_0` and `candidate_1` fields that contain candidate responses,
+          `choice` that specifies the preferred candidate and either `input_text`
+          (if tuning a text model) or `messages` (if tuning a chat model). Chat datasets
+          must contain at least 1 message in a `messages` field. Each message must
+          be valid JSON that contains `author` and `content` fields, where valid `author`
+          values are `user` and `assistant` and `content` must be non-empty. Each
+          row may contain multiple messages, but the first and last author must be
+          the `user`. An optional `context` field may be provided for each example
+          in a chat dataset. If provided, the `context` will preprended to the message
+          `content`. The `instruction` serves as the default context. (Useful if most
+          messages use the same system-level context.) Any context provided in the
+          example will override the default value.
+        parameterType: STRING
+      project:
+        defaultValue: '{{$.pipeline_google_cloud_project_id}}'
+        description: Project used to run custom jobs. If not specified the project
+          used to run the pipeline will be used.
+        isOptional: true
+        parameterType: STRING
+      prompt_dataset:
+        description: Cloud storage path to an unlabled JSONL dataset that contains
+          prompts. Text datasets must contain an `input_text` field that contains
+          the prompt. Chat datasets must contain at least 1 message in a `messages`
+          field. Each message must be valid JSON that contains `author` and `content`
+          fields, where valid `author` values are `user` and `assistant` and `content`
+          must be non-empty. Each row may contain multiple messages, but the first
+          and last author must be the `user`. An optional `context` field may be provided
+          for each example in a chat dataset. If provided, the `context` will preprended
+          to the message `content`. The `instruction` serves as the default context.
+          (Useful if most messages use the same system-level context.) Any context
+          provided in the example will override the default value.
+        parameterType: STRING
+      prompt_sequence_length:
+        defaultValue: 512.0
+        description: Maximum tokenized sequence length for input text. Higher values
+          increase memory overhead. This value should be at most 8192. Default value
+          is 512.
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      reinforcement_learning_rate_multiplier:
+        defaultValue: 1.0
+        description: Constant used to adjust the base learning rate used during reinforcement
+          learning. Multiply by a number > 1 to increase the magnitude of updates
+          applied at each training step or multiply by a number < 1 to decrease the
+          magnitude of updates. Default value is 1.0.
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      reinforcement_learning_train_steps:
+        defaultValue: 1000.0
+        description: Number of reinforcement learning steps to perform when tuning
+          a base model. Default value is 1000.
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      reward_model_learning_rate_multiplier:
+        defaultValue: 1.0
+        description: Constant used to adjust the base learning rate used when training
+          a reward model. Multiply by a number > 1 to increase the magnitude of updates
+          applied at each training step or multiply by a number < 1 to decrease the
+          magnitude of updates. Default value is 1.0.
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      reward_model_train_steps:
+        defaultValue: 1000.0
+        description: Number of steps to use when training a reward model. Default
+          value is 1000.
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      target_sequence_length:
+        defaultValue: 64.0
+        description: ' Maximum tokenized sequence length for target text. Higher values
+          increase memory overhead. This value should be at most 1024. Default value
+          is 64.'
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      tensorboard_resource_id:
+        defaultValue: ''
+        description: Optional tensorboard resource id in format `projects/{project_number}/locations/{location}/tensorboards/{tensorboard_id}`.
+          If provided, tensorboard metrics will be uploaded to this location.
+        isOptional: true
+        parameterType: STRING
+  outputDefinitions:
+    parameters:
+      endpoint_resource_name:
+        description: Path the Online Prediction Endpoint. This will be an empty string
+          if the model was not deployed.
+        parameterType: STRING
+      model_resource_name:
+        description: Path to the model uploaded to the Model Registry. This will be
+          an empty string if the model was not deployed.
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.7.0

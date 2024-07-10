@@ -1,0 +1,12 @@
+PyYAML==6.0.1
+kfp==2.7.0
+google_cloud_resource_manager==1.12.3
+google-cloud-pipeline-components==2.15.0
+google-cloud-aiplatform==1.58.0
+python-dotenv==1.0.1
+tensorboard==2.16.2
+pandas==2.2.2
+numpy==1.26.0
+
+
+
