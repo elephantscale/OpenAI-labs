@@ -51,7 +51,7 @@
 9. **Start Jupyter Notebook**
    - Start Jupyter Notebook with the command:
      ```sh
-     jupyter notebook
+     jupyter notebook or jupyter lab
      ```
 
 10. **Select the Correct Kernel**
