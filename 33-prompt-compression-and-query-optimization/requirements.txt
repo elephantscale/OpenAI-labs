@@ -1,0 +1,8 @@
+python-dotenv==1.0.0
+datasets==2.20.0
+pandas==2.2.2
+openai==1.35.5
+pymongo==4.8.0
+pydantic==2.7.4
+llmlingua==0.2.2
+python-dotenv==1.0.0
