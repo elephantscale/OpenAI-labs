@@ -1,4 +1,4 @@
-# Prompt compression and optimization
+# Prompt compression and query optimization
 
 To set up the environment for the first time
 
