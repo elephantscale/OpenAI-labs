@@ -26,6 +26,7 @@ package-lock.json
 /31-reinforcement -learning-from-human-feedback/31
 /32-diffusion-model/32
 /33-prompt-compression-and-query-optimization/33
+/34-langchain-chat-with-your-own-data/34
 test.db
 .virtual_documents/
 
