@@ -28,6 +28,7 @@ package-lock.json
 /33-prompt-compression-and-query-optimization/33
 /34-langchain-chat-with-your-own-data/34
 /35_LLM_With_Symantic_Search/35
+/36-Functions-Tool-Agents-Langchain/36
 test.db
 .virtual_documents/
 

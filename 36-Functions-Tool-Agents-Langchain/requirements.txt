@@ -1,0 +1,5 @@
+openai==1.35.5
+python-dotenv==1.0.1
+langchain-openai==0.1.17
+pydantic== 2.8.2
+docarray==0.40.0
