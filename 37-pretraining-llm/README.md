@@ -1,4 +1,4 @@
-# Functions Tool Agents Langchain
+# Pretraining LLM
 
 To set up the environment for the first time
 
@@ -6,7 +6,5 @@ To set up the environment for the first time
 
 If virtual environment already exists follow: [how_to_run.md](how_to_run.md)
 
-Note: For connection issue with OpenAI on mac, run following command and restart the jupyter kernel.(https://github.com/microsoft/semantic-kernel/issues/627)
-```sh
-bash /Applications/Python*/Install\ Certificates.command
-```
+Note: For execution this lab download model from link and place it under models/upstage/
+      and file L2_language_model.bin under models/
