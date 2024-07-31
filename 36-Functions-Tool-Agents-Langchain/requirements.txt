@@ -1,0 +1,11 @@
+openai==0.28.1
+python-dotenv==1.0.1
+langchain==0.0.312
+langsmith==0.0.92
+pydantic==1.10.16
+docarray==0.40.0
+wikipedia==1.4.0
+openapi-schema-pydantic==1.2.4
+panel==1.1.0
+param==1.13.0
+tiktoken
