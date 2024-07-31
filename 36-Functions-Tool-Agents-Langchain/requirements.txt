@@ -8,3 +8,4 @@ wikipedia==1.4.0
 openapi-schema-pydantic==1.2.4
 panel==1.1.0
 param==1.13.0
+tiktoken
