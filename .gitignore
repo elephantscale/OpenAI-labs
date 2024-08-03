@@ -31,6 +31,7 @@ package-lock.json
 /36-Functions-Tool-Agents-Langchain/36
 /37-pretraining-llm/37
 /38-AI-Agentic-Design-Patterns-with-AutoGen/38
+/40-Vector-Databases-from-Embeddings-to-Applications/40
 test.db
 .virtual_documents/
 
