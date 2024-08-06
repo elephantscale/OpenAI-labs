@@ -5,8 +5,9 @@
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
+   - Note python3.12 is not supported by tensorflow at the time of writing.
      ```sh
-     python3 -m venv 40
+     python3.9 -m venv 40
      ```
 
 3. **Activate the Virtual Environment**
@@ -30,7 +31,7 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=40 --display-name "Python (lab 40)"
+     python3.9 -m ipykernel install --user --name=40 --display-name "Python (lab 40)"
      ```
 
 7. **Install Lab Requirements**
