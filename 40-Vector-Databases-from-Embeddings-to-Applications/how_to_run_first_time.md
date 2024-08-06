@@ -5,7 +5,8 @@
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
-   - Note python3.12 is not supported by tensorflow at the time of writing.
+   - Note: python3.12 is not supported by tensorflow at the time of writing.
+   - If you do not have python3.9, install it. This will not ruin your current python version.
      ```sh
      python3.9 -m venv 40
      ```
