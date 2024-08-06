@@ -1,4 +1,4 @@
-# AI agentic design patterns with autogen
+# Vector database from embedding to application
 
 To set up the environment for the first time
 
