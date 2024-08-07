@@ -32,6 +32,7 @@ package-lock.json
 /37-pretraining-llm/37
 /38-AI-Agentic-Design-Patterns-with-AutoGen/38
 /40-Vector-Databases-from-Embeddings-to-Applications/40
+/41-building-genAI-app-with-gradio/41
 test.db
 .virtual_documents/
 
