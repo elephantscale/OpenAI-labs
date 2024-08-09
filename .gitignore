@@ -33,6 +33,7 @@ package-lock.json
 /38-AI-Agentic-Design-Patterns-with-AutoGen/38
 /40-Vector-Databases-from-Embeddings-to-Applications/40
 /41-building-genAI-app-with-gradio/41
+/44-Building-Agentic-RAG-with-Llamaindex/44
 test.db
 .virtual_documents/
 
