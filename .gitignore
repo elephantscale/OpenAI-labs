@@ -34,6 +34,7 @@ package-lock.json
 /40-Vector-Databases-from-Embeddings-to-Applications/40
 /41-building-genAI-app-with-gradio/41
 /44-Building-Agentic-RAG-with-Llamaindex/44
+/45-Multi-AI-Agent-Systems-with-crewAI/45
 test.db
 .virtual_documents/
 
