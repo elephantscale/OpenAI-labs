@@ -30,7 +30,7 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python -m ipykernel install --user --name=45 --display-name "Python (lab 45)"
+     python3 -m ipykernel install --user --name=45 --display-name "Python (lab 45)"
      ```
 
 7. **Install Lab Requirements**
