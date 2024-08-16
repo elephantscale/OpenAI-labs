@@ -6,7 +6,7 @@
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
      ```sh
-     python3.9 -m venv 45
+     python3 -m venv 45
      ```
 
 3. **Activate the Virtual Environment**
@@ -30,7 +30,7 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3.9 -m ipykernel install --user --name=45 --display-name "Python (lab 45)"
+     python3 -m ipykernel install --user --name=45 --display-name "Python (lab 45)"
      ```
 
 7. **Install Lab Requirements**
@@ -40,9 +40,11 @@
      ```
 
 8. **Create .env File for API Keys**
+   - note: for SERPER_API_KEY go to https://serper.dev/ and create api key
    - Create a `.env` file for the keys and add the following values:
      ```sh
      OPENAI_API_KEY=
+     SERPER_API_KEY=
      ```
 9. **Start Jupyter Notebook**
    - Start Jupyter Notebook with the command:
