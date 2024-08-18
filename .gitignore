@@ -35,6 +35,7 @@ package-lock.json
 /41-building-genAI-app-with-gradio/41
 /44-Building-Agentic-RAG-with-Llamaindex/44
 /45-Multi-AI-Agent-Systems-with-crewAI/45
+/46-Improving-Accuracy-of-LLMs/46
 test.db
 .virtual_documents/
 

@@ -49,7 +49,7 @@
      ```
 
 10. **Select the Correct Kernel**
-    - At the top right corner of the Jupyter Notebook, click on the kernel and choose "Python (lab 45)".
+    - At the top right corner of the Jupyter Notebook, click on the kernel and choose "Python (lab 46)".
 
 11. **Verify the Environment**
     - To verify that you are in the correct environment, create a new cell and run the following command. If the output shows your current environment, you are all set:
