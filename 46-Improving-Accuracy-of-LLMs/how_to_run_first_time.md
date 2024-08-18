@@ -40,7 +40,9 @@
      ```
 
 8. **Create .env File for API Keys**
-    - TODO
+    ```sh
+     LAMINI_API_KEY=
+     ```
 
 9. **Start Jupyter Notebook**
    - Start Jupyter Notebook with the command:
