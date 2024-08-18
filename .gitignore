@@ -36,6 +36,7 @@ package-lock.json
 /44-Building-Agentic-RAG-with-Llamaindex/44
 /45-Multi-AI-Agent-Systems-with-crewAI/45
 /46-Improving-Accuracy-of-LLMs/46
+/47-Pair-Programming-with-a-Large-Language-Model/47
 test.db
 .virtual_documents/
 
