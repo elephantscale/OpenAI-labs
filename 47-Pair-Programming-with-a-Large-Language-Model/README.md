@@ -1,4 +1,4 @@
-# Improving accuracy of LLMs
+# Pair programming with a LLM
 
 To set up the environment for the first time
 
