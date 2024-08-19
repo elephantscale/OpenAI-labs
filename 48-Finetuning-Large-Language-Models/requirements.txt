@@ -1,0 +1,4 @@
+python-dotenv~=1.0.1
+lamini==2.0.1
+typing-extensions==4.12.2
+datasets==2.21.0
