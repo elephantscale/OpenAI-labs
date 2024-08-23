@@ -1,14 +1,13 @@
-import datasets
-import tempfile
 import logging
-import random
-import config
 import os
-import yaml
-import logging
+import random
 import time
 
+import config
+import datasets
+import torch
 import transformers
+import yaml
 
 logger = logging.getLogger(__name__)
 global_config = None
@@ -251,6 +250,7 @@ class Trainer(transformers.Trainer):
             optimizers,
         )
 
+        self.do_grad_scaling = None
         self.total_steps = total_steps
         self.model_flops = model_flops
         self.start_step = 0
@@ -273,8 +273,8 @@ class Trainer(transformers.Trainer):
           if self.args.n_gpu > 1:
               loss = loss.mean()  # mean() to average on multi-gpu parallel training
 
-          if self.do_grad_scaling:
-              self.scaler.scale(loss).backward()
+          # if self.do_grad_scaling:
+          #     self.scaler.scale(loss).backward()
           else:
               self.accelerator.backward(loss)
 
