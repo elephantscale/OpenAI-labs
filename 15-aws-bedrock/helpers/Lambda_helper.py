@@ -2,7 +2,7 @@ import boto3
 import zipfile
 import json
 import os
-import time
+
 
 class Lambda_Helper: 
 
@@ -24,7 +24,7 @@ class Lambda_Helper:
         
         self.s3_client = boto3.client('s3', region_name='us-west-2')
             
-    def deploy_function(self, code_file_names, function_name="", module_name="lambda_function"):
+    def deploy_function(self, code_file_names, function_name=""):
 
         if function_name:
             self.function_name = function_name
@@ -58,9 +58,9 @@ class Lambda_Helper:
             print(f"Function {self.function_name} does not exist. Creating...")
             response = self.lambda_client.create_function(
                 FunctionName=self.function_name,
-                Handler=f"{module_name}.lambda_handler",
                 Runtime='python3.11',
                 Role=self.role_arn,
+                Handler='lambda_function.lambda_handler',
                 Description=self.function_description,
                 Layers=[os.environ['LAMBDALAYERVERSIONARN']],
                 Timeout=120,
@@ -129,9 +129,7 @@ class Lambda_Helper:
         lambda_arn = self.lambda_client.get_function(
             FunctionName=self.function_name
         )['Configuration']['FunctionArn']
-
-        time.sleep(5)
-
+                
         notification_configuration = {
             'LambdaFunctionConfigurations': [
                 {
