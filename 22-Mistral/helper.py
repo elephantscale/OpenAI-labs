@@ -1,35 +1,36 @@
 import os
-from dotenv import load_dotenv, find_dotenv     
+from dotenv import load_dotenv, find_dotenv
 
 from mistralai.client import MistralClient
 from mistralai.models.chat_completion import ChatMessage
-
-
 
 api_key = None
 dlai_endpoint = None
 client = None
 
+
 def load_env():
     _ = load_dotenv(find_dotenv())
+
 
 def load_mistral_api_key(ret_key=False):
     load_env()
     global api_key
-    global dlai_endpoint
+    # global dlai_endpoint
     api_key = os.getenv("MISTRAL_API_KEY")
-    dlai_endpoint = os.getenv("DLAI_MISTRAL_API_ENDPOINT")
+    # dlai_endpoint = os.getenv("DLAI_MISTRAL_API_ENDPOINT")
 
     global client
-    client = MistralClient(api_key=api_key, endpoint=dlai_endpoint)
-    
+    client = MistralClient(api_key=api_key)
+
     if ret_key:
-        return api_key, dlai_endpoint
+        return api_key
 
 def mistral(user_message, 
-            model="mistral-small-latest",
+            model="mistral-large-latest",
             is_json=False):
-    client = MistralClient(api_key=api_key, endpoint=dlai_endpoint)
+    load_env()
+    client = MistralClient(api_key=os.environ["MISTRAL_API_KEY"])
     messages = [ChatMessage(role="user", content=user_message)]
 
     if is_json:
