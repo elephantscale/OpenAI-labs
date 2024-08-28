@@ -19,6 +19,7 @@ node_modules/
 wandb/
 
 package-lock.json
+/22-Mistral/22
 /27-database-agent/27/
 /28-function-calling/28/
 /29-pinecone/29/
