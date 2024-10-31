@@ -43,4 +43,4 @@ package-lock.json
 /50-AI-Python-for-Begginers/50
 test.db
 .virtual_documents/
-assembly.out
+assembly.out*
