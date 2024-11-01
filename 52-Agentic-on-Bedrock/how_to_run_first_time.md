@@ -1,12 +1,12 @@
-## Setup Local Environment for Lab 50-AI Python for Beginners
+## Setup Local Environment for Lab 52-Agentic-on-Bedrock
 
 1. **Navigate to the Project Directory**
-   - Go inside the `50-AI-Python-for-Beginners` folder.
+   - Go inside the `552-Agentic-on-Bedrock` folder.
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
      ```sh
-     python3 -m venv 50
+     python3 -m venv 52
      ```
 
 3. **Activate the Virtual Environment**
