@@ -41,6 +41,7 @@ package-lock.json
 /48-Finetuning-Large-Language-Models/48
 /49-Building-AI-Applications-with-Haystack/49
 /50-AI-Python-for-Begginers/50
+52/
 test.db
 .virtual_documents/
 assembly.out*

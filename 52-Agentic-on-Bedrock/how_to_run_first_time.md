@@ -12,7 +12,7 @@
 3. **Activate the Virtual Environment**
    - Activate the new virtual environment using:
      ```sh
-     source 50/bin/activate
+     source 52/bin/activate
      ```
 
 4. **Install Jupyter Notebook**
