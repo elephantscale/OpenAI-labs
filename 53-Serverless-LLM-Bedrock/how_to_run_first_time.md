@@ -24,13 +24,13 @@
 5. **Install IPython Kernel**
    - Install `ipykernel` to attach the Jupyter environment to the same kernel:
      ```sh
-     pip3 install ipykernel
+     pip3 install ipykernel 
      ```
 
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=52 --display-name "Agentic (lab 52)"
+     python3 -m ipykernel install --user --name=53 --display-name "Serverless (lab 53)"
      ```
 
 7. **Install Lab Requirements**
