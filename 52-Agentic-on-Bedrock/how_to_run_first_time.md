@@ -1,7 +1,7 @@
 ## Setup Local Environment for Lab 52-Agentic-on-Bedrock
 
 1. **Navigate to the Project Directory**
-   - Go inside the `552-Agentic-on-Bedrock` folder.
+   - Go inside the `52-Agentic-on-Bedrock` folder.
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
