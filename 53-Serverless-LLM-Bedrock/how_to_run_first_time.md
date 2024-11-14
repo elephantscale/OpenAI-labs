@@ -1,7 +1,7 @@
 ## Setup Local Environment for Lab 53-Serverless-LLM-Bedrock
 
 1. **Navigate to the Project Directory**
-   - Go inside the `53-Serverless-LLM-Bedrock` folder.
+   - Go inside the `53-*` folder.
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:

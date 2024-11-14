@@ -30,11 +30,11 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=52 --display-name "Agentic (lab 52)"
+     python3 -m ipykernel install --user --name=52 --display-name "(lab 52)"
      ```
 
 7. **Install Lab Requirements**
-   - Install the lab requirements specified in the `requirements.txt` file:
+   - Install the lab requirements specified in the `requirements.txte file:
      ```sh
      pip3 install -r requirements.txt
      ```
