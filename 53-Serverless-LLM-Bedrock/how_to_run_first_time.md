@@ -30,7 +30,7 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=53 --display-name "Serverless (lab 53)"
+     python3 -m ipykernel install --user --name=53 --display-name "Lab 53"
      ```
 
 7. **Install Lab Requirements**
