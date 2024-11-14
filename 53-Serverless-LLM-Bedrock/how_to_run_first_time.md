@@ -40,25 +40,27 @@
      ```
 
 8. **Create .env File for API Keys**
-    ```sh
+    ```text
      BucketName=<your-bucket-name>
      ```
 
-9. **Start Jupyter Notebook**
+9. **Set up AWS access with the keys
+
+10. **Start Jupyter Notebook**
    - Start Jupyter Notebook with the command:
      ```sh
      jupyter lab
      ```
 
-10. **Select the Correct Kernel**
+11. **Select the Correct Kernel**
     - At the top right corner of the Jupyter Notebook, click on the kernel and choose "Python (lab 50)".
 
-11. **Verify the Environment**
+12. **Verify the Environment**
     - To verify that you are in the correct environment, create a new cell and run the following command. If the output shows your current environment, you are all set:
       ```python
       import sys
       print(sys.executable)
       ```
 
-12. **Run the Labs**
+13. **Run the Labs**
     - You are now ready to run any lab in Jupyter lab.
