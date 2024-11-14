@@ -41,7 +41,7 @@
 
 8. **Create .env File for API Keys**
     ```sh
-     OPENAI_API_KEY=
+     BucketName=<your-bucket-name>
      ```
 
 9. **Start Jupyter Notebook**
