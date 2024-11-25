@@ -18,7 +18,7 @@ class Lambda_Helper:
         # Create a Boto3 client for the Lambda service
         self.lambda_client = boto3.client('lambda', region_name='us-west-2')  
         self.function_name = 'LambdaFunctionDLAICourse'
-        self.role_arn = f"arn:aws:iam::{account_id}:role/LambdaRoleDLAICourse"
+        self.role_arn = f"arn:aws:iam::092413168457:role/LambdaES-Course"
         self.function_description = "Lambda function uploaded by a notebook in a DLAI course."
         self.lambda_arn = ""
         self.lambda_environ_variables = {}
