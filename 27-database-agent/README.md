@@ -6,9 +6,6 @@ In the **Building Your Own Database Agent lab**, we will develop an AI agent tha
   * Explain the virtual environment
   * Virtual environment 27
 
-* Course in DeeplearningAI
-* https://learn.deeplearning.ai/courses/building-your-own-database-agent/lesson/1/introduction
-
 * 
 ## Setup Local Environment for Lab 27 - Database Agent
 To set up the environment for the first time
@@ -48,3 +45,6 @@ If virtual environment already exists follow: [how_to_run.md](how_to_run.md)
 
 ### Lesson 6
 - Build A dialogue feature extraction pipeline using function calling!
+
+* Course in DeeplearningAI
+* https://learn.deeplearning.ai/courses/building-your-own-database-agent/lesson/1/introduction
