@@ -1,7 +1,7 @@
 ## Setup Local Environment for Lab 35 - LLM with symantic search
 
 1. **Navigate to the Project Directory**
-   - Go inside the `35_LLM_With_Symantic_Search` folder.
+   - Go inside the `35*` folder.
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
