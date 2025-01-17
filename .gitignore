@@ -46,3 +46,4 @@ package-lock.json
 test.db
 .virtual_documents/
 assembly.out*
+myenv/

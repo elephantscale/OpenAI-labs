@@ -14,12 +14,11 @@
      ```sh
      source myenv/bin/activate
      ```
-
-4. **Install Jupyter Notebook**
-   - Install Jupyter Notebook in the same virtual environment:
+     
+4. **Install Lab Requirements**
+   - Install the lab requirements specified in the `requirements.txt` file:
      ```sh
-     pip3 install jupyter
-     ```
+     pip3 install -r requirements.txt
 
 5. **Install IPython Kernel**
    - Install `ipykernel` to attach the Jupyter environment to the same kernel:
@@ -33,10 +32,6 @@
      python3 -m ipykernel install --user --name=lab --display-name "lab"
      ```
 
-7. **Install Lab Requirements**
-   - Install the lab requirements specified in the `requirements.txt` file:
-     ```sh
-     pip3 install -r requirements.txt
      ```
 
 8. **Create .env File for API Keys**
@@ -51,7 +46,7 @@
      ```
 
 10. **Select the Correct Kernel**
-    - At the top right corner of the Jupyter Notebook, click on the kernel and choose "Python (lab 50)".
+    - At the top right corner of the Jupyter Notebook, click on the kernel and choose "lab 50".
 
 11. **Verify the Environment**
     - To verify that you are in the correct environment, create a new cell and run the following command. If the output shows your current environment, you are all set:
