@@ -25,3 +25,25 @@
 ![](../images/04.png)
 
 ---
+
+## Long context
+
+![](../images/05.png)
+
+---
+
+# Building with Jamba
+
+---
+
+## Transformer
+
+![](../images/06.png)
+
+---
+
+## KV-Cache
+
+![](../images/07.png)
+
+---
