@@ -1,18 +1,18 @@
-## Setup Local Environment for Lab 52-Agentic-on-Bedrock
+## Setup Local Environment
 
 1. **Navigate to the Project Directory**
-   - Go inside the `52*` folder.
+   - Go inside the lab folder.
 
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
      ```sh
-     python3 -m venv 52
+     python3 -m venv myenv
      ```
 
 3. **Activate the Virtual Environment**
    - Activate the new virtual environment using:
      ```sh
-     source 52/bin/activate
+     source myenv/bin/activate
      ```
 
 4. **Install Jupyter Notebook**
@@ -30,7 +30,7 @@
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=52 --display-name "Agentic (lab 52)"
+     python3 -m ipykernel install --user --name=lab --display-name "lab"
      ```
 
 7. **Install Lab Requirements**
