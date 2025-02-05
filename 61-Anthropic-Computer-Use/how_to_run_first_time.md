@@ -6,7 +6,7 @@
 2. **Create a Virtual Environment**
    - Run the following command to create a virtual environment:
      ```sh
-     python3 -m venv myenv
+     python -m venv myenv
      ```
 
 3. **Activate the Virtual Environment**
@@ -18,18 +18,18 @@
 4. **Install Lab Requirements**
    - Install the lab requirements specified in the `requirements.txt` file:
      ```sh
-     pip3 install -r requirements.txt
+     pip install -r requirements.txt
 
 5. **Install IPython Kernel**
    - Install `ipykernel` to attach the Jupyter environment to the same kernel:
      ```sh
-     pip3 install ipykernel
+     pip install ipykernel
      ```
 
 6. **Add Environment to Jupyter Kernel**
    - Add the current environment to the Jupyter kernel:
      ```sh
-     python3 -m ipykernel install --user --name=lab --display-name "lab"
+     python -m ipykernel install --user --name=lab --display-name "lab"
      ```
 
      ```
