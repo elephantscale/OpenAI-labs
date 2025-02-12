@@ -29,7 +29,7 @@
 
 ## Anthropic models
 
-![](../images/05.png)
+![](../images/05pizza.png)
 
 ---
 
