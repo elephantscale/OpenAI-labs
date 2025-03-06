@@ -1,0 +1,6 @@
+# to generate slides
+#       ./gen.sh 
+
+# outline
+
+About_LlamaIndex.md
