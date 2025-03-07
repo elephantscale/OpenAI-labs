@@ -7,7 +7,12 @@
 
 ---
 
-## Generating
+## Creating
 ![](../images/07.png)
+
+---
+
+## Displaying
+![](../images/08.png)
 
 ---
