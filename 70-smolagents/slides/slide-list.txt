@@ -1,1 +1,1 @@
-replit.md
+agents.md
