@@ -30,5 +30,11 @@
 
 ## Training
 
-![](../images/07png) 
+![](../images/07.png) 
+---
+
+
+## Training
+
+![](../images/08.png) 
 ---
