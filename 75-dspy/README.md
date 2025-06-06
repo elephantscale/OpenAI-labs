@@ -1,2 +1,2 @@
-# Agentic with Java
-* https://www.coursera.org/learn/ai-agents-java/lecture/vnEdr/introduction
+# DSPy
+* https://learn.deeplearning.ai/courses/dspy-build-optimize-agentic-apps/lesson/nj890/introduction
