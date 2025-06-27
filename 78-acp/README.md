@@ -1,2 +1,2 @@
-# DSPy
-* https://learn.deeplearning.ai/courses/dspy-build-optimize-agentic-apps/lesson/nj890/introduction
+# ACP: Agent Communication Protocol
+* https://learn.deeplearning.ai/courses/acp-agent-communication-protocol/lesson/yg0qt/introduction
