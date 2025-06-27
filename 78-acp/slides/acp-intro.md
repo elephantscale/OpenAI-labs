@@ -1,63 +1,53 @@
-# DSPy intro
+# ACP: Agent Communication Protocol
 
 ---
 
-## What is DSPy?
+## ACP players 
 
 ![](../images/01.png) 
 
 ---
 
-## Build a system
+## Remember HTTP?
 
 ![](../images/02.png) 
 
 ---
 
 
-## Prompt engineering is messy
+## Selling ACP
 
 ![](../images/03.png) 
 
 ---
 
 
-## Frameworks?
+## Swapping agents
 
 ![](../images/04.png) 
 
 ---
 
-## Comes DSPy
+## Teamwork
 
 ![](../images/05.png) 
 
 ---
 
-## DSPy?
+## Workflows
 
 ![](../images/06.png) 
 
 ---
 
-## Users
+## Between the companies
 
 ![](../images/07.png) 
 
 ---
 
-## DSPy
+## MCP anc ACP
 
-* **Declarative** – you declare what transformation you want (question → answer, text → summary) rather than hand-write prompts.
+* Complimentary
 
-* **Self-Improving** – the compiler automatically collects demonstrations, tunes prompts, or fine-tunes weights until a metric is maximised.
-
-* **Python(ic)** – everything is plain Python code and modules, so you can compose LLM “layers” the way you compose neural-network layers.
-
-* One-sentence takeaway
-  * Think of DSPy as the Pythonic evolution of the original DSP idea—so its name memorialises both its Demonstrate-Search-Predict heritage and its goal of writing Declarative Self-Improving Python programs.
-  * **DSP** began life in late 2022 as the Demonstrate-Search-Predict pipeline for retrieval-augmented LLMs.
 ---
-
-
-

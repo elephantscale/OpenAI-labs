@@ -1,2 +1,1 @@
-dspy
--intro.md
+acp-intro.md
