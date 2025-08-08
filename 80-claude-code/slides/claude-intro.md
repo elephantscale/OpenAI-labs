@@ -101,3 +101,9 @@
 ![](../images/16.png) 
 
 ---
+
+## Explainer
+
+![](../images/17.png) 
+
+---
