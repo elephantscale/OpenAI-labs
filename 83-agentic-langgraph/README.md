@@ -1,2 +1,2 @@
-# Agentic Knowledge Graph
-* https://learn.deeplearning.ai/courses/agentic-knowledge-graph-construction/
+# Agentic in Langgraph
+* https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/1/introduction
