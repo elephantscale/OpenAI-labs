@@ -1,17 +1,18 @@
-# Claude agentic intro
+# Agentic with Langgraph
 
 ---
 
-## Why agentic
+## What agents
 
 ![](../images/01.png) 
 
 ---
 
-## What to add to LLM
+## ReAct - reasoning then acting
 
 ![](../images/02.png) 
 
+* Based on [https://til.simonwillison.net/llms/python-react-pattern](https://til.simonwillison.net/llms/python-react-pattern)
 ---
 
 ## Options
