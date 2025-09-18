@@ -1,2 +1,2 @@
-# Agentic in Langgraph
-* https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/1/introduction
+# MCP server with Box
+* https://learn.deeplearning.ai/courses/build-ai-apps-with-mcp-server-working-with-box-files/lesson/hl2xjv/introduction
