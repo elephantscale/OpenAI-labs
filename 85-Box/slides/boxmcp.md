@@ -36,6 +36,6 @@
 
 ![](../images/06.png)
 
-https://github.com/box-community/mcp-server-box
+* https://github.com/box-community/mcp-server-box
 
 ---
