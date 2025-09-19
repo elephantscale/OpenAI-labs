@@ -1,2 +1,2 @@
-# Agentic in Langgraph
-* https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/1/introduction
+# Knowledge Graphs for AI Agent: API Discovery (SAP)![img.png](images/01.png)
+* https://learn.deeplearning.ai/courses/knowledge-graphs-for-ai-agent-api-discovery/lesson/i1ahou/introduction
