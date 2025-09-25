@@ -1,0 +1,11 @@
+python-dotenv==1.0.1
+PyPDF2==3.0.1
+box-sdk-gen==1.15.0
+mcp==1.10.1
+google-genai==1.25.0
+a2a-sdk==0.2.16
+google-adk==1.8.0
+nest-asyncio==1.6.0
+ruff==0.12.7
+uv
+
