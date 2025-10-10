@@ -1,56 +1,56 @@
-# Building agents (Snowflake/TruEra)
+# Agentic AI
 
 ---
 
-## What we will learn
+## Workflow
 
 ![](../images/01.png) 
 
 ---
 
-## TruEra
+## Thinking
 
 ![](../images/02.png)
 
 ---
 
-## Joining Snowflake
+## Example
 
 ![](../images/03.png)   
 
 ---
 
-## What is a data agent
+## Result
 
 ![](../images/04.png)
 
 ---
 
-## What does a data agent do
+## Think
 
 ![](../images/05.png)
 
 ---
 
-## Data agents are widely adopted
+## Agent or Agentic
 
 ![](../images/06.png)
 
 ---
 
-## Web search agent
+## Autonomy
 
 ![](../images/07.png)
 
 ---
 
-## Agent who is a financial guru
+## Degrees of Autonomy
 
 ![](../images/08.png)
 
 ---
 
-## More guru
+## Plan
 
 ![](../images/09.png)
 
