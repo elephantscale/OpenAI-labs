@@ -55,3 +55,29 @@
 ![](../images/09.png)
 
 ---
+
+## Advantages
+
+![](../images/10.png)
+
+---
+
+## Speed
+
+![](../images/11.png)
+
+---
+
+## Vary
+
+![](../images/12.png)
+
+---
+
+## Summary
+
+![](../images/13.png)
+
+---
+
+
