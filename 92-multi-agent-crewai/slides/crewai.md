@@ -1,104 +1,71 @@
-# Building agents (Snowflake/TruEra)
+# CrewAI for Agentic
 
 ---
 
-## What we will learn
+## 1. Immature Ecosystem (people say)
+- Newer than **LangGraph** or **AutoGen**.
+- Smaller community.
+- Fewer real-world production deployments.
+- Documentation is improving but still inconsistent.
 
-![](../images/01.png) 
+---
+## 2. Heavy Abstraction Layer (people say)
+- CrewAI hides a lot of underlying logic.
+- Harder to debug why agents do what they do.
+- More "magic" compared to explicit frameworks.
+- Developers report confusion around:
+  - task delegation
+  - agent memory
+  - execution order
+
+---
+## 3. Workflow Complexity (people say)
+- The “Crew → Agents → Tasks” model can feel restrictive.
+- Simple tasks become over-engineered.
+- Complex orchestrations are harder than with graph-based systems.
+
+**Comparison:**  
+- **LangGraph:** deterministic graphs with checkpoints and time-travel debugging.  
+- **CrewAI:** more opaque, fewer guarantees.
 
 ---
 
-## TruEra
+## What to expect
+![](../images/01.png)
 
+---
+
+## From zero to hero
 ![](../images/02.png)
 
 ---
 
-## Joining Snowflake
-
-![](../images/03.png)   
+## Use cases
+![](../images/03.png)
 
 ---
 
-## What is a data agent
-
+## Module 1
 ![](../images/04.png)
 
 ---
 
-## What does a data agent do
-
-![](../images/05.png)
-
----
-
-## Data agents are widely adopted
-
+## Re-Act
 ![](../images/06.png)
 
 ---
 
-## Web search agent
+## Module 2
+![](../images/05.png)
 
+---
+
+## Module 3
 ![](../images/07.png)
 
 ---
 
-## Agent who is a financial guru
-
+## Module 4
 ![](../images/08.png)
-
----
-
-## More guru
-
-![](../images/09.png)
-
----
-
-
-## GPA
-
-![](../images/10.png)
-
----
-
-## How do agents work
-
-![](../images/11.png)
-
----
-
-## How do agents work well
-
-![](../images/12.png)
-
----
-
-## What is GPA
-
-![](../images/13.png)
-
----
-
-## What is your GPA
-
-![](../images/14.png)
-
----
-
-## The plan
-
-![](../images/15.png)
-
----
-
-# Building an agent
-
----
-
-## Data agent architecture
-
-![](../images/16.png)
 
 ---
