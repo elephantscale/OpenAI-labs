@@ -3,42 +3,40 @@
 ---
 
 
-## What to expect
+## The idea
+* Make your AI agent faster and more cost effective
+* Inference cost and latency affect your performance
+* Semantic caching can help you reduce inference cost and latency
+* Example
+  * Can I get a refund?
+  * I want my money back
+---
+
+## Semantic caching
+* Looks ate meaning
+* Uses embeddings to measure how similar two questions are
+
 ![](../images/01.png)
 
+## Plan
+* Build a cache
+* Use embeddings and measure distances
+* User Redis to implement semantic cache
+  * TTL, cache sizes for different users
+  * Open embedding models for cache accuracy
 ---
 
-## From zero to hero
-![](../images/02.png)
-
+## Cache performance
+* Hit rate, precision, recall
+* Cache size, memory usage
+* Confusion matrix
+* Latency
+* Methods for enhancing cache performance
+* LLM check and fuzzy matches
 ---
 
-## Use cases
-![](../images/03.png)
-
----
-
-## Module 1
-![](../images/04.png)
-
----
-
-## Re-Act
-![](../images/06.png)
-
----
-
-## Module 2
-![](../images/05.png)
-
----
-
-## Module 3
-![](../images/07.png)
-
----
-
-## Module 4
-![](../images/08.png)
-
+## AI Agent
+* Breaks the question into smaller parts
+* Cache warms up
+* Model calls drop
 ---
