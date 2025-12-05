@@ -92,3 +92,55 @@ Results correlate strongly with real-world debugging and maintenance performance
 * Agents dramatically outperform standalone models.
 
 ---
+
+## Context
+![](../images/06.png)
+
+---
+
+
+## Context engineering
+![](../images/07.png)
+
+---
+
+## Context explosion
+![](../images/08.png)
+
+---
+
+## Context compaction
+![](../images/09.png)
+
+---
+
+## Context tricks
+![](../images/10.png)
+
+---
+
+## Running rules
+![](../images/11.png)
+
+---
+
+## Writing files
+![](../images/12.png)
+
+---
+
+## LLM loop
+![](../images/13.png)
+
+---
+
+## Don't go crazy
+![](../images/14.png)
+
+---
+
+## Environment
+![](../images/15.png)
+
+---
+
