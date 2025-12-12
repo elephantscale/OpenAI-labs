@@ -82,7 +82,7 @@ Results correlate strongly with real-world debugging and maintenance performance
 
 ---
 
-## Approximate Results (2024–2025)
+## Approximate Results (2024–2025)  
 - **Human engineers:** ~80–90% (estimated)  
 - **OpenAI o3:** ~50–60% (SOTA on Lite)  
 - **Claude 3.7 Sonnet agent:** ~35–40%  
