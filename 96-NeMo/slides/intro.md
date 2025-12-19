@@ -1,53 +1,81 @@
-# Multi-vector Image Retrieval
+# NAT overview
 
 ---
 
 
-## What you need to know
+## NAT
 
 ![](../images/01.png)
 
 ---
 
-## Bi-encoder
+## POC
 
 ![](../images/02.png)
 
 ---
 
-## Cross-encoder
+## Day 2
 
 ![](../images/03.png)
 
 ---
 
-## ColBERT
+## Day 2 tasks
 
 ![](../images/04.png)
 
 ---
 
-## Query
+## NeMo
 
 ![](../images/05.png)
 
 ---
 
-## MaxSim
+## Neural Modules
 
 ![](../images/06.png)
 
 ---
 
-## Asymmetry
+## Install
 
 ![](../images/07.png)
 
 ---
 
-## In practice
+## Config
 
-![](../images/08.png)
-* Hierarchical Navigable Small World.
+![](../images/09.png)
 ---
+
+## Correct?
+
+![](../images/10.png)
+---
+
+## Optimize
+
+![](../images/11.png)
+---
+
+## Optimized
+
+![](../images/12.png)
+---
+
+
+## Integrations
+
+![](../images/13.png)
+---
+
+## Real system
+
+![](../images/14.png)
+---
+
+
+
 
