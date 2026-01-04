@@ -5,5 +5,4 @@ openai==1.35.9
 pypdf==4.2.0
 python-dotenv==1.0.1
 sentence-transformers==3.0.1
-umap==0.1.1
 umap-learn==0.5.6
