@@ -19,6 +19,6 @@
 ---
 
 ## Skill marketing data example
-![](../images/03.png)
+![](../images/04.png)
 
 ---
