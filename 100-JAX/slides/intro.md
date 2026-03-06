@@ -85,6 +85,6 @@ These strengths are reflected in the official docs: JAX focuses on transforms an
 **Rule of thumb:**  
 - **JAX** = best for advanced research and numerical elegance  
 - **PyTorch** = best default for most ML engineers  
-- **TensorFlow** = best when deployment ecosystem matters most :contentReference[oaicite:2]{index=2}
+- **TensorFlow** = best when deployment ecosystem matters most
 
 ---
