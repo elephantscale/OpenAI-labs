@@ -1,2 +1,2 @@
-# Agentic with Anthropic
-* https://learn.deeplearning.ai/courses/gemini-cli-code-and-create-with-an-open-source-agent
+# JAX
+* https://learn.deeplearning.ai/courses/build-and-train-an-llm-with-jax/

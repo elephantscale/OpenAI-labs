@@ -1,64 +1,30 @@
-# Agentic with Anthropic
+# JAX
 
 ---
 
-## Plan with skills
-![](../images/01.png)
+# What is JAX?
+
+- **JAX** is a Python library for high-performance numerical computing
+- It provides a **NumPy-like API**
+- It is designed for **machine learning** and **scientific computing**
+- JAX can run on **CPU, GPU, and TPU**
 
 ---
 
-## What are skills
-![](../images/02.png)
+# Why JAX is Powerful
+
+- **`grad`**: automatic differentiation for computing gradients
+- **`jit`**: just-in-time compilation for faster execution
+- **`vmap`**: vectorization without writing manual loops
+- These features let you write concise code that can scale well
 
 ---
 
+# Key Takeaways
 
-## When to use skills
-![](../images/03.png)
-
----
-
-## Skill marketing data example
-![](../images/04.png)
-
----
-
-## Skill marketing in use
-![](../images/05.png)
-
----
-
-## Useful results
-![](../images/06.png)
-
----
-
-## Hit the road
-![](../images/07.png)
-
----
-
-## Skill inside
-![](../images/08.png)
-
----
-
-## Model inside
-![](../images/09.png)
-
----
-
-## Folder for a skill
-![](../images/10.png)
-
----
-
-## Now this skill works
-![](../images/11.png)
-
----
-
-## Results
-![](../images/12.png)
+- JAX is especially useful for **fast numerical and ML workloads**
+- It works well when you want **performance + clean mathematical code**
+- It may require a more **functional programming style**
+- It is widely used for advanced research and scalable AI systems
 
 ---
