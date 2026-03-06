@@ -88,3 +88,39 @@ These strengths are reflected in the official docs: JAX focuses on transforms an
 - **TensorFlow** = best when deployment ecosystem matters most
 
 ---
+
+## JAX overview
+![](../images/01.png)
+
+---
+
+
+## JAX building blocks
+![](../images/02.png)
+
+---
+
+## Code example
+![](../images/03.png)
+
+---
+
+## How the sausage is made
+![](../images/04.png)
+
+---
+
+## Sausage factories
+![](../images/05.png)
+
+---
+
+## If you know PyTorch, JAX will be easy
+![](../images/06.png)
+
+---
+
+## Google claim
+![](../images/07.png)
+
+---
