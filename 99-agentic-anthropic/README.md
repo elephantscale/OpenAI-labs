@@ -1,2 +1,2 @@
-# Agentic with Anthropic
-* https://learn.deeplearning.ai/courses/gemini-cli-code-and-create-with-an-open-source-agent
+# Agent Skills with Anthropic
+* https://learn.deeplearning.ai/courses/agent-skills-with-anthropic/lesson/ldn5c3/introduction
