@@ -44,8 +44,34 @@
 
 ---
 
-# Memory-augmented agent 
+# Spec as contract
 
 ![](../images/08.png)
+
+---
+
+# Spec as intentions
+
+![](../images/09.png)
+
+---
+
+
+# Why it is good
+
+![](../images/10.png)
+
+---
+
+
+# Old or new
+
+![](../images/11.png)
+
+---
+
+# Dreamland
+
+![](../images/12.png)
 
 ---
