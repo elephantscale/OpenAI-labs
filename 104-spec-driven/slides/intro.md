@@ -1,44 +1,44 @@
-# Memory
+# Specs!
 
 ---
 
-# Why memory
+# Who is who
 
 ![](../images/01.png)
 
 ---
 
-# What we need to know
+# Vibe coding
 
 ![](../images/02.png)
 
 ---
 
-# What is an agent?
+# Vibe 2
 
 ![](../images/03.png)
 
 ---
 
-# Agent and Memory
+# Vibe 3
 
 ![](../images/04.png)
 
 ---
 
-# Agent without Memory
+# Vibe forever
 
 ![](../images/05.png)
 
 ---
 
-# Stateless agent 
+# Engineering instead 
 
 ![](../images/06.png)
 
 ---
 
-# Memory and agent 
+# Spec-driven development 
 
 ![](../images/07.png)
 
