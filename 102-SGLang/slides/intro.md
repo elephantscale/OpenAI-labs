@@ -8,38 +8,37 @@
 
 ---
 
-# What we need to know
+# Reality
 
 ![](../images/02.png)
 
 ---
 
-# What is an agent?
+# Main idea
 
 ![](../images/03.png)
 
 ---
 
-# Agent and Memory
+# Practically
 
 ![](../images/04.png)
 
 ---
 
-# Agent without Memory
+# Why inference is hard
 
 ![](../images/05.png)
 
 ---
 
-# Stateless agent 
+# SQLang works everywhere
 
 ![](../images/06.png)
 
 ---
 
-# Memory and agent 
-
+# Everyone is using it
 ![](../images/07.png)
 
 ---
