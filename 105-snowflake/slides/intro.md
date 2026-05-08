@@ -1,77 +1,50 @@
-# Specs!
+# Snowflake for Multimodal RAG
 
 ---
 
-# Who is who
+# Multimodal data
 
 ![](../images/01.png)
 
 ---
 
-# Vibe coding
+# Challenge
 
 ![](../images/02.png)
 
 ---
 
-# Vibe 2
+# What is known?
 
 ![](../images/03.png)
 
 ---
 
-# Vibe 3
+# Now, unstructured
 
 ![](../images/04.png)
 
 ---
 
-# Vibe forever
+# How?
 
 ![](../images/05.png)
 
 ---
 
-# Engineering instead 
+# AI
 
 ![](../images/06.png)
 
 ---
 
-# Spec-driven development 
+# ASR
 
 ![](../images/07.png)
 
 ---
 
-# Spec as contract
-
+# VLM
 ![](../images/08.png)
-
----
-
-# Spec as intentions
-
-![](../images/09.png)
-
----
-
-
-# Why it is good
-
-![](../images/10.png)
-
----
-
-
-# Old or new
-
-![](../images/11.png)
-
----
-
-# Dreamland
-
-![](../images/12.png)
 
 ---
