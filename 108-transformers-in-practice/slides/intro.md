@@ -1,50 +1,55 @@
-# Snowflake for Multimodal RAG
+# How do Transformer models work?
 
 ---
 
-# Multimodal data
+# So, LLM
 
 ![](../images/01.png)
 
 ---
 
-# Challenge
+# Original Transformer
 
 ![](../images/02.png)
 
 ---
 
-# What is known?
+# Todays Transformer
 
 ![](../images/03.png)
 
 ---
 
-# Now, unstructured
+# Dominant
 
 ![](../images/04.png)
 
 ---
 
-# How?
+# Good or bad   ?
 
 ![](../images/05.png)
 
 ---
 
-# AI
+# Details
 
 ![](../images/06.png)
 
 ---
 
-# ASR
+# 1
 
 ![](../images/07.png)
 
 ---
 
-# VLM
+# 2
 ![](../images/08.png)
+
+---
+
+# 3
+![](../images/10.png)
 
 ---
