@@ -1,50 +1,50 @@
-# Snowflake for Multimodal RAG
+# Generative UI
 
 ---
 
-# Multimodal data
+# Intro to Gen UI
 
 ![](../images/01.png)
 
 ---
 
-# Challenge
+# Future?
 
 ![](../images/02.png)
 
 ---
 
-# What is known?
+# Today
 
 ![](../images/03.png)
 
 ---
 
-# Now, unstructured
+# Already
 
 ![](../images/04.png)
 
 ---
 
-# How?
+# Problems
 
 ![](../images/05.png)
 
 ---
 
-# AI
+# Puzzle pieces
 
 ![](../images/06.png)
 
 ---
 
-# ASR
+# Build
 
 ![](../images/07.png)
 
 ---
 
-# VLM
+# Connect
 ![](../images/08.png)
 
 ---
