@@ -1,32 +1,32 @@
-# How do Transformer models work?
+# Images, videos
 
 ---
 
-# So, LLM
+# Generative media
 
 ![](../images/01.png)
 
 ---
 
-# Original Transformer
+# What can models do?
 
 ![](../images/02.png)
 
 ---
 
-# Todays Transformer
+# Modalities
 
 ![](../images/03.png)
 
 ---
 
-# Dominant
+# Models
 
 ![](../images/04.png)
 
 ---
 
-# Good or bad   ?
+# Generation types
 
 ![](../images/05.png)
 
