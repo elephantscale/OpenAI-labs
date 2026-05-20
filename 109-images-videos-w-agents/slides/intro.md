@@ -32,24 +32,20 @@
 
 ---
 
-# Details
+# Autoregressive
 
 ![](../images/06.png)
 
 ---
 
-# 1
+# Diffusion
 
 ![](../images/07.png)
 
 ---
 
-# 2
+# Combined
+
 ![](../images/08.png)
-
----
-
-# 3
-![](../images/10.png)
 
 ---
