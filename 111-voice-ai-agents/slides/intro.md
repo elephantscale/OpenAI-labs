@@ -1,32 +1,32 @@
-# Fast & Efficient LLM Inference with vLLM
+# Building Voice AI Applications with Vocal Bridge
 
 ---
 
-# Running LLMs today – inference time
+# Bad - Better - Best
 
 ![](../images/01.png)
 
 ---
 
-# Reasons for it
+# Why?
 
 ![](../images/02.png)
 
 ---
 
-# In the details
+# Here is why
 
 ![](../images/03.png)
 
 ---
 
-# More details
+# Example
 
 ![](../images/04.png)
 
 ---
 
-# Hardware
+# Let us start
 
 ![](../images/05.png)
 
