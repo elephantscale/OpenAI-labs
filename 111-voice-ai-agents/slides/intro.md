@@ -31,3 +31,40 @@
 ![](../images/05.png)
 
 ---
+
+# Down the memory lane
+
+![](../images/05A.png)
+
+---
+
+# More
+
+![](../images/06.png)
+
+---
+
+# Where Voice Bridge fits
+
+![](../images/07.png)
+
+---
+
+
+# Complete stack
+
+![](../images/08.png)
+
+---
+
+# Choices
+
+![](../images/09.png)
+
+---
+
+# Vocal Bridge answer
+
+![](../images/10.png)
+
+---
