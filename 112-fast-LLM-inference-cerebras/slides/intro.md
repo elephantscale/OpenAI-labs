@@ -1,65 +1,65 @@
-# Building Voice AI Applications with Vocal Bridge
+# Fast LLM Inference with Cerebras Bridge
 
 ---
 
-# Bad - Better - Best
+# LLM Inference
 
 ![](../images/01.png)
 
 ---
 
-# Why?
+# Calculation
 
 ![](../images/02.png)
 
 ---
 
-# Here is why
+# Matrix multiplication
 
 ![](../images/03.png)
 
 ---
 
-# Example
+# Where in the world are the numbers?
 
 ![](../images/04.png)
 
 ---
 
-# Let us start
+# Travels
 
 ![](../images/05.png)
 
 ---
 
-# Down the memory lane
-
-![](../images/05A.png)
-
----
-
-# More
+# More travels
 
 ![](../images/06.png)
 
 ---
 
-# Where Voice Bridge fits
+# Hardware
 
 ![](../images/07.png)
 
 ---
 
-
-# Complete stack
+# How the chips are made
 
 ![](../images/08.png)
 
 ---
 
-# Choices
+
+# Cerebras chip is different
 
 ![](../images/09.png)
+
+---
+
+# Example
+
+![](../images/10.png)
 
 ---
 

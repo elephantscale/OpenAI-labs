@@ -1,9 +1,0 @@
-anthropic>=0.40
-fastapi>=0.110
-ipywidgets>=8.1
-jupyter>=1.0
-python-dotenv>=1.0
-requests>=2.31
-uvicorn>=0.27
-vocal-bridge>=0.16
-websockets>=12.0
