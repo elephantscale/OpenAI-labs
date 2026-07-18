@@ -1,5 +1,5 @@
 python-dotenv==1.0.1
-pyautogen==0.2.25
+ag2==0.2.25
 chess==1.10.0
 matplotlib==3.9.1
 yfinance==0.2.41
