@@ -1,70 +1,120 @@
-# Fast LLM Inference with Cerebras Bridge
+# Code review with QoDo
 
 ---
 
-# LLM Inference
+# Who
 
 ![](../images/01.png)
 
 ---
 
-# Calculation
+# Why
 
 ![](../images/02.png)
 
 ---
 
-# Matrix multiplication
+# What
 
 ![](../images/03.png)
 
 ---
 
-# Where in the world are the numbers?
+# How
 
 ![](../images/04.png)
 
 ---
 
-# Travels
+# Human - AI
 
 ![](../images/05.png)
 
 ---
 
-# More travels
+# I don't get it!
 
 ![](../images/06.png)
 
 ---
 
-# Hardware
+# Hope
 
 ![](../images/07.png)
 
 ---
 
-# How the chips are made
+# Humans are good
 
 ![](../images/08.png)
 
 ---
 
 
-# Cerebras chip is different
+# What is needed for AI
 
 ![](../images/09.png)
 
 ---
 
-# Example
+# Together
 
 ![](../images/10.png)
 
 ---
 
-# Vocal Bridge answer
+# Done!
 
-![](../images/10.png)
+![](../images/11.png)
 
 ---
+
+# Details
+
+![](../images/12.png)
+
+---
+
+# Details
+
+![](../images/13.png)
+
+---
+
+# Learning and sharing
+
+![](../images/14.png)
+
+---
+
+# Learning and sharing with AI
+
+![](../images/15.png)
+
+---
+
+# Risk
+
+![](../images/16.png)
+
+---
+
+# More secure
+
+![](../images/17.png)
+
+---
+
+# Hidden praise
+
+![](../images/18.png)
+
+---
+
+# Bravo!
+
+![](../images/19.png)
+
+---
+
+
