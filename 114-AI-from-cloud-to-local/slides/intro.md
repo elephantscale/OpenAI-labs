@@ -1,120 +1,76 @@
-# Code review with QoDo
+# AI: cloud or local
 
 ---
 
-# Who
+# Plan
 
 ![](../images/01.png)
 
 ---
 
-# Why
+# Funny
 
 ![](../images/02.png)
 
 ---
 
-# What
+# First, Claude
 
 ![](../images/03.png)
 
 ---
 
-# How
+# Then divide
 
 ![](../images/04.png)
 
 ---
 
-# Human - AI
+# Here we turn
 
 ![](../images/05.png)
 
 ---
 
-# I don't get it!
+# Then split
 
 ![](../images/06.png)
 
 ---
 
-# Hope
+# And local
 
 ![](../images/07.png)
 
 ---
 
-# Humans are good
+# Now compare
 
 ![](../images/08.png)
 
 ---
 
 
-# What is needed for AI
+# Choices
 
 ![](../images/09.png)
 
 ---
 
-# Together
+# You are an Ace
 
 ![](../images/10.png)
 
 ---
 
-# Done!
+# Phase 1
 
 ![](../images/11.png)
 
 ---
 
-# Details
+# Phase 2
 
 ![](../images/12.png)
 
 ---
-
-# Details
-
-![](../images/13.png)
-
----
-
-# Learning and sharing
-
-![](../images/14.png)
-
----
-
-# Learning and sharing with AI
-
-![](../images/15.png)
-
----
-
-# Risk
-
-![](../images/16.png)
-
----
-
-# More secure
-
-![](../images/17.png)
-
----
-
-# Hidden praise
-
-![](../images/18.png)
-
----
-
-# Bravo!
-
-![](../images/19.png)
-
----
-
-
