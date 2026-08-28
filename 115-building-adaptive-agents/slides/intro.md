@@ -14,46 +14,46 @@
 
 ---
 
-# So, how much
+# So, how much?
 
 ![](../images/03.png)
 
 ---
 
-# But if you remember
+# But what is an agent?
 
 ![](../images/04.png)
 
 ---
 
-# Here we turn
+# Agentic loop
 
-![](../images/04.png)
+![](../images/05.png)
 
 ---
 
-# Then split
+# When does it stop?
+
+![](../images/Agentic%20Loop.jpeg)
+
+---
+
+# Here is Oracle!
 
 ![](../images/06.png)
 
 ---
 
-# And local
+# What to remember, by type
 
 ![](../images/07.png)
 
 ---
 
-# Now compare
+
+# How to remember
 
 ![](../images/08.png)
-
----
-
-
-# Choices
-
-![](../images/09.png)
 
 ---
 
