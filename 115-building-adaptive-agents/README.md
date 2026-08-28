@@ -1,3 +1,3 @@
-# AI Coding Workflows: From Cloud to Local 
-* https://learn.deeplearning.ai/courses/ai-coding-workflows-from-cloud-to-local
+# Building Adaptive AI Agents
+* https://learn.deeplearning.ai/courses/building-adaptive-ai-agents/lesson/bvlakh/introduction
 
