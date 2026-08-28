@@ -62,15 +62,3 @@
 ![](../images/09.png)
 
 ---
-
-# Phase 1
-
-![](../images/11.png)
-
----
-
-# Phase 2
-
-![](../images/12.png)
-
----
