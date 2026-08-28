@@ -1,4 +1,4 @@
-# Building Adequate AI Agents
+# Building Adaptive AI Agents
 
 ---
 
