@@ -1,26 +1,26 @@
-# AI: cloud or local
+# Building Adequate AI Agents
 
 ---
 
-# Plan
+# Overview
 
 ![](../images/01.png)
 
 ---
 
-# Funny
+# Not remembering mistakes is bad
 
 ![](../images/02.png)
 
 ---
 
-# First, Claude
+# So, how much
 
 ![](../images/03.png)
 
 ---
 
-# Then divide
+# But if you remember
 
 ![](../images/04.png)
 
@@ -28,7 +28,7 @@
 
 # Here we turn
 
-![](../images/05.png)
+![](../images/04.png)
 
 ---
 
