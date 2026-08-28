@@ -57,9 +57,9 @@
 
 ---
 
-# You are an Ace
+# Next steps
 
-![](../images/10.png)
+![](../images/09.png)
 
 ---
 
