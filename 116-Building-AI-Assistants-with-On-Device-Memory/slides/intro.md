@@ -38,13 +38,13 @@
 
 ---
 
-# Here is Oracle!
+# 
 
 ![](../images/07.png)
 
 ---
 
-# What to remember, by type
+# 
 
 ![](../images/08.png)
 
