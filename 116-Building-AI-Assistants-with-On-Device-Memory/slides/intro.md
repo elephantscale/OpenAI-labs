@@ -2,31 +2,31 @@
 
 ---
 
-# Overview
+# Use case
 
 ![](../images/01.png)
 
 ---
 
-# Not remembering mistakes is bad
+# Local memory
 
 ![](../images/02.png)
 
 ---
 
-# So, how much?
+# Local model
 
 ![](../images/03.png)
 
 ---
 
-# But what is an agent?
+# Show it
 
 ![](../images/04.png)
 
 ---
 
-# Agentic loop
+# On device memory
 
 ![](../images/05.png)
 
@@ -34,31 +34,18 @@
 
 # When does it stop?
 
-![](../images/Agentic%20Loop.jpeg)
+![](../images/06.png)
 
 ---
 
 # Here is Oracle!
 
-![](../images/06.png)
+![](../images/07.png)
 
 ---
 
 # What to remember, by type
 
-![](../images/07.png)
-
----
-
-
-# How to remember
-
 ![](../images/08.png)
-
----
-
-# Next steps
-
-![](../images/09.png)
 
 ---
