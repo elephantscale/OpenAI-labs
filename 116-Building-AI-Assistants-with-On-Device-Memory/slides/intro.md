@@ -1,4 +1,4 @@
-# Building Adaptive AI Agents
+# Building AI Assistants with On-Device Memory
 
 ---
 
