@@ -18,7 +18,7 @@
   * "Roses are red, and violets are..."
   * But we do not understand why it works
 
-![](../images/pexels-miff-ibra-387362143-32503045.jpg)
+<img src="../images/pexels-miff-ibra-387362143-32503045.jpg"> <!-- {"left": 3.46, "top": 2.9, "width": 3.33, "height": 5.0} -->
 ---
 
 
