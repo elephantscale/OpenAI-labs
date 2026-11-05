@@ -6,20 +6,6 @@
 
 * Mark Kerzner
 
-Notes:
-
-Picture slot: add an image line in the slide body above, pointing at ../images/title.png (any filename is fine).
-
-Framing to say out loud at the start: these are eight questions I am still working through, not eight positions I hold. Each slide carries one cue and one prompt; the thinking is in these notes.
-
-Attribution caution: this list is ours. It was prompted by watching the Terence Tao video linked in the project README ("AI Is Moving Faster Than We Can Control"), but nothing here should be presented as his claim, his view, or his proof. The only Tao source cited anywhere in this deck is his article "Machine-Assisted Proof", Notices of the AMS 72, no. 1 (DOI 10.1090/noti3041) — and the month of that issue was not confirmed, so say "Notices, volume 72" rather than a date.
-
-Thread that runs through the whole hour: the thing I am most worried about losing is mathematical discovery — new concepts, connections and methods. Not student practice, not the enjoyment of solving problems. Questions 4, 5 and 8 all come back to it.
-
-How to use the deck: the slide is the memory cue. Objections are in the notes under each question, deliberately, so I argue against myself on air rather than reading conclusions.
-
-Source conventions in these notes: where reported numbers disagree across sources, the note says so and tells me not to quote a figure. Where a date or detail is unverified, it is marked "verify".
-
 ---
 
 
