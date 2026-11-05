@@ -67,6 +67,7 @@
   * Establish safety and effectiveness, or
   * Manipulate the approval process
 
+![](../images/Kazimir-Malevich-Black-Square-Poster.jpg)
 Note:
 Kazimir-Malevich-Black-Square-Poster
 ---
