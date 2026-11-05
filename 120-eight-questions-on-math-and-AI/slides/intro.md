@@ -15,22 +15,22 @@
   * Outside its assumptions, a useful model becomes misleading
   * But physics knows where its model stops
 * Finance did not — the crisis of 2008
-  * Nobody had mapped the edge, and real money rode on it
+  * For hedging, different model used assumptions that were true in crisis
 
 ![](../images/pexels-steve-13014236.jpg)
 ---
 
 ## 2. AI is also a model
-* We designed the training — not what the network learned
+* We designed the training — we do not understand **what** the models learned
   * "Roses are red, and violets are..."
-  * We know the recipe, we do not know the **mechanism**
+  * Models sound intelligent, but do they really **understand**?
 
 ![](../images/pexels-miff-ibra-387362143-32503045.jpg)
 
 ---
 
 ## 3. Why don’t we know where AI's limits lie?
-* Tests reveal particular successes and failures — not a boundary
+* Tests reveal particular successes and failures — not the boundaries of understanding
 * Does a failed test show a real limit, or only this model's?
 * We need much more mathematical work to map it
 ![](../images/pexels-silverkblack-39190814.jpg)
@@ -48,7 +48,7 @@
 ## 5. Why may AI be bad for mathematics?
 * The proof is the fruit — new concepts, methods and connections are the tree
 * Picking the fruit does not tend the tree
-* So who is tending it?
+* So who is tending it? - **us**
 * But leaving the problem unsolved grows nothing either
 ![](../images/pexels-jakub-n-3880137-30560206.jpg)
 
@@ -66,11 +66,17 @@
 * Suppose the goal is FDA approval:
   * Establish safety and effectiveness, or
   * Manipulate the approval process
+
+Note:
+Kazimir-Malevich-Black-Square-Poster
 ---
 ## 8. Positive
 * Mathematics is infinite, but AI is not
-  * Though we are finite too — that alone proves nothing
 * There will always be more questions
-  * Which are worth asking? What do we want to understand?
+  * Experimental mathematics,
+  * Teaching AI to understand
+* In life
+  * Open
+  * Understanding ourselves
 ![](../images/pexels-steve-29022334.jpg)
 ---
