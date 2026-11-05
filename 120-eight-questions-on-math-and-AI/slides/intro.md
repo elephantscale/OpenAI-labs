@@ -12,13 +12,13 @@
 ## 1. Models
 
 * Models in physics describe the world
-  * But at a certain point they the stop agreeing with the world
+  * But at a certain point they stop agreeing with the world
   * And the world is wrong at that point
 * AI is a model of a human brain
   * "Roses are red, and violets are..."
   * But we do not understand why it works
 
-<img src="../images/pexels-miff-ibra-387362143-32503045.jpg"> <!-- {"left": 3.46, "top": 2.9, "width": 3.33, "height": 5.0} -->
+<img src="../images/pexels-miff-ibra-387362143-32503045.jpg"> <!-- {"left": 7.90, "top": 1.2, "width": 1.93, "height": 2.9} -->
 ---
 
 
