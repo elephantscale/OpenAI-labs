@@ -1,6 +1,6 @@
 # Eight Big Questions About AI
 
-## Based on discussion by Terence Tao
+## Based on discussiona by Terence Tao
 
 * And my own esearch
 * Webinar — November 6, 2026
@@ -9,30 +9,16 @@
 ---
 
 
-## 1. Models of the world — and where they fail in it
+## 1. Models
 
-* Cue: 2008
+* Models in physics describe the world
+  * But at a certain point they the stop agreeing with the world
+  * And the world is wrong at that point
+* AI is a model of a human brain
+  * "Roses are red, and violets are..."
+  * But we do not understand why it works
 
-* Discuss: which assumption in a model you rely on would be costliest if it were wrong?
-
-Notes:
-
-Picture slot: add an image line in the slide body above, pointing at ../images/q1-models-2008.png (any filename is fine).
-
-The question: what is a model of the world, and what happens when its assumptions quietly stop holding?
-
-The 2008 cue, concretely. David X. Li's Gaussian copula ("On Default Correlation: A Copula Function Approach", 2000) gave one tractable number for how correlated defaults are inside a pool of mortgages. It was adopted very widely by banks and rating agencies because it was simple and elegant. Its assumptions made it close to impossible for everything in a pool to default at once. National defaults turned out to be correlated, and the model was wrong exactly where being wrong was expensive.
-
-State the blame as contested, because it is. Felix Salmon's Wired cover story (February 2009) called it "the formula that killed Wall Street". Others argue the failure was misuse, incentives and ignored warnings rather than the mathematics. Do not assert that a formula caused the crisis.
-
-The better version of the cue is Greenspan at the House Oversight Committee, October 23, 2008: asked whether he had been wrong, he answered "partially", and located the flaw in the model of how the world works that he had relied on for decades. That is about a model as a worldview, which is the transferable point.
-
-The bridge to AI: an AI system is also a model fit to past data, so "where do its assumptions stop holding?" carries over. But the analogy is loose, and the looseness matters — a copula model has assumptions written down where you can argue about them. A trained network's assumptions are implicit in its data and objective and mostly are not written anywhere. That gap is question 2.
-
-Where I am unsure: whether "every model fails at the tails" is a deep observation or close to a truism. Worth asking the audience.
-
-Sources: Salmon, Wired, Feb 2009, https://www.wired.com/2009/02/wp-quant/ ; Li 2000 (see Wikipedia, David X. Li); Greenspan hearing coverage, Oct 23-26 2008 (NPR https://www.npr.org/transcripts/96032113 ; https://old.jamaica-gleaner.com/gleaner/20081026/news/news3.html). Secondary reporting — for exact wording the House Oversight transcript is the authority, and I have not pulled it.
-
+![](../images/pexels-miff-ibra-387362143-32503045.jpg)
 ---
 
 
