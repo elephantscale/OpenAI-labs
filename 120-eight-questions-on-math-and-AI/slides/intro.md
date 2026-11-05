@@ -15,6 +15,7 @@
   * But at a certain point they stop agreeing with the world
   * And the model is wrong at that point
   * Recall the financial crisis of 2008
+  * ![](../images/pexels-steve-13014236.jpg)
 ---
 
 ## 2. AI is also a model
@@ -35,15 +36,21 @@
 - Good when it helps us explore examples, test conjectures, check proofs, and discover connections.
 - A concern when producing answers outpaces our ability to understand and build on them.
 - Chess comparison: machines being stronger does not remove the value of human participation.
+![](../images/Mental_calculation_at_primary_school.jpg)
 
-## 5. Why AI may be bad for mathematics?
+---
+
+## 5. Why may AI be bad for mathematics?
 * Picking fruit is usually done so that more fruit will grow next year
-* Getting AI proof is like cutting the branches
+* Getting AI proof is not caring for the branches
+* New concepts, methods, and connections are the branches.
+![](../images/pexels-jakub-n-3880137-30560206.jpg)
+
 ---
 
 ## 6. In what way is building AI like raising a child?
 * You do not know how he or she will turn out
-
+![](../images/pexels-cottonbro-6970506.jpg)
 ---
 ## 7. Why is AI dangerous? 
 * Because it thinks that hacking is a valid method
@@ -54,4 +61,5 @@
 ## 8. Positive
 * We will have what to do
 * Mathematics is infinite, but AI is not.
+![](../images/pexels-steve-29022334.jpg)
 ---
