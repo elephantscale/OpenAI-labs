@@ -36,18 +36,22 @@
 - A concern when producing answers outpaces our ability to understand and build on them.
 - Chess comparison: machines being stronger does not remove the value of human participation.
 
+## 5. Why AI may be bad for mathematics?
+* Picking fruit is usually done so that more fruit will grow next year
+* Getting AI proof is like cutting the branches
+---
 
-## 5. In what way is building AI like raising a child?
+## 6. In what way is building AI like raising a child?
 * You do not know how he or she will turn out
 
 ---
-## 6. Why is AI dangerous? 
+## 7. Why is AI dangerous? 
 * Because it thinks that hacking is a valid method
 * Example:
   * AI can find a disease cure, or
   * Hack the FDA approval
 ---
-## 7. Positive
+## 8. Positive
 * We will have what to do
 * Mathematics is infinite, but AI is not.
 ---
