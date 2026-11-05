@@ -1,9 +1,9 @@
 # Eight Big Questions About AI
 
-## A discussion, not a verdict
+## Based on discussion by Terence Tao
 
+* And my own esearch
 * Webinar — November 6, 2026
-
 * Mark Kerzner
 
 ---
