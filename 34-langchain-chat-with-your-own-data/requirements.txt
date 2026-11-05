@@ -13,3 +13,4 @@ panel==1.1.1
 param==1.13.0
 docarray==0.40.0
 pydantic== 2.8.2
+jupyter
