@@ -28,7 +28,7 @@
 ---
 
 ## 3. Why don’t we know where AI's limits lie?
-* There it not enough work on the math theory of AI
+* We need much more mathematical work to understand modern AI’s capabilities and limits
 
 ---
 
