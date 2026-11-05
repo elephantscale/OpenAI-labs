@@ -29,7 +29,7 @@
 
 ## 3. Why don’t we know where AI's limits lie?
 * We need much more mathematical work to understand modern AI’s capabilities and limits
-
+![](../images/pexels-silverkblack-39190814.jpg)
 ---
 
 ## 4. Is AI good for mathematics?
