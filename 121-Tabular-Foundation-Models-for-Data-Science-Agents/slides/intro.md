@@ -10,7 +10,7 @@
 
 
 ##
-
+* TabPFN stands for Tabular Prior-Data Fitted Network
 ![](../images/02.png)
 ---
 
